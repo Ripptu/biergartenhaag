@@ -23,6 +23,9 @@ function App() {
   const [passwordInput, setPasswordInput] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
+  // Menu State
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   useEffect(() => {
     // Fetch weather for Haag an der Amper
     fetch('https://api.open-meteo.com/v1/forecast?latitude=48.45&longitude=11.8333&current_weather=true')
@@ -87,7 +90,7 @@ function App() {
   return (
     <div className="min-h-screen flex flex-col font-sans bg-brand-dark selection:bg-brand-orange selection:text-white" ref={containerRef}>
       {/* Main Content Area - Off-White */}
-      <main className="relative bg-brand-light text-brand-dark rounded-[40px] mx-4 mt-4 md:mx-8 md:mt-8 overflow-hidden flex-grow flex flex-col shadow-2xl z-10">
+      <main className="relative bg-brand-light text-brand-dark md:rounded-[40px] md:mx-8 md:mt-8 overflow-hidden flex-grow flex flex-col shadow-2xl z-10">
         
         {/* Navigation */}
         <nav className="absolute top-0 left-0 w-full z-40 flex items-center justify-between px-6 py-6 md:px-12 md:py-8 text-brand-light">
@@ -110,14 +113,17 @@ function App() {
           </div>
 
           {/* Mobile Menu Icon (Always visible for minimalist look) */}
-          <div className="flex flex-col gap-1.5 md:gap-2 cursor-pointer z-50 hover:opacity-70 transition-opacity">
+          <div 
+            className="flex flex-col gap-1.5 md:gap-2 cursor-pointer z-50 hover:opacity-70 transition-opacity"
+            onClick={() => setIsMenuOpen(true)}
+          >
              <div className="w-6 md:w-8 h-[2px] bg-brand-light"></div>
              <div className="w-6 md:w-8 h-[2px] bg-brand-light"></div>
           </div>
         </nav>
 
         {/* SECTION A: Hero Area */}
-        <section className="relative min-h-[100svh] md:min-h-[85vh] flex flex-col justify-end md:justify-center px-4 sm:px-6 md:px-12 lg:px-20 pt-48 md:pt-40 pb-24 md:pb-20 z-20 overflow-hidden">
+        <section className="relative min-h-[100svh] md:min-h-[85vh] flex flex-col justify-end px-4 sm:px-6 md:px-12 lg:px-20 pt-48 md:pt-64 pb-24 md:pb-20 z-20 overflow-hidden">
           
           {/* Hero Background Image */}
           <div className="absolute inset-0 z-0 bg-brand-dark">
@@ -131,38 +137,13 @@ function App() {
             <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-brand-dark/80 to-brand-dark md:bg-black/40 md:bg-none"></div>
           </div>
 
-          {/* Background Text */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden z-0 opacity-5">
-            <h1 className="font-serif text-[18vw] leading-none whitespace-nowrap select-none text-brand-light">
-              TRADITION
-            </h1>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-8 w-full items-end md:items-center relative z-10 mt-auto md:mt-0">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-8 w-full items-end relative z-10 mt-auto">
             
             {/* Right Content (Heading) - Order 1 on mobile, Order 2 on desktop */}
             <div className="lg:col-span-6 flex flex-col gap-6 md:gap-8 items-start lg:items-end text-left lg:text-right z-20 order-1 lg:order-2">
               <h2 className="font-serif text-[13vw] sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[0.9] tracking-tight text-brand-light uppercase">
                 Wo jede<br />Mass eine<br />Geschichte<br />erzählt.
               </h2>
-
-              {/* Right Testimonial Bubble */}
-              <motion.div 
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="hidden md:block mt-6 md:mt-8 lg:mt-24 bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4 max-w-sm relative shadow-xl text-left self-start lg:self-end"
-              >
-                {/* Connection line */}
-                <div className="absolute top-1/2 -left-12 w-12 h-[1px] bg-brand-light/20 hidden lg:block"></div>
-                <div className="flex gap-4">
-                  <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=150&auto=format&fit=crop" alt="User" className="w-10 h-10 rounded-full object-cover shrink-0" />
-                  <div>
-                    <p className="text-sm text-brand-light/90 leading-relaxed font-medium">
-                      "Ein Paradies für Familien. Die Ampertalbahn ist der Hammer!"
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
             </div>
 
             {/* Left Content (Subtext & Buttons) - Order 2 on mobile, Order 1 on desktop */}
@@ -172,40 +153,17 @@ function App() {
               </p>
               
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-2 md:mt-4">
-                <a href="#" className="w-full sm:w-auto text-center bg-brand-orange text-white rounded-full px-8 py-3.5 md:py-3 font-medium hover:bg-brand-orange/90 transition-colors shadow-lg shadow-brand-orange/20">
+                <a href="#schmankerl" className="w-full sm:w-auto text-center bg-brand-orange text-white rounded-full px-8 py-3.5 md:py-3 font-medium hover:bg-brand-orange/90 transition-colors shadow-lg shadow-brand-orange/20">
                   Speisen & Getränke
                 </a>
-                <a href="#" className="w-full sm:w-auto text-center border border-brand-light/30 text-brand-light rounded-full px-8 py-3.5 md:py-3 font-medium hover:bg-brand-light/10 transition-colors">
+                <a href="#kontakt" className="w-full sm:w-auto text-center border border-brand-light/30 text-brand-light rounded-full px-8 py-3.5 md:py-3 font-medium hover:bg-brand-light/10 transition-colors">
                   Lage & Anfahrt
                 </a>
               </div>
-
-              {/* Left Testimonial Bubble */}
-              <motion.div 
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="hidden md:block mt-6 md:mt-8 lg:mt-12 bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4 max-w-sm relative shadow-xl"
-              >
-                <div className="flex gap-4">
-                  <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=150&auto=format&fit=crop" alt="User" className="w-10 h-10 rounded-full object-cover shrink-0" />
-                  <div>
-                    <p className="text-sm text-brand-light/90 leading-relaxed font-medium">
-                      "Ein echtes Stück bayerische Lebensqualität. Perfekt für den Feierabend."
-                    </p>
-                  </div>
-                </div>
-                {/* Connection line */}
-                <div className="absolute top-1/2 -right-12 w-12 h-[1px] bg-brand-light/20 hidden lg:block"></div>
-              </motion.div>
             </div>
 
           </div>
 
-          {/* Scroll Down Indicator */}
-          <div className="absolute bottom-6 md:bottom-12 left-4 md:left-12 text-xs text-brand-light/60 flex items-center gap-4 z-20">
-            <span className="tracking-widest uppercase font-medium">Scroll nach unten</span>
-            <div className="w-12 h-[1px] bg-brand-light/30"></div>
-          </div>
         </section>
 
         {/* Partner Logo Strip */}
@@ -217,7 +175,7 @@ function App() {
         </div>
 
         {/* SECTION B: Unsere Schmankerl & Hütt'n */}
-        <section className="py-16 md:py-24 px-4 sm:px-6 md:px-12 lg:px-20 relative z-20 bg-brand-light">
+        <section id="schmankerl" className="py-16 md:py-24 px-4 sm:px-6 md:px-12 lg:px-20 relative z-20 bg-brand-light">
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-6 md:gap-8">
               <h2 className="font-serif text-4xl sm:text-5xl md:text-7xl text-brand-dark leading-none uppercase">
@@ -264,7 +222,7 @@ function App() {
         </section>
 
         {/* SECTION C: Ein Paradies für Familien */}
-        <section className="py-16 md:py-24 px-4 sm:px-6 md:px-12 lg:px-20 relative z-20 bg-brand-dark/5">
+        <section id="familien" className="py-16 md:py-24 px-4 sm:px-6 md:px-12 lg:px-20 relative z-20 bg-brand-dark/5">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-center">
             <div className="order-2 lg:order-1">
               <div className="aspect-square md:aspect-[4/3] rounded-[40px] overflow-hidden relative shadow-2xl">
@@ -291,7 +249,7 @@ function App() {
         </section>
 
         {/* SECTION D: Join the Club (Events) */}
-        <section className="py-16 md:py-24 px-4 sm:px-6 md:px-12 lg:px-20 relative z-20 bg-brand-light">
+        <section id="events" className="py-16 md:py-24 px-4 sm:px-6 md:px-12 lg:px-20 relative z-20 bg-brand-light">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12 md:mb-20">
               <h2 className="font-serif text-5xl sm:text-6xl md:text-8xl text-brand-dark leading-none uppercase mb-4 md:mb-6">
@@ -352,7 +310,7 @@ function App() {
       </main>
 
       {/* SECTION E: Visit Us / Footer (Dark Green Background) */}
-      <footer className="bg-brand-dark text-brand-light pt-24 md:pt-32 pb-8 md:pb-12 px-4 sm:px-6 md:px-12 lg:px-20 relative -mt-10 md:-mt-20 z-0">
+      <footer id="kontakt" className="bg-brand-dark text-brand-light pt-24 md:pt-32 pb-8 md:pb-12 px-4 sm:px-6 md:px-12 lg:px-20 relative -mt-10 md:-mt-20 z-0">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 md:gap-16">
           
           {/* Info */}
@@ -432,6 +390,32 @@ function App() {
           </div>
         </div>
       </footer>
+
+      {/* Fullscreen Menu Overlay */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, y: "-100%" }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: "-100%" }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-[100] bg-brand-dark flex flex-col items-center justify-center"
+          >
+            <button 
+              onClick={() => setIsMenuOpen(false)}
+              className="absolute top-6 right-6 md:top-8 md:right-12 text-brand-light hover:text-brand-orange transition-colors z-[110]"
+            >
+              <X size={40} strokeWidth={1.5} />
+            </button>
+            <nav className="flex flex-col items-center gap-8 text-center">
+              <a href="#schmankerl" onClick={() => setIsMenuOpen(false)} className="font-serif text-4xl md:text-6xl text-brand-light hover:text-brand-orange transition-colors uppercase">Schmankerl</a>
+              <a href="#familien" onClick={() => setIsMenuOpen(false)} className="font-serif text-4xl md:text-6xl text-brand-light hover:text-brand-orange transition-colors uppercase">Familien</a>
+              <a href="#events" onClick={() => setIsMenuOpen(false)} className="font-serif text-4xl md:text-6xl text-brand-light hover:text-brand-orange transition-colors uppercase">Events</a>
+              <a href="#kontakt" onClick={() => setIsMenuOpen(false)} className="font-serif text-4xl md:text-6xl text-brand-light hover:text-brand-orange transition-colors uppercase">Kontakt</a>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Password Modal */}
       <AnimatePresence>
