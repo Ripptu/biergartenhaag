@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", sans-serif;
+  --font-serif: "DM Serif Display", serif;
+  
+  --color-brand-dark: #1A2421;
+  --color-brand-light: #F4EFE6;
+  --color-brand-orange: #C05621;
+  --color-brand-muted: #4A5D56;
+}
+
+body {
+  background-color: var(--color-brand-dark);
+  color: var(--color-brand-dark);
+}
