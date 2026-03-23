@@ -128,7 +128,7 @@ function App() {
           {/* Hero Background Image */}
           <div className="absolute inset-0 z-0 bg-brand-dark">
             <img 
-              src="https://s1.directupload.eu/images/260321/p6lbci4o.webp" 
+              src="https://s1.directupload.eu/images/260323/haugqfhy.webp" 
               alt="Biergarten Background" 
               className="w-full h-[55vh] md:h-full object-cover md:object-cover object-center opacity-90 md:opacity-100"
               referrerPolicy="no-referrer"
