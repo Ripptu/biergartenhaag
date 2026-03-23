@@ -1,10 +1,30 @@
 import express from "express";
 import { createServer as createViteServer } from "vite";
 import path from "path";
+import fs from "fs";
 
 // Simple in-memory state
 let isOpen = true;
 let lastAutoCloseDate = "";
+
+const DATA_FILE = path.join(process.cwd(), 'data.json');
+
+// Initialize data file if it doesn't exist
+if (!fs.existsSync(DATA_FILE)) {
+  fs.writeFileSync(DATA_FILE, JSON.stringify({
+    foundItems: [
+      { id: 1, item: "Schlüsselbund mit rotem Anhänger", date: "Gestern Abend", location: "An der Schänke abgegeben" },
+      { id: 2, item: "Kinder-Sonnenbrille (blau)", date: "Vor 2 Tagen", location: "Im Büro hinterlegt" },
+      { id: 3, item: "Strickjacke (grau, Gr. M)", date: "Letztes Wochenende", location: "Im Büro hinterlegt" }
+    ]
+  }, null, 2));
+}
+
+let data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
+
+function saveData() {
+  fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+}
 
 // Auto-close logic at 22:00
 setInterval(() => {
@@ -43,6 +63,42 @@ async function startServer() {
       } else {
         res.status(400).json({ error: "Invalid status" });
       }
+    } else {
+      res.status(401).json({ error: "Unauthorized" });
+    }
+  });
+
+  app.get("/api/found-items", (req, res) => {
+    res.json(data.foundItems || []);
+  });
+
+  app.post("/api/found-items", (req, res) => {
+    const { password, item, date, location } = req.body;
+    if (password === "vamela") {
+      const newItem = {
+        id: Date.now(),
+        item,
+        date,
+        location
+      };
+      if (!data.foundItems) data.foundItems = [];
+      data.foundItems.push(newItem);
+      saveData();
+      res.json({ success: true, item: newItem });
+    } else {
+      res.status(401).json({ error: "Unauthorized" });
+    }
+  });
+
+  app.delete("/api/found-items/:id", (req, res) => {
+    const { password } = req.body;
+    if (password === "vamela") {
+      const id = parseInt(req.params.id);
+      if (data.foundItems) {
+        data.foundItems = data.foundItems.filter((i: any) => i.id !== id);
+        saveData();
+      }
+      res.json({ success: true });
     } else {
       res.status(401).json({ error: "Unauthorized" });
     }
