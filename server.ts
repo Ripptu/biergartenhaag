@@ -2,12 +2,38 @@ import express from "express";
 import { createServer as createViteServer } from "vite";
 import path from "path";
 import fs from "fs";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+import hpp from "hpp";
+import xss from "xss-clean";
+import cors from "cors";
 
 // Simple in-memory state
-let isOpen = true;
+let manualOverride: boolean | null = null;
 let lastAutoCloseDate = "";
+let occupancy = 30;
 
 const DATA_FILE = path.join(process.cwd(), 'data.json');
+
+// Helper to check if currently open based on hours
+const getAutoStatus = () => {
+  const now = new Date();
+  // Convert to Europe/Berlin timezone
+  const berlinTimeStr = now.toLocaleString("en-US", { timeZone: "Europe/Berlin", hour12: false });
+  const dateObj = new Date(berlinTimeStr);
+  
+  const day = dateObj.getDay(); // 0 = Sunday, 1 = Monday, etc.
+  const hour = dateObj.getHours();
+  const minutes = dateObj.getMinutes();
+  const time = hour + minutes / 60;
+
+  // Mo-Do: 14:00 - 22:00 (Days 1-4)
+  if (day >= 1 && day <= 4) {
+    return time >= 14 && time < 22;
+  }
+  // Fr-So: 11:30 - 22:00 (Days 5, 6, 0)
+  return time >= 11.5 && time < 22;
+};
 
 // Initialize data file if it doesn't exist
 if (!fs.existsSync(DATA_FILE)) {
@@ -26,43 +52,63 @@ function saveData() {
   fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
 }
 
-// Auto-close logic at 22:00
+// Auto-reset override logic at midnight
 setInterval(() => {
   const now = new Date();
-  // Convert to Europe/Berlin timezone string to check hour
   const berlinTimeStr = now.toLocaleString("en-US", { timeZone: "Europe/Berlin", hour12: false });
   const dateObj = new Date(berlinTimeStr);
   
   const currentHour = dateObj.getHours();
   const currentDate = dateObj.toDateString();
 
-  // Close at 22:00 (or later) if we haven't closed today
-  if (currentHour >= 22 && lastAutoCloseDate !== currentDate) {
-    isOpen = false;
+  // Reset override at midnight
+  if (currentHour === 0 && lastAutoCloseDate !== currentDate) {
+    manualOverride = null;
     lastAutoCloseDate = currentDate;
   }
-}, 60000); // Check every minute
+}, 60000);
 
 async function startServer() {
   const app = express();
   const PORT = 3000;
 
-  app.use(express.json());
+  // 1-10: Security Headers & Basic Protection
+  app.use(helmet({
+    contentSecurityPolicy: false, // Handled by Vite in dev, or custom in prod
+    crossOriginEmbedderPolicy: false,
+  }));
+  app.disable('x-powered-by');
+  app.use(cors());
+  app.use(hpp()); // 11: Prevent HTTP Parameter Pollution
+  app.use(xss()); // 12: Data Sanitization against XSS
+  app.use(express.json({ limit: '10kb' })); // 13: Limit Body size
+
+  // 14: Rate Limiting
+  const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+    message: "Too many requests from this IP, please try again after 15 minutes"
+  });
+  app.use("/api/", limiter);
 
   // API routes FIRST
   app.get("/api/status", (req, res) => {
-    res.json({ isOpen });
+    const isOpen = manualOverride !== null ? manualOverride : getAutoStatus();
+    res.json({ isOpen, isManual: manualOverride !== null, occupancy });
   });
 
   app.post("/api/status", (req, res) => {
-    const { password, status } = req.body;
-    if (password === "vamela") {
+    const { password, status, newOccupancy } = req.body;
+    // 15: Secure Password Check (using env var if possible, fallback to hardcoded for now)
+    const ADMIN_PASS = process.env.ADMIN_PASSWORD || "vamela";
+    if (password === ADMIN_PASS) {
       if (typeof status === "boolean") {
-        isOpen = status;
-        res.json({ success: true, isOpen });
-      } else {
-        res.status(400).json({ error: "Invalid status" });
+        manualOverride = status;
       }
+      if (typeof newOccupancy === "number") {
+        occupancy = newOccupancy;
+      }
+      res.json({ success: true, isOpen: manualOverride !== null ? manualOverride : getAutoStatus(), occupancy });
     } else {
       res.status(401).json({ error: "Unauthorized" });
     }
@@ -74,7 +120,8 @@ async function startServer() {
 
   app.post("/api/found-items", (req, res) => {
     const { password, item, date, location } = req.body;
-    if (password === "vamela") {
+    const ADMIN_PASS = process.env.ADMIN_PASSWORD || "vamela";
+    if (password === ADMIN_PASS) {
       const newItem = {
         id: Date.now(),
         item,
@@ -92,7 +139,8 @@ async function startServer() {
 
   app.delete("/api/found-items/:id", (req, res) => {
     const { password } = req.body;
-    if (password === "vamela") {
+    const ADMIN_PASS = process.env.ADMIN_PASSWORD || "vamela";
+    if (password === ADMIN_PASS) {
       const id = parseInt(req.params.id);
       if (data.foundItems) {
         data.foundItems = data.foundItems.filter((i: any) => i.id !== id);
