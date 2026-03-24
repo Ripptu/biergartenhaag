@@ -1051,7 +1051,7 @@ function App() {
               <button 
                 onClick={() => {
                   setIsMenuOpen(false);
-                  setShowAdminModal(true);
+                  setShowPasswordModal(true);
                 }}
                 className="mt-8 text-white/30 text-xs uppercase tracking-widest py-4"
               >
