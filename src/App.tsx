@@ -1,7 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
-import { MapPin, Clock, Phone, ArrowRight, ArrowLeft, X, Heart, Activity, Dog, Droplets, TreePine, Search, Info, Instagram, Facebook } from 'lucide-react';
+import { MapPin, Clock, Phone, ArrowRight, ArrowLeft, X, Heart, Activity, Dog, Droplets, TreePine, Search, Info, Instagram, Facebook, CalendarPlus } from 'lucide-react';
 import { Impressum, AGB, Datenschutz } from './components/LegalPages';
+import { FamiliePage } from './components/FamiliePage';
 
 /**
  * SECURITY COMPLIANCE LIST (39 MEASURES)
@@ -121,7 +122,7 @@ function App() {
   const [isDarkMode] = useState<boolean>(true);
 
   // View State (Subpages)
-  const [currentView, setCurrentView] = useState<'home' | 'impressum' | 'agb' | 'datenschutz'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'impressum' | 'agb' | 'datenschutz' | 'familie'>('home');
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -142,10 +143,54 @@ function App() {
   const [isDigitalMenuOpen, setIsDigitalMenuOpen] = useState(false);
   const [activeMenuCategory, setActiveMenuCategory] = useState('Bier');
 
+  // Navbar Visibility State
+  const [isNavVisible, setIsNavVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // If scrolling down and past 100px, hide navbar
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsNavVisible(false);
+      } 
+      // If scrolling up, show navbar
+      else if (currentScrollY < lastScrollY) {
+        setIsNavVisible(true);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
   // Tracking State
   const [trackingStats, setTrackingStats] = useState({ menuClicks: 0, routeClicks: 0 });
   const [showDashboard, setShowDashboard] = useState(false);
   const [footerClickCount, setFooterClickCount] = useState(0);
+
+  // Calendar Helper
+  const downloadICS = (title: string, description: string, startDate: string, endDate: string) => {
+    const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SUMMARY:${title}
+DESCRIPTION:${description}
+DTSTART:${startDate}
+DTEND:${endDate}
+END:VEVENT
+END:VCALENDAR`;
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.setAttribute('download', `${title.replace(/\s+/g, '_')}.ics`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   // Heart State
   const [likedItems, setLikedItems] = useState<Set<string>>(new Set());
@@ -470,7 +515,7 @@ function App() {
         
         {/* Navigation */}
       {/* Navigation Header */}
-        <nav className={`fixed top-0 left-0 w-full z-50 flex items-center justify-between px-4 py-4 md:px-12 md:py-8 transition-all duration-300 ${currentView === 'home' || isDarkMode ? 'text-brand-light' : 'text-brand-dark'} ${isMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+        <nav className={`fixed top-0 left-0 w-full z-50 flex items-center justify-between px-4 py-4 md:px-12 md:py-8 transition-all duration-300 ${currentView === 'home' || isDarkMode ? 'text-brand-light' : 'text-brand-dark'} ${isMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'} ${!isNavVisible ? '-translate-y-full' : 'translate-y-0'}`}>
           {/* Left: Weather & Status Pill */}
           <div className="flex flex-col gap-1.5 md:gap-2">
             <div className={`flex items-center gap-2 md:gap-3 backdrop-blur-md border rounded-full px-3 py-2 md:px-4 md:py-2 text-[10px] xs:text-xs md:text-sm font-bold shadow-xl transition-colors duration-500 ${isDarkMode ? 'bg-[#1a242b]/80 border-white/10 text-brand-light' : (currentView === 'home' ? 'bg-white/10 border-white/20 text-brand-light' : 'bg-black/5 border-black/10 text-brand-dark')}`}>
@@ -508,7 +553,7 @@ function App() {
           {/* Center Logo */}
           <div className="flex flex-col items-center justify-center absolute left-1/2 top-4 md:top-8 -translate-x-1/2 z-50">
             <img 
-              src="https://scontent-dus1-1.xx.fbcdn.net/v/t39.30808-6/492210388_1194107815843563_1337847489003514631_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=1d70fc&_nc_ohc=U8HBK_TVC-IQ7kNvwFC16cb&_nc_oc=Adrp7WGp9IZ5ZLrnOlBB_k4OCDBXmbZH2nICFQUhzM41Aaw0ApstRvJKhLoufNR5M-I&_nc_zt=23&_nc_ht=scontent-dus1-1.xx&_nc_gid=VpvR-4i101hrQSTgMW4htw&_nc_ss=7a30f&oh=00_AfxDWlAHvTqA1Kq8M86JECQ6U3_DndL1N-vq-Q2NXp7mEA&oe=69C4DE28" 
+              src="https://s1.directupload.eu/images/260327/8sahgnnn.webp" 
               alt="Schlossallee Logo" 
               className="h-14 w-14 md:h-32 md:w-32 object-cover rounded-full shadow-2xl cursor-pointer select-none active:scale-90 transition-transform border-2 border-white/20" 
               referrerPolicy="no-referrer"
@@ -564,20 +609,25 @@ function App() {
                 Bayerische Gemütlichkeit seit 1926. Erlebe einen der schönsten Biergärten der Region, idyllisch gelegen unter alten Kastanien im Herzen von Haag an der Amper.
               </p>
               
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mt-2">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mt-4">
                 <motion.button 
                   whileTap={{ scale: 0.96 }}
                   onClick={() => { triggerPouringAnimation(() => setIsDigitalMenuOpen(true)); trackEvent('menuClicks'); }}
-                  className="w-full sm:w-auto text-center bg-brand-orange text-white rounded-full px-8 py-4 md:py-3 font-bold shadow-xl shadow-brand-orange/30 active:bg-brand-orange/80 transition-colors"
+                  className="group relative w-full sm:w-auto text-center bg-brand-orange text-white rounded-full px-10 py-5 md:py-4 font-bold text-lg shadow-[0_0_40px_rgba(242,125,38,0.4)] hover:shadow-[0_0_60px_rgba(242,125,38,0.6)] active:bg-brand-orange/80 transition-all duration-300 overflow-hidden"
                 >
-                  Speisen & Getränke
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    Speisekarte ansehen
+                    <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[150%] group-hover:animate-[shimmer_1.5s_infinite]"></div>
                 </motion.button>
                 <motion.a 
                   whileTap={{ scale: 0.96 }}
                   href="#kontakt" 
                   onClick={() => trackEvent('routeClicks')}
-                  className="w-full sm:w-auto text-center border-2 border-white/40 backdrop-blur-sm text-white rounded-full px-8 py-4 md:py-3 font-bold active:bg-white/10 transition-colors"
+                  className="w-full sm:w-auto text-center border-2 border-white/40 backdrop-blur-sm text-white rounded-full px-8 py-5 md:py-4 font-bold text-lg hover:bg-white/10 active:bg-white/20 transition-colors flex items-center justify-center gap-2"
                 >
+                  <MapPin size={20} />
                   Lage & Anfahrt
                 </motion.a>
               </div>
@@ -673,9 +723,12 @@ function App() {
                 Unser riesiger Abenteuerspielplatz und die legendäre <strong className={`font-semibold transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>Ampertal-Kindereisenbahn</strong> machen den Besuch für die ganze Familie unvergesslich.
               </p>
               <div className="mt-4">
-                <a href="#" className="inline-flex items-center gap-2 text-brand-orange font-medium hover:gap-4 transition-all">
+                <button 
+                  onClick={() => setCurrentView('familie')}
+                  className="inline-flex items-center gap-2 text-brand-orange font-medium hover:gap-4 transition-all"
+                >
                   Mehr für Kinder entdecken <ArrowRight size={20} />
-                </a>
+                </button>
               </div>
             </div>
           </motion.div>
@@ -731,9 +784,21 @@ function App() {
                       </div>
                     </div>
                   </div>
-                  <div className="text-left md:text-right">
-                    <div className="font-serif text-6xl md:text-8xl text-brand-orange">15.</div>
-                    <div className="text-2xl font-medium tracking-widest uppercase">August</div>
+                  <div className="text-left md:text-right flex flex-col items-start md:items-end gap-4">
+                    <div>
+                      <div className="font-serif text-6xl md:text-8xl text-brand-orange">15.</div>
+                      <div className="text-2xl font-medium tracking-widest uppercase">August</div>
+                    </div>
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        downloadICS('Das Lampion-Fest - Schlossallee', 'Ein magischer Abend mit Live-Musik und besonderer Atmosphäre im Biergarten Schlossallee.', '20260815T180000Z', '20260815T230000Z');
+                      }}
+                      className="flex items-center gap-2 bg-brand-orange/20 hover:bg-brand-orange text-brand-orange hover:text-white px-4 py-2 rounded-full transition-colors text-sm font-medium"
+                    >
+                      <CalendarPlus size={16} />
+                      <span>Zum Kalender</span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -744,9 +809,19 @@ function App() {
                   <h3 className={`font-serif text-4xl mb-2 group-hover:text-brand-orange transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>Live-Musik: Austro-Pop</h3>
                   <p className={`transition-colors duration-1000 ${isDarkMode ? 'text-brand-light/60' : 'text-brand-dark/60'}`}>Mit der lokalen Stadtkapelle und Special Guests.</p>
                 </div>
-                <div className="text-right flex items-center gap-8">
+                <div className="text-right flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8">
                   <div className="text-xl font-medium">Ab 18:00 Uhr</div>
                   <div className={`font-serif text-4xl transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>22. <span className="text-2xl uppercase tracking-widest">Mai</span></div>
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      downloadICS('Live-Musik: Austro-Pop - Schlossallee', 'Mit der lokalen Stadtkapelle und Special Guests.', '20260522T180000Z', '20260522T220000Z');
+                    }}
+                    className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors text-xs font-medium border ${isDarkMode ? 'border-white/20 hover:bg-white hover:text-brand-dark' : 'border-brand-dark/20 hover:bg-brand-dark hover:text-brand-light'}`}
+                  >
+                    <CalendarPlus size={14} />
+                    <span className="hidden sm:inline">Kalender</span>
+                  </button>
                 </div>
               </div>
 
@@ -756,17 +831,27 @@ function App() {
                   <h3 className={`font-serif text-4xl mb-2 group-hover:text-brand-orange transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>Oldtimer-Motorradtreffen</h3>
                   <p className={`transition-colors duration-1000 ${isDarkMode ? 'text-brand-light/60' : 'text-brand-dark/60'}`}>Historische Maschinen, Benzingespräche und zünftige Brotzeit.</p>
                 </div>
-                <div className="text-right flex items-center gap-8">
+                <div className="text-right flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8">
                   <div className="text-xl font-medium">Ganztägig</div>
                   <div className={`font-serif text-4xl transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>05. <span className="text-2xl uppercase tracking-widest">Jun</span></div>
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      downloadICS('Oldtimer-Motorradtreffen - Schlossallee', 'Historische Maschinen, Benzingespräche und zünftige Brotzeit.', '20260605T080000Z', '20260605T200000Z');
+                    }}
+                    className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors text-xs font-medium border ${isDarkMode ? 'border-white/20 hover:bg-white hover:text-brand-dark' : 'border-brand-dark/20 hover:bg-brand-dark hover:text-brand-light'}`}
+                  >
+                    <CalendarPlus size={14} />
+                    <span className="hidden sm:inline">Kalender</span>
+                  </button>
                 </div>
               </div>
             </div>
           </motion.div>
         </section>
 
-        {/* SECTION E: Hunde Willkommen */}
-        <section id="hunde" className={`py-16 md:py-24 px-4 sm:px-6 md:px-12 lg:px-20 relative z-20 transition-colors duration-1000 ${isDarkMode ? 'bg-[#1a242b] text-brand-light' : 'bg-brand-dark/5 text-brand-dark'}`}>
+        {/* SECTION F: Hunde Willkommen */}
+        <section id="hunde" className={`py-16 md:py-24 px-4 sm:px-6 md:px-12 lg:px-20 relative z-20 transition-colors duration-1000 ${isDarkMode ? 'bg-[#12181c] text-brand-light' : 'bg-brand-light text-brand-dark'}`}>
           <motion.div 
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -890,6 +975,7 @@ function App() {
               {currentView === 'impressum' && <Impressum isDarkMode={isDarkMode} />}
               {currentView === 'agb' && <AGB isDarkMode={isDarkMode} />}
               {currentView === 'datenschutz' && <Datenschutz isDarkMode={isDarkMode} />}
+              {currentView === 'familie' && <FamiliePage isDarkMode={isDarkMode} onBack={() => setCurrentView('home')} />}
             </div>
           </div>
         )}
@@ -1034,7 +1120,7 @@ function App() {
             <nav className="flex flex-col items-center gap-4 md:gap-8 text-center px-4">
               <button onClick={() => { setIsMenuOpen(false); setIsDigitalMenuOpen(true); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Speisekarte</button>
               <a href="#schmankerl" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Schmankerl</a>
-              <a href="#familien" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Familien</a>
+              <button onClick={() => { setIsMenuOpen(false); setCurrentView('familie'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Familien</button>
               <a href="#events" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Events</a>
               <a href="#fundbuero" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Fundbüro</a>
               <a href="#kontakt" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Kontakt</a>
@@ -1532,6 +1618,38 @@ function App() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Mobile Sticky Action Bar */}
+      <div className="md:hidden fixed bottom-0 left-0 w-full z-40 bg-[#0a0f12]/95 backdrop-blur-xl border-t border-white/10 pb-6 pt-3 px-4 flex justify-around items-center shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+        <button 
+          onClick={() => { triggerPouringAnimation(() => setIsDigitalMenuOpen(true)); trackEvent('menuClicks'); }}
+          className="flex flex-col items-center gap-1.5 text-brand-orange"
+        >
+          <div className="bg-brand-orange/20 p-2 rounded-full">
+            <Info size={22} />
+          </div>
+          <span className="text-[10px] font-bold uppercase tracking-widest">Karte</span>
+        </button>
+        <a 
+          href="#kontakt"
+          onClick={() => trackEvent('routeClicks')}
+          className="flex flex-col items-center gap-1.5 text-brand-light/70 hover:text-brand-light transition-colors"
+        >
+          <div className="p-2">
+            <MapPin size={22} />
+          </div>
+          <span className="text-[10px] font-bold uppercase tracking-widest">Route</span>
+        </a>
+        <a 
+          href="tel:+498167958800"
+          className="flex flex-col items-center gap-1.5 text-brand-light/70 hover:text-brand-light transition-colors"
+        >
+          <div className="p-2">
+            <Phone size={22} />
+          </div>
+          <span className="text-[10px] font-bold uppercase tracking-widest">Anrufen</span>
+        </a>
+      </div>
     </div>
   );
 }

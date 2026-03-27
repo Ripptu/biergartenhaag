@@ -9,6 +9,13 @@
   --color-brand-light: #F4EFE6;
   --color-brand-orange: #C05621;
   --color-brand-muted: #4A5D56;
+
+  --animate-shimmer: shimmer 1.5s infinite;
+  @keyframes shimmer {
+    100% {
+      transform: translateX(150%);
+    }
+  }
 }
 
 body {
