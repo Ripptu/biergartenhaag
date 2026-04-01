@@ -82,6 +82,9 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
+  // Trust the first proxy (required for Cloud Run / AI Studio environment)
+  app.set('trust proxy', 1);
+
   // 1-10: Security Headers & Basic Protection
   app.use(helmet({
     contentSecurityPolicy: false, // Handled by Vite in dev, or custom in prod
@@ -97,7 +100,10 @@ async function startServer() {
   const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100, // limit each IP to 100 requests per windowMs
-    message: "Too many requests from this IP, please try again after 15 minutes"
+    message: "Too many requests from this IP, please try again after 15 minutes",
+    keyGenerator: (req) => {
+      return req.ip || req.headers['x-forwarded-for']?.toString() || req.socket.remoteAddress || "unknown";
+    }
   });
   app.use("/api/", limiter);
 

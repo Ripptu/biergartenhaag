@@ -535,7 +535,7 @@ END:VCALENDAR`;
         
         {/* Navigation */}
       {/* Navigation Header */}
-        <nav className={`fixed top-0 left-0 w-full z-50 flex items-center justify-between px-4 py-4 md:px-12 md:py-8 transition-all duration-300 ${currentView === 'home' || isDarkMode ? 'text-brand-light' : 'text-brand-dark'} ${isMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'} ${!isNavVisible ? '-translate-y-full' : 'translate-y-0'}`}>
+        <nav className={`fixed top-0 left-0 w-full z-50 flex items-start justify-between px-4 pb-4 pt-[max(1rem,env(safe-area-inset-top))] md:px-12 md:py-8 transition-all duration-300 ${currentView === 'home' || isDarkMode ? 'text-brand-light' : 'text-brand-dark'} ${isMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'} ${!isNavVisible ? '-translate-y-full' : 'translate-y-0'}`}>
           {/* Left: Weather & Status Pill */}
           <div className="flex flex-col gap-1.5 md:gap-2">
             <div className={`flex items-center gap-2 md:gap-3 backdrop-blur-md border rounded-full px-3 py-2 md:px-4 md:py-2 text-[10px] xs:text-xs md:text-sm font-bold shadow-xl transition-colors duration-500 ${isDarkMode ? 'bg-[#1a242b]/80 border-white/10 text-brand-light' : (currentView === 'home' ? 'bg-white/10 border-white/20 text-brand-light' : 'bg-black/5 border-black/10 text-brand-dark')}`}>
@@ -571,7 +571,7 @@ END:VCALENDAR`;
           </div>
 
           {/* Center Logo */}
-          <div className="flex flex-col items-center justify-center absolute left-1/2 top-4 md:top-8 -translate-x-1/2 z-50">
+          <div className="flex flex-col items-center justify-center absolute left-1/2 -translate-x-1/2 z-50" style={{ top: 'max(1rem, env(safe-area-inset-top))' }}>
             <img 
               src="https://s1.directupload.eu/images/260327/8sahgnnn.webp" 
               alt="Schlossallee Logo" 
@@ -583,7 +583,7 @@ END:VCALENDAR`;
 
           {/* Mobile Menu Icon */}
           <button 
-            className="flex flex-col gap-1.5 md:gap-2 cursor-pointer z-50 p-2 -mr-2 active:opacity-50 transition-opacity"
+            className="flex flex-col gap-1.5 md:gap-2 cursor-pointer z-50 p-2 -mr-2 mt-1 active:opacity-50 transition-opacity"
             onClick={() => setIsMenuOpen(true)}
             aria-label="Menü öffnen"
           >
@@ -1104,11 +1104,12 @@ END:VCALENDAR`;
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: "-100%" }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-[100] bg-brand-dark flex flex-col items-center justify-center p-6"
+            className="fixed inset-0 z-[100] bg-brand-dark flex flex-col items-center justify-center p-6 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]"
           >
             <button 
               onClick={() => setIsMenuOpen(false)}
-              className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-brand-light active:scale-90 transition-transform z-[110]"
+              className="absolute right-6 w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-brand-light active:scale-90 transition-transform z-[110]"
+              style={{ top: 'max(1.5rem, env(safe-area-inset-top))' }}
             >
               <X size={32} strokeWidth={1.5} />
             </button>
@@ -1151,7 +1152,7 @@ END:VCALENDAR`;
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-[120] bg-brand-light flex flex-col overflow-hidden"
+            className="fixed inset-0 z-[120] bg-brand-light flex flex-col overflow-hidden pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]"
           >
             {/* Header */}
             <div className="flex items-center justify-between p-6 md:p-8 border-b border-brand-dark/10 bg-brand-light sticky top-0 z-10">
@@ -1165,7 +1166,7 @@ END:VCALENDAR`;
             </div>
 
             {/* Categories */}
-            <div className="flex overflow-x-auto hide-scrollbar gap-4 p-6 md:px-8 border-b border-brand-dark/5 bg-brand-light sticky top-[80px] md:top-[96px] z-10">
+            <div className="flex overflow-x-auto hide-scrollbar gap-4 p-6 md:px-8 border-b border-brand-dark/5 bg-brand-light sticky top-[80px] md:top-[96px] z-10" style={{ WebkitOverflowScrolling: 'touch' }}>
               {['Bier', 'Brotzeit', 'Warmes'].map(category => (
                 <button
                   key={category}
@@ -1182,7 +1183,7 @@ END:VCALENDAR`;
             </div>
 
             {/* Menu Items */}
-            <div className="flex-1 overflow-y-auto p-6 md:p-8 bg-brand-light">
+            <div className="flex-1 overflow-y-auto p-6 md:p-8 bg-brand-light" style={{ WebkitOverflowScrolling: 'touch' }}>
               <div className="max-w-4xl mx-auto">
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -1202,7 +1203,7 @@ END:VCALENDAR`;
                               <h3 className="font-serif text-xl text-brand-dark">Jaga Bier (Naturtrüb)</h3>
                               <div className="flex items-center gap-3">
                                 <span className="font-medium text-brand-orange">€ 9,50</span>
-                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('jaga')} className="text-brand-orange">
+                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('jaga')} className="text-brand-orange p-2 -m-2" style={{ touchAction: 'manipulation' }}>
                                   <Heart size={20} fill={likedItems.has('jaga') ? "currentColor" : "none"} />
                                 </motion.button>
                               </div>
@@ -1217,7 +1218,7 @@ END:VCALENDAR`;
                               <h3 className="font-serif text-xl text-brand-dark">Helles</h3>
                               <div className="flex items-center gap-3">
                                 <span className="font-medium text-brand-orange">€ 9,20</span>
-                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('helles')} className="text-brand-orange">
+                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('helles')} className="text-brand-orange p-2 -m-2" style={{ touchAction: 'manipulation' }}>
                                   <Heart size={20} fill={likedItems.has('helles') ? "currentColor" : "none"} />
                                 </motion.button>
                               </div>
@@ -1232,7 +1233,7 @@ END:VCALENDAR`;
                               <h3 className="font-serif text-xl text-brand-dark">Radler</h3>
                               <div className="flex items-center gap-3">
                                 <span className="font-medium text-brand-orange">€ 9,20</span>
-                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('radler')} className="text-brand-orange">
+                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('radler')} className="text-brand-orange p-2 -m-2" style={{ touchAction: 'manipulation' }}>
                                   <Heart size={20} fill={likedItems.has('radler') ? "currentColor" : "none"} />
                                 </motion.button>
                               </div>
@@ -1252,7 +1253,7 @@ END:VCALENDAR`;
                               <h3 className="font-serif text-xl text-brand-dark">Riesenbrezn</h3>
                               <div className="flex items-center gap-3">
                                 <span className="font-medium text-brand-orange">€ 4,50</span>
-                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('brezn')} className="text-brand-orange">
+                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('brezn')} className="text-brand-orange p-2 -m-2" style={{ touchAction: 'manipulation' }}>
                                   <Heart size={20} fill={likedItems.has('brezn') ? "currentColor" : "none"} />
                                 </motion.button>
                               </div>
@@ -1267,7 +1268,7 @@ END:VCALENDAR`;
                               <h3 className="font-serif text-xl text-brand-dark">Obatzda</h3>
                               <div className="flex items-center gap-3">
                                 <span className="font-medium text-brand-orange">€ 7,80</span>
-                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('obatzda')} className="text-brand-orange">
+                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('obatzda')} className="text-brand-orange p-2 -m-2" style={{ touchAction: 'manipulation' }}>
                                   <Heart size={20} fill={likedItems.has('obatzda') ? "currentColor" : "none"} />
                                 </motion.button>
                               </div>
@@ -1282,7 +1283,7 @@ END:VCALENDAR`;
                               <h3 className="font-serif text-xl text-brand-dark">Bayerischer Wurstsalat</h3>
                               <div className="flex items-center gap-3">
                                 <span className="font-medium text-brand-orange">€ 8,50</span>
-                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('wurstsalat')} className="text-brand-orange">
+                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('wurstsalat')} className="text-brand-orange p-2 -m-2" style={{ touchAction: 'manipulation' }}>
                                   <Heart size={20} fill={likedItems.has('wurstsalat') ? "currentColor" : "none"} />
                                 </motion.button>
                               </div>
@@ -1302,7 +1303,7 @@ END:VCALENDAR`;
                               <h3 className="font-serif text-xl text-brand-dark">Steckerlfisch (Makrele)</h3>
                               <div className="flex items-center gap-3">
                                 <span className="font-medium text-brand-orange">€ 18,50</span>
-                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('fisch')} className="text-brand-orange">
+                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('fisch')} className="text-brand-orange p-2 -m-2" style={{ touchAction: 'manipulation' }}>
                                   <Heart size={20} fill={likedItems.has('fisch') ? "currentColor" : "none"} />
                                 </motion.button>
                               </div>
@@ -1317,7 +1318,7 @@ END:VCALENDAR`;
                               <h3 className="font-serif text-xl text-brand-dark">1/2 Hendl</h3>
                               <div className="flex items-center gap-3">
                                 <span className="font-medium text-brand-orange">€ 11,50</span>
-                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('hendl')} className="text-brand-orange">
+                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('hendl')} className="text-brand-orange p-2 -m-2" style={{ touchAction: 'manipulation' }}>
                                   <Heart size={20} fill={likedItems.has('hendl') ? "currentColor" : "none"} />
                                 </motion.button>
                               </div>
@@ -1332,7 +1333,7 @@ END:VCALENDAR`;
                               <h3 className="font-serif text-xl text-brand-dark">Schweinswürstl</h3>
                               <div className="flex items-center gap-3">
                                 <span className="font-medium text-brand-orange">€ 9,80</span>
-                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('wuerstl')} className="text-brand-orange">
+                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('wuerstl')} className="text-brand-orange p-2 -m-2" style={{ touchAction: 'manipulation' }}>
                                   <Heart size={20} fill={likedItems.has('wuerstl') ? "currentColor" : "none"} />
                                 </motion.button>
                               </div>
@@ -1357,37 +1358,48 @@ END:VCALENDAR`;
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+            className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setShowPasswordModal(false);
+            }}
           >
             <motion.div 
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-brand-dark border border-white/10 rounded-3xl p-8 w-full max-w-sm relative shadow-2xl"
+              initial={{ y: "100%", opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: "100%", opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="bg-brand-dark border-t sm:border border-white/10 rounded-t-3xl sm:rounded-3xl p-6 sm:p-8 w-full max-w-sm relative shadow-2xl pb-[max(1.5rem,env(safe-area-inset-bottom))] flex flex-col"
+              style={{ maxHeight: 'calc(100dvh - 2rem)' }}
             >
+              {/* Drag Handle for Mobile */}
+              <div className="w-12 h-1.5 bg-white/20 rounded-full mx-auto mb-6 sm:hidden shrink-0"></div>
+              
               <button 
                 onClick={() => setShowPasswordModal(false)}
-                className="absolute top-4 right-4 text-white/50 hover:text-white transition-colors"
+                className="absolute top-4 right-4 sm:top-6 sm:right-6 text-white/50 hover:text-white transition-colors p-3 -m-1"
+                style={{ touchAction: 'manipulation' }}
               >
                 <X size={20} />
               </button>
-              <h3 className="text-2xl font-serif text-brand-light mb-6">Admin Login</h3>
-              <form onSubmit={handlePasswordSubmit} className="flex flex-col gap-4">
+              <h3 className="text-2xl font-serif text-brand-light mb-6 shrink-0">Admin Login</h3>
+              <form onSubmit={handlePasswordSubmit} className="flex flex-col gap-4 overflow-y-auto pr-2 pb-4 hide-scrollbar overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
                 <input 
                   type="password" 
                   value={passwordInput}
                   onChange={(e) => setPasswordInput(e.target.value)}
                   placeholder="Passwort" 
-                  className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-brand-light focus:outline-none focus:border-brand-orange transition-colors"
+                  className="bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-base sm:text-sm text-brand-light focus:outline-none focus:border-brand-orange transition-colors"
                   autoFocus
                 />
                 {errorMsg && <p className="text-red-400 text-sm">{errorMsg}</p>}
-                <button 
+                <motion.button 
+                  whileTap={{ scale: 0.95 }}
                   type="submit"
                   className="bg-brand-orange text-white rounded-xl px-4 py-3 font-medium hover:bg-brand-orange/90 transition-colors"
+                  style={{ touchAction: 'manipulation' }}
                 >
                   Bestätigen
-                </button>
+                </motion.button>
               </form>
             </motion.div>
           </motion.div>
@@ -1401,44 +1413,52 @@ END:VCALENDAR`;
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+            className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4"
             onClick={(e) => {
               if (e.target === e.currentTarget) setShowAdminModal(false);
             }}
           >
             <motion.div 
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-brand-dark border border-white/10 rounded-3xl p-8 w-full max-w-sm relative shadow-2xl"
+              initial={{ y: "100%", opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: "100%", opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="bg-brand-dark border-t sm:border border-white/10 rounded-t-3xl sm:rounded-3xl p-6 sm:p-8 w-full max-w-sm relative shadow-2xl pb-[max(1.5rem,env(safe-area-inset-bottom))] flex flex-col"
+              style={{ maxHeight: 'calc(100dvh - 2rem)' }}
             >
+              {/* Drag Handle for Mobile */}
+              <div className="w-12 h-1.5 bg-white/20 rounded-full mx-auto mb-6 sm:hidden"></div>
+              
               <button 
                 onClick={() => setShowAdminModal(false)}
-                className="absolute top-4 right-4 text-white/50 hover:text-white transition-colors"
+                className="absolute top-4 right-4 sm:top-6 sm:right-6 text-white/50 hover:text-white transition-colors p-3 -m-1"
+                style={{ touchAction: 'manipulation' }}
               >
                 <X size={20} />
               </button>
-              <h3 className="text-2xl font-serif text-brand-light mb-6">Status & Auslastung</h3>
-              <div className="flex flex-col gap-6 max-h-[60vh] overflow-y-auto pr-2 hide-scrollbar">
+              <h3 className="text-2xl font-serif text-brand-light mb-6 shrink-0">Status & Auslastung</h3>
+              <div className="flex flex-col gap-6 overflow-y-auto pr-2 pb-4 hide-scrollbar overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
                 <div>
                   <label className="text-sm font-medium text-brand-light/80 block mb-2">Öffnungsstatus</label>
                   <div className="flex gap-4">
-                    <button 
+                    <motion.button 
+                      whileTap={{ scale: 0.95 }}
                       type="button"
                       onClick={() => handleStatusChange(true)}
-                      onPointerDown={(e) => { e.preventDefault(); handleStatusChange(true); }}
-                      className={`flex-1 rounded-xl px-4 py-3 font-medium transition-colors border ${isOpen ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400' : 'bg-white/5 border-white/10 text-brand-light hover:bg-white/10'}`}
+                      className={`flex-1 rounded-xl px-4 py-4 font-medium transition-colors border ${isOpen ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400' : 'bg-white/5 border-white/10 text-brand-light hover:bg-white/10'}`}
+                      style={{ touchAction: 'manipulation' }}
                     >
                       Geöffnet
-                    </button>
-                    <button 
+                    </motion.button>
+                    <motion.button 
+                      whileTap={{ scale: 0.95 }}
                       type="button"
                       onClick={() => handleStatusChange(false)}
-                      onPointerDown={(e) => { e.preventDefault(); handleStatusChange(false); }}
-                      className={`flex-1 rounded-xl px-4 py-3 font-medium transition-colors border ${!isOpen ? 'bg-red-500/20 border-red-500/50 text-red-400' : 'bg-white/5 border-white/10 text-brand-light hover:bg-white/10'}`}
+                      className={`flex-1 rounded-xl px-4 py-4 font-medium transition-colors border ${!isOpen ? 'bg-red-500/20 border-red-500/50 text-red-400' : 'bg-white/5 border-white/10 text-brand-light hover:bg-white/10'}`}
+                      style={{ touchAction: 'manipulation' }}
                     >
                       Geschlossen
-                    </button>
+                    </motion.button>
                   </div>
                 </div>
                 
@@ -1482,7 +1502,7 @@ END:VCALENDAR`;
                       placeholder="Gegenstand (z.B. Schlüssel)" 
                       value={newFoundItem.item}
                       onChange={e => setNewFoundItem({...newFoundItem, item: e.target.value})}
-                      className="bg-black/20 border border-white/10 rounded-lg px-3 py-2 text-sm text-brand-light focus:outline-none focus:border-brand-orange"
+                      className="bg-black/20 border border-white/10 rounded-lg px-3 py-3 text-base sm:text-sm text-brand-light focus:outline-none focus:border-brand-orange"
                       required
                     />
                     <input 
@@ -1490,7 +1510,7 @@ END:VCALENDAR`;
                       placeholder="Wann? (z.B. Gestern Abend)" 
                       value={newFoundItem.date}
                       onChange={e => setNewFoundItem({...newFoundItem, date: e.target.value})}
-                      className="bg-black/20 border border-white/10 rounded-lg px-3 py-2 text-sm text-brand-light focus:outline-none focus:border-brand-orange"
+                      className="bg-black/20 border border-white/10 rounded-lg px-3 py-3 text-base sm:text-sm text-brand-light focus:outline-none focus:border-brand-orange"
                       required
                     />
                     <input 
@@ -1498,23 +1518,26 @@ END:VCALENDAR`;
                       placeholder="Wo? (z.B. An der Schänke)" 
                       value={newFoundItem.location}
                       onChange={e => setNewFoundItem({...newFoundItem, location: e.target.value})}
-                      className="bg-black/20 border border-white/10 rounded-lg px-3 py-2 text-sm text-brand-light focus:outline-none focus:border-brand-orange"
+                      className="bg-black/20 border border-white/10 rounded-lg px-3 py-3 text-base sm:text-sm text-brand-light focus:outline-none focus:border-brand-orange"
                       required
                     />
-                    <button 
+                    <motion.button 
+                      whileTap={{ scale: 0.95 }}
                       type="submit" 
-                      onPointerDown={(e) => {
-                        // On mobile, if the keyboard is open, the first tap might just close the keyboard
-                        // and not trigger the click. We can manually call the handler here.
-                        if (newFoundItem.item && newFoundItem.date && newFoundItem.location) {
+                      onClick={(e) => {
+                        // On mobile, sometimes form onSubmit doesn't fire if keyboard closes.
+                        // We can call it directly here as a fallback if the form is valid.
+                        const form = e.currentTarget.closest('form');
+                        if (form && form.checkValidity()) {
                           e.preventDefault();
-                          handleAddFoundItem(e as unknown as React.FormEvent);
+                          handleAddFoundItem(e as any);
                         }
                       }}
-                      className="bg-brand-orange text-white rounded-lg px-3 py-2 text-sm font-medium hover:bg-brand-orange/90 transition-colors mt-1"
+                      className="bg-brand-orange text-white rounded-xl px-4 py-4 text-sm font-medium hover:bg-brand-orange/90 transition-colors mt-2"
+                      style={{ touchAction: 'manipulation' }}
                     >
                       Hinzufügen
-                    </button>
+                    </motion.button>
                   </form>
 
                   <div className="flex flex-col gap-2">
@@ -1524,15 +1547,16 @@ END:VCALENDAR`;
                           <span className="text-sm font-medium text-brand-light">{item.item}</span>
                           <span className="text-xs text-brand-light/50">{item.date}</span>
                         </div>
-                        <button 
+                        <motion.button 
+                          whileTap={{ scale: 0.9 }}
                           type="button"
                           onClick={() => handleRemoveFoundItem(item.id)}
-                          onPointerDown={(e) => { e.preventDefault(); handleRemoveFoundItem(item.id); }}
-                          className="text-red-400 hover:text-red-300 p-2 bg-red-500/10 rounded-lg transition-colors"
+                          className="text-red-400 hover:text-red-300 p-3 bg-red-500/10 rounded-xl transition-colors"
                           title="Als abgeholt markieren"
+                          style={{ touchAction: 'manipulation' }}
                         >
                           <X size={16} />
-                        </button>
+                        </motion.button>
                       </div>
                     ))}
                     {foundItems.length === 0 && (
@@ -1552,26 +1576,35 @@ END:VCALENDAR`;
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+            className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setShowDashboard(false);
+            }}
           >
             <motion.div 
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-brand-dark border border-white/10 rounded-3xl p-8 w-full max-w-lg relative shadow-2xl"
+              initial={{ y: "100%", opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: "100%", opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="bg-brand-dark border-t sm:border border-white/10 rounded-t-3xl sm:rounded-3xl p-6 sm:p-8 w-full max-w-lg relative shadow-2xl pb-[max(1.5rem,env(safe-area-inset-bottom))] flex flex-col"
+              style={{ maxHeight: 'calc(100dvh - 2rem)' }}
             >
+              {/* Drag Handle for Mobile */}
+              <div className="w-12 h-1.5 bg-white/20 rounded-full mx-auto mb-6 sm:hidden shrink-0"></div>
+              
               <button 
                 onClick={() => setShowDashboard(false)}
-                className="absolute top-4 right-4 text-white/50 hover:text-white transition-colors"
+                className="absolute top-4 right-4 sm:top-6 sm:right-6 text-white/50 hover:text-white transition-colors p-3 -m-1"
+                style={{ touchAction: 'manipulation' }}
               >
                 <X size={20} />
               </button>
-              <div className="flex items-center gap-3 mb-6">
+              <div className="flex items-center gap-3 mb-6 shrink-0">
                 <Activity className="text-brand-orange" size={28} />
                 <h3 className="text-2xl font-serif text-brand-light">Performance Dashboard</h3>
               </div>
               
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4 overflow-y-auto pr-2 pb-4 hide-scrollbar overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center">
                   <div className="text-4xl font-serif text-brand-orange mb-2">{trackingStats.menuClicks}</div>
                   <div className="text-sm text-brand-light/70 uppercase tracking-wider text-center">Speisekarte<br/>geöffnet</div>
