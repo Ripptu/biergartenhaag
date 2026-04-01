@@ -9,9 +9,7 @@ import xss from "xss-clean";
 import cors from "cors";
 
 // Simple in-memory state
-let manualOverride: boolean | null = null;
 let lastAutoCloseDate = "";
-let occupancy = 30;
 
 const DATA_FILE = path.join(process.cwd(), 'data.json');
 
@@ -42,13 +40,24 @@ if (!fs.existsSync(DATA_FILE)) {
       { id: 1, item: "Schlüsselbund mit rotem Anhänger", date: "Gestern Abend", location: "An der Schänke abgegeben" },
       { id: 2, item: "Kinder-Sonnenbrille (blau)", date: "Vor 2 Tagen", location: "Im Büro hinterlegt" },
       { id: 3, item: "Strickjacke (grau, Gr. M)", date: "Letztes Wochenende", location: "Im Büro hinterlegt" }
-    ]
+    ],
+    occupancy: 30,
+    showOccupancy: true,
+    manualOverride: null
   }, null, 2));
 }
 
 let data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
 
+// Initialize state from data file
+let manualOverride: boolean | null = data.manualOverride !== undefined ? data.manualOverride : null;
+let occupancy = data.occupancy !== undefined ? data.occupancy : 30;
+let showOccupancy = data.showOccupancy !== undefined ? data.showOccupancy : true;
+
 function saveData() {
+  data.manualOverride = manualOverride;
+  data.occupancy = occupancy;
+  data.showOccupancy = showOccupancy;
   fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
 }
 
@@ -65,6 +74,7 @@ setInterval(() => {
   if (currentHour === 0 && lastAutoCloseDate !== currentDate) {
     manualOverride = null;
     lastAutoCloseDate = currentDate;
+    saveData();
   }
 }, 60000);
 
@@ -94,11 +104,11 @@ async function startServer() {
   // API routes FIRST
   app.get("/api/status", (req, res) => {
     const isOpen = manualOverride !== null ? manualOverride : getAutoStatus();
-    res.json({ isOpen, isManual: manualOverride !== null, occupancy });
+    res.json({ isOpen, isManual: manualOverride !== null, occupancy, showOccupancy });
   });
 
   app.post("/api/status", (req, res) => {
-    const { password, status, newOccupancy } = req.body;
+    const { password, status, newOccupancy, newShowOccupancy } = req.body;
     // 15: Secure Password Check (using env var if possible, fallback to hardcoded for now)
     const ADMIN_PASS = process.env.ADMIN_PASSWORD || "vamela";
     if (password === ADMIN_PASS) {
@@ -108,7 +118,11 @@ async function startServer() {
       if (typeof newOccupancy === "number") {
         occupancy = newOccupancy;
       }
-      res.json({ success: true, isOpen: manualOverride !== null ? manualOverride : getAutoStatus(), occupancy });
+      if (typeof newShowOccupancy === "boolean") {
+        showOccupancy = newShowOccupancy;
+      }
+      saveData();
+      res.json({ success: true, isOpen: manualOverride !== null ? manualOverride : getAutoStatus(), occupancy, showOccupancy });
     } else {
       res.status(401).json({ error: "Unauthorized" });
     }

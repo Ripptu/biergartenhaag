@@ -113,6 +113,7 @@ function App() {
   
   // Occupancy State
   const [occupancy, setOccupancy] = useState<number>(30); // 0-100%
+  const [showOccupancy, setShowOccupancy] = useState<boolean>(true);
   
   // Found Items State
   const [foundItems, setFoundItems] = useState<any[]>([]);
@@ -267,6 +268,7 @@ END:VCALENDAR`;
           if (data) {
             if (typeof data.isOpen === 'boolean') setIsOpen(data.isOpen);
             if (typeof data.occupancy === 'number') setOccupancy(data.occupancy);
+            if (typeof data.showOccupancy === 'boolean') setShowOccupancy(data.showOccupancy);
           }
         })
         .catch(err => console.error("Status fetch error:", err));
@@ -438,6 +440,24 @@ END:VCALENDAR`;
       .catch(err => console.error("Occupancy update error:", err));
   };
 
+  const handleShowOccupancyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newShowOccupancy = e.target.checked;
+    setShowOccupancy(newShowOccupancy);
+    
+    fetch('/api/status', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: "vamela", newShowOccupancy })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setShowOccupancy(data.showOccupancy);
+        }
+      })
+      .catch(err => console.error("Show occupancy update error:", err));
+  };
+
   const handleAddFoundItem = (e: React.FormEvent) => {
     e.preventDefault();
     fetch('/api/found-items', {
@@ -530,7 +550,7 @@ END:VCALENDAR`;
             </div>
             
             {/* Occupancy Indicator */}
-            {isOpen && (
+            {isOpen && showOccupancy && (
               <div className={`flex items-center gap-2 backdrop-blur-md border rounded-full px-3 py-2 md:px-4 md:py-2 text-[10px] xs:text-xs md:text-sm font-bold shadow-xl transition-colors duration-500 ${isDarkMode ? 'bg-[#1a242b]/80 border-white/10 text-brand-light' : (currentView === 'home' ? 'bg-white/10 border-white/20 text-brand-light' : 'bg-black/5 border-black/10 text-brand-dark')}`}>
                 <div className={`flex-1 w-10 xs:w-12 md:w-24 h-1.5 rounded-full overflow-hidden ${currentView === 'home' || isDarkMode ? 'bg-white/20' : 'bg-black/10'}`}>
                   <div 
@@ -1456,6 +1476,18 @@ END:VCALENDAR`;
                   <div className="flex justify-between text-xs text-brand-light/40 mt-1">
                     <span>Leer</span>
                     <span>Voll</span>
+                  </div>
+                  <div className="mt-4 flex items-center justify-between">
+                    <label className="text-sm font-medium text-brand-light/80">Auslastung auf der Website anzeigen</label>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input 
+                        type="checkbox" 
+                        className="sr-only peer" 
+                        checked={showOccupancy}
+                        onChange={handleShowOccupancyChange}
+                      />
+                      <div className="w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-orange"></div>
+                    </label>
                   </div>
                 </div>
 
