@@ -417,9 +417,14 @@ END:VCALENDAR`;
         if (data.success) {
           setIsOpen(data.isOpen);
           setShowAdminModal(false);
+        } else {
+          alert("Fehler: " + (data.error || "Unbekannter Fehler"));
         }
       })
-      .catch(err => console.error("Status update error:", err));
+      .catch(err => {
+        console.error("Status update error:", err);
+        alert("Netzwerkfehler beim Ändern des Status.");
+      });
   };
 
   const handleOccupancyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -471,9 +476,14 @@ END:VCALENDAR`;
         if (data.success) {
           setFoundItems(prev => [...prev, data.item]);
           setNewFoundItem({ item: '', date: '', location: '' });
+        } else {
+          alert("Fehler: " + (data.error || "Unbekannter Fehler"));
         }
       })
-      .catch(err => console.error("Add item error:", err));
+      .catch(err => {
+        console.error("Add item error:", err);
+        alert("Netzwerkfehler beim Hinzufügen der Fundsache.");
+      });
   };
 
   const handleRemoveFoundItem = (id: number) => {
@@ -486,9 +496,14 @@ END:VCALENDAR`;
       .then(data => {
         if (data.success) {
           setFoundItems(prev => prev.filter(item => item.id !== id));
+        } else {
+          alert("Fehler: " + (data.error || "Unbekannter Fehler"));
         }
       })
-      .catch(err => console.error("Remove item error:", err));
+      .catch(err => {
+        console.error("Remove item error:", err);
+        alert("Netzwerkfehler beim Entfernen der Fundsache.");
+      });
   };
 
   const triggerPouringAnimation = (callback?: () => void) => {
@@ -1393,14 +1408,13 @@ END:VCALENDAR`;
                   autoFocus
                 />
                 {errorMsg && <p className="text-red-400 text-sm">{errorMsg}</p>}
-                <motion.button 
-                  whileTap={{ scale: 0.95 }}
+                <button 
                   type="submit"
-                  className="bg-brand-orange text-white rounded-xl px-4 py-3 font-medium hover:bg-brand-orange/90 transition-colors"
+                  className="bg-brand-orange text-white rounded-xl px-4 py-3 font-medium hover:bg-brand-orange/90 transition-all active:scale-95"
                   style={{ touchAction: 'manipulation' }}
                 >
                   Bestätigen
-                </motion.button>
+                </button>
               </form>
             </motion.div>
           </motion.div>
@@ -1442,24 +1456,22 @@ END:VCALENDAR`;
                 <div>
                   <label className="text-sm font-medium text-brand-light/80 block mb-2">Öffnungsstatus</label>
                   <div className="flex gap-4">
-                    <motion.button 
-                      whileTap={{ scale: 0.95 }}
+                    <button 
                       type="button"
                       onClick={() => handleStatusChange(true)}
-                      className={`flex-1 rounded-xl px-4 py-4 font-medium transition-colors border ${isOpen ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400' : 'bg-white/5 border-white/10 text-brand-light hover:bg-white/10'}`}
+                      className={`flex-1 rounded-xl px-4 py-4 font-medium transition-all active:scale-95 border ${isOpen ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400' : 'bg-white/5 border-white/10 text-brand-light hover:bg-white/10'}`}
                       style={{ touchAction: 'manipulation' }}
                     >
                       Geöffnet
-                    </motion.button>
-                    <motion.button 
-                      whileTap={{ scale: 0.95 }}
+                    </button>
+                    <button 
                       type="button"
                       onClick={() => handleStatusChange(false)}
-                      className={`flex-1 rounded-xl px-4 py-4 font-medium transition-colors border ${!isOpen ? 'bg-red-500/20 border-red-500/50 text-red-400' : 'bg-white/5 border-white/10 text-brand-light hover:bg-white/10'}`}
+                      className={`flex-1 rounded-xl px-4 py-4 font-medium transition-all active:scale-95 border ${!isOpen ? 'bg-red-500/20 border-red-500/50 text-red-400' : 'bg-white/5 border-white/10 text-brand-light hover:bg-white/10'}`}
                       style={{ touchAction: 'manipulation' }}
                     >
                       Geschlossen
-                    </motion.button>
+                    </button>
                   </div>
                 </div>
                 
@@ -1522,23 +1534,13 @@ END:VCALENDAR`;
                       className="bg-black/20 border border-white/10 rounded-lg px-3 py-3 text-base sm:text-sm text-brand-light focus:outline-none focus:border-brand-orange"
                       required
                     />
-                    <motion.button 
-                      whileTap={{ scale: 0.95 }}
+                    <button 
                       type="submit" 
-                      onClick={(e) => {
-                        // On mobile, sometimes form onSubmit doesn't fire if keyboard closes.
-                        // We can call it directly here as a fallback if the form is valid.
-                        const form = e.currentTarget.closest('form');
-                        if (form && form.checkValidity()) {
-                          e.preventDefault();
-                          handleAddFoundItem(e as any);
-                        }
-                      }}
-                      className="bg-brand-orange text-white rounded-xl px-4 py-4 text-sm font-medium hover:bg-brand-orange/90 transition-colors mt-2"
+                      className="bg-brand-orange text-white rounded-xl px-4 py-4 text-sm font-medium hover:bg-brand-orange/90 transition-all active:scale-95 mt-2"
                       style={{ touchAction: 'manipulation' }}
                     >
                       Hinzufügen
-                    </motion.button>
+                    </button>
                   </form>
 
                   <div className="flex flex-col gap-2">
@@ -1548,16 +1550,15 @@ END:VCALENDAR`;
                           <span className="text-sm font-medium text-brand-light">{item.item}</span>
                           <span className="text-xs text-brand-light/50">{item.date}</span>
                         </div>
-                        <motion.button 
-                          whileTap={{ scale: 0.9 }}
+                        <button 
                           type="button"
                           onClick={() => handleRemoveFoundItem(item.id)}
-                          className="text-red-400 hover:text-red-300 p-3 bg-red-500/10 rounded-xl transition-colors"
+                          className="text-red-400 hover:text-red-300 p-3 bg-red-500/10 rounded-xl transition-all active:scale-90"
                           title="Als abgeholt markieren"
                           style={{ touchAction: 'manipulation' }}
                         >
                           <X size={16} />
-                        </motion.button>
+                        </button>
                       </div>
                     ))}
                     {foundItems.length === 0 && (
