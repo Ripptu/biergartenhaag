@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
-import { MapPin, Clock, Phone, ArrowRight, ArrowLeft, X, Heart, Activity, Dog, Droplets, TreePine, Search, Info, Instagram, Facebook, CalendarPlus } from 'lucide-react';
+import { MapPin, Clock, Phone, ArrowRight, ArrowLeft, X, Heart, Activity, Dog, Droplets, TreePine, Search, Info, Instagram, Facebook, CalendarPlus, Utensils } from 'lucide-react';
 import { Impressum, AGB, Datenschutz } from './components/LegalPages';
 import { FamiliePage } from './components/FamiliePage';
 
@@ -141,6 +141,7 @@ function App() {
 
   // Menu State
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isBottomNavExpanded, setIsBottomNavExpanded] = useState(true);
   const [isDigitalMenuOpen, setIsDigitalMenuOpen] = useState(false);
   const [activeMenuCategory, setActiveMenuCategory] = useState('Bier');
 
@@ -595,7 +596,7 @@ END:VCALENDAR`;
         {currentView === 'home' ? (
           <>
             {/* SECTION A: Hero Area */}
-        <section className="relative min-h-[100svh] md:min-h-[85vh] flex flex-col justify-end px-4 sm:px-6 md:px-12 lg:px-20 pt-32 md:pt-64 pb-12 md:pb-20 z-20 overflow-hidden">
+        <section className="relative min-h-[100svh] md:min-h-[85vh] flex flex-col justify-end px-5 sm:px-6 md:px-12 lg:px-20 pt-32 md:pt-64 pb-16 md:pb-20 z-20 overflow-hidden">
           
           {/* Hero Background Image */}
           <div className={`absolute inset-0 z-0 transition-colors duration-1000 ${isDarkMode ? 'bg-[#12181c]' : 'bg-brand-light'}`}>
@@ -614,30 +615,30 @@ END:VCALENDAR`;
             <div className={`absolute inset-0 bg-gradient-to-b transition-colors duration-1000 ${isDarkMode ? 'from-black/60 via-[#12181c]/40 via-70% to-[#12181c]' : 'from-black/40 via-brand-light/40 via-70% to-brand-light'}`}></div>
           </div>
 
-          <div className="flex flex-col gap-8 w-full relative z-10 mt-auto">
+          <div className="flex flex-col gap-6 md:gap-8 w-full relative z-10 mt-auto">
             
             {/* Heading */}
-            <div className="flex flex-col gap-4 items-start lg:items-end text-left lg:text-right">
-              <h2 className="font-serif text-[14vw] xs:text-[12vw] sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[0.85] tracking-tight uppercase text-white drop-shadow-2xl">
-                Wo jede<br />Mass eine<br />Geschichte<br />erzählt.
+            <div className="flex flex-col gap-3 md:gap-4 items-start lg:items-end text-left lg:text-right">
+              <h2 className="font-serif text-[10.5vw] xs:text-[9.5vw] sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[0.95] tracking-tight uppercase text-white drop-shadow-2xl">
+                Wo jede Mass<br />eine Geschichte<br />erzählt.
               </h2>
             </div>
 
             {/* Subtext & Buttons */}
-            <div className="flex flex-col gap-6 md:gap-8 max-w-2xl">
-              <p className={`text-base sm:text-lg md:text-xl leading-relaxed font-medium transition-colors duration-1000 drop-shadow-md ${isDarkMode ? 'text-white/90' : 'text-white/95'}`}>
-                Bayerische Gemütlichkeit seit 1926. Erlebe einen der schönsten Biergärten der Region, idyllisch gelegen unter alten Kastanien im Herzen von Haag an der Amper.
+            <div className="flex flex-col gap-5 md:gap-8 max-w-2xl">
+              <p className={`text-sm sm:text-base md:text-xl leading-relaxed font-medium transition-colors duration-1000 drop-shadow-md max-w-[85%] md:max-w-full ${isDarkMode ? 'text-white/80 md:text-white/90' : 'text-white/90 md:text-white/95'}`}>
+                Bayerische Gemütlichkeit seit 1926. <span className="hidden md:inline">Erlebe einen der schönsten Biergärten der Region, idyllisch gelegen unter alten Kastanien im Herzen von Haag an der Amper.</span>
               </p>
               
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mt-4">
+              <div className="flex flex-row items-center gap-3 md:gap-4 mt-2 md:mt-4">
                 <motion.button 
                   whileTap={{ scale: 0.96 }}
                   onClick={() => { triggerPouringAnimation(() => setIsDigitalMenuOpen(true)); trackEvent('menuClicks'); }}
-                  className="group relative w-full sm:w-auto text-center bg-brand-orange text-white rounded-full px-10 py-5 md:py-4 font-bold text-lg shadow-[0_0_40px_rgba(242,125,38,0.4)] hover:shadow-[0_0_60px_rgba(242,125,38,0.6)] active:bg-brand-orange/80 transition-all duration-300 overflow-hidden"
+                  className="group relative flex-1 sm:flex-none text-center bg-brand-orange text-white rounded-full px-4 py-3.5 md:px-10 md:py-4 font-bold text-sm md:text-lg shadow-[0_0_30px_rgba(242,125,38,0.3)] hover:shadow-[0_0_60px_rgba(242,125,38,0.6)] active:bg-brand-orange/80 transition-all duration-300 overflow-hidden"
                 >
-                  <span className="relative z-10 flex items-center justify-center gap-2">
-                    Speisekarte ansehen
-                    <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                  <span className="relative z-10 flex items-center justify-center gap-1.5 md:gap-2">
+                    Speisekarte
+                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform md:w-5 md:h-5" />
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[150%] group-hover:animate-[shimmer_1.5s_infinite]"></div>
                 </motion.button>
@@ -645,10 +646,10 @@ END:VCALENDAR`;
                   whileTap={{ scale: 0.96 }}
                   href="#kontakt" 
                   onClick={() => trackEvent('routeClicks')}
-                  className="w-full sm:w-auto text-center border-2 border-white/40 backdrop-blur-sm text-white rounded-full px-8 py-5 md:py-4 font-bold text-lg hover:bg-white/10 active:bg-white/20 transition-colors flex items-center justify-center gap-2"
+                  className="flex-1 sm:flex-none text-center border border-white/30 md:border-2 md:border-white/40 backdrop-blur-sm text-white rounded-full px-4 py-3.5 md:px-8 md:py-4 font-semibold md:font-bold text-sm md:text-lg hover:bg-white/10 active:bg-white/20 transition-colors flex items-center justify-center gap-1.5 md:gap-2"
                 >
-                  <MapPin size={20} />
-                  Lage & Anfahrt
+                  <MapPin size={16} className="md:w-5 md:h-5" />
+                  Anfahrt
                 </motion.a>
               </div>
             </div>
@@ -658,7 +659,7 @@ END:VCALENDAR`;
         </section>
 
         {/* Partner Logo Strip */}
-        <div className={`py-10 px-4 md:px-16 flex flex-wrap justify-center md:justify-between items-center gap-x-8 gap-y-6 transition-colors duration-1000 ${isDarkMode ? 'bg-[#12181c] text-brand-light/30' : 'bg-brand-light text-brand-dark/30'}`}>
+        <div className={`hidden md:flex py-10 px-4 md:px-16 flex-wrap justify-center md:justify-between items-center gap-x-8 gap-y-6 transition-colors duration-1000 ${isDarkMode ? 'bg-[#12181c] text-brand-light/30' : 'bg-brand-light text-brand-dark/30'}`}>
           <div className="font-serif text-lg xs:text-xl tracking-tight transition-colors">Hofbräuhaus Freising</div>
           <div className="font-serif text-lg xs:text-xl tracking-tight transition-colors">Backhaus Weiß</div>
           <div className="font-serif text-lg xs:text-xl tracking-tight transition-colors">Ortsmetzgerei Haag</div>
@@ -1680,36 +1681,73 @@ END:VCALENDAR`;
       </AnimatePresence>
 
       {/* Mobile Sticky Action Bar */}
-      <div className="md:hidden fixed bottom-0 left-0 w-full z-40 bg-[#0a0f12]/95 backdrop-blur-xl border-t border-white/10 pb-6 pt-3 px-4 flex justify-around items-center shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
-        <button 
-          onClick={() => { triggerPouringAnimation(() => setIsDigitalMenuOpen(true)); trackEvent('menuClicks'); }}
-          className="flex flex-col items-center gap-1.5 text-brand-orange"
-        >
-          <div className="bg-brand-orange/20 p-2 rounded-full">
-            <Info size={22} />
-          </div>
-          <span className="text-[10px] font-bold uppercase tracking-widest">Karte</span>
-        </button>
-        <a 
-          href="#kontakt"
-          onClick={() => trackEvent('routeClicks')}
-          className="flex flex-col items-center gap-1.5 text-brand-light/70 hover:text-brand-light transition-colors"
-        >
-          <div className="p-2">
-            <MapPin size={22} />
-          </div>
-          <span className="text-[10px] font-bold uppercase tracking-widest">Route</span>
-        </a>
-        <a 
-          href="tel:+498167958800"
-          className="flex flex-col items-center gap-1.5 text-brand-light/70 hover:text-brand-light transition-colors"
-        >
-          <div className="p-2">
-            <Phone size={22} />
-          </div>
-          <span className="text-[10px] font-bold uppercase tracking-widest">Anrufen</span>
-        </a>
-      </div>
+      <AnimatePresence>
+        {isBottomNavExpanded ? (
+          <motion.div 
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="md:hidden fixed bottom-0 left-0 w-full z-40 bg-[#0a0f12]/95 backdrop-blur-xl border-t border-white/10 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-3 px-4 flex justify-around items-center shadow-[0_-10px_40px_rgba(0,0,0,0.5)]"
+          >
+            {/* Collapse Handle */}
+            <div 
+              className="absolute -top-6 left-0 w-full h-6 flex justify-center items-end pb-2 cursor-pointer"
+              onClick={() => setIsBottomNavExpanded(false)}
+            >
+              <div className="w-12 h-1.5 bg-white/20 rounded-full"></div>
+            </div>
+
+            <button 
+              onClick={() => { triggerPouringAnimation(() => setIsDigitalMenuOpen(true)); trackEvent('menuClicks'); }}
+              className="flex flex-col items-center gap-1.5 text-brand-orange"
+              style={{ touchAction: 'manipulation' }}
+            >
+              <div className="bg-brand-orange/20 p-2 rounded-full">
+                <Utensils size={22} />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-widest">Speisen</span>
+            </button>
+            <a 
+              href="#kontakt"
+              onClick={() => trackEvent('routeClicks')}
+              className="flex flex-col items-center gap-1.5 text-brand-light/70 hover:text-brand-light transition-colors"
+              style={{ touchAction: 'manipulation' }}
+            >
+              <div className="p-2">
+                <MapPin size={22} />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-widest">Route</span>
+            </a>
+            <a 
+              href="tel:+498167958800"
+              className="flex flex-col items-center gap-1.5 text-brand-light/70 hover:text-brand-light transition-colors"
+              style={{ touchAction: 'manipulation' }}
+            >
+              <div className="p-2">
+                <Phone size={22} />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-widest">Anrufen</span>
+            </a>
+          </motion.div>
+        ) : (
+          <motion.div
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            className="md:hidden fixed bottom-0 left-0 w-full z-40 flex justify-center pb-[max(0.5rem,env(safe-area-inset-bottom))]"
+          >
+            <button
+              onClick={() => setIsBottomNavExpanded(true)}
+              className="bg-[#0a0f12]/90 backdrop-blur-md border border-white/10 text-white/70 hover:text-white rounded-t-2xl rounded-b-lg px-8 py-3 shadow-2xl flex flex-col items-center gap-1"
+              style={{ touchAction: 'manipulation' }}
+            >
+              <div className="w-8 h-1 bg-white/30 rounded-full mb-1"></div>
+              <span className="text-[10px] font-bold uppercase tracking-widest">Menü</span>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
