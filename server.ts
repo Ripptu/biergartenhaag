@@ -2,6 +2,7 @@ import express from "express";
 import { createServer as createViteServer } from "vite";
 import path from "path";
 import fs from "fs";
+import os from "os";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import hpp from "hpp";
@@ -11,7 +12,7 @@ import cors from "cors";
 // Simple in-memory state
 let lastAutoCloseDate = "";
 
-const DATA_FILE = path.join(process.cwd(), 'data.json');
+const DATA_FILE = path.join(os.tmpdir(), 'biergarten-data.json');
 
 // Helper to check if currently open based on hours
 const getAutoStatus = () => {

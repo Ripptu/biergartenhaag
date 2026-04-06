@@ -690,7 +690,7 @@ END:VCALENDAR`;
             transition={{ duration: 0.8 }}
             className="max-w-7xl mx-auto"
           >
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-6 md:gap-8">
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-12 md:mb-16 gap-6 md:gap-8">
               <h2 className="font-serif text-4xl sm:text-5xl md:text-7xl leading-none uppercase">
                 Unsere<br />Schmankerl<br />& Hütt'n
               </h2>
@@ -793,7 +793,7 @@ END:VCALENDAR`;
                   <img src="https://i0.wp.com/www.siltry.de/bild/haa9.jpg" alt="Lampion-Fest" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                   <div className="absolute inset-0 bg-gradient-to-r from-brand-dark to-transparent"></div>
                 </div>
-                <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+                <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
                   <div>
                     <span className="text-brand-orange font-bold tracking-widest uppercase text-sm mb-4 block">Zentrales Highlight</span>
                     <h3 className="font-serif text-5xl md:text-7xl mb-4">Das Lampion-Fest</h3>
@@ -840,12 +840,12 @@ END:VCALENDAR`;
               </div>
 
               {/* Event 2 */}
-              <div className={`group flex flex-col md:flex-row items-center justify-between gap-8 py-8 border-b cursor-pointer hover:px-4 transition-all duration-1000 ${isDarkMode ? 'border-white/10' : 'border-brand-dark/10'}`}>
+              <div className={`group flex flex-col lg:flex-row items-center justify-between gap-8 py-8 border-b cursor-pointer hover:px-4 transition-all duration-1000 ${isDarkMode ? 'border-white/10' : 'border-brand-dark/10'}`}>
                 <div className="flex-1">
                   <h3 className={`font-serif text-4xl mb-2 group-hover:text-brand-orange transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>Live-Musik: Austro-Pop</h3>
                   <p className={`transition-colors duration-1000 ${isDarkMode ? 'text-brand-light/60' : 'text-brand-dark/60'}`}>Mit der lokalen Stadtkapelle und Special Guests.</p>
                 </div>
-                <div className="text-right flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8">
+                <div className="text-right flex flex-col lg:flex-row items-start lg:items-center gap-4 lg:gap-8">
                   <div className="text-xl font-medium">Ab 18:00 Uhr</div>
                   <div className={`font-serif text-4xl transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>22. <span className="text-2xl uppercase tracking-widest">Mai</span></div>
                   <button 
@@ -862,12 +862,12 @@ END:VCALENDAR`;
               </div>
 
               {/* Event 3 */}
-              <div className={`group flex flex-col md:flex-row items-center justify-between gap-8 py-8 border-b cursor-pointer hover:px-4 transition-all duration-1000 ${isDarkMode ? 'border-white/10' : 'border-brand-dark/10'}`}>
+              <div className={`group flex flex-col lg:flex-row items-center justify-between gap-8 py-8 border-b cursor-pointer hover:px-4 transition-all duration-1000 ${isDarkMode ? 'border-white/10' : 'border-brand-dark/10'}`}>
                 <div className="flex-1">
                   <h3 className={`font-serif text-4xl mb-2 group-hover:text-brand-orange transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>Oldtimer-Motorradtreffen</h3>
                   <p className={`transition-colors duration-1000 ${isDarkMode ? 'text-brand-light/60' : 'text-brand-dark/60'}`}>Historische Maschinen, Benzingespräche und zünftige Brotzeit.</p>
                 </div>
-                <div className="text-right flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8">
+                <div className="text-right flex flex-col lg:flex-row items-start lg:items-center gap-4 lg:gap-8">
                   <div className="text-xl font-medium">Ganztägig</div>
                   <div className={`font-serif text-4xl transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>05. <span className="text-2xl uppercase tracking-widest">Jun</span></div>
                   <button 
@@ -937,7 +937,7 @@ END:VCALENDAR`;
             transition={{ duration: 0.8 }}
             className="max-w-7xl mx-auto"
           >
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-6 md:gap-8">
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-12 md:mb-16 gap-6 md:gap-8">
               <div>
                 <h2 className="font-serif text-4xl sm:text-5xl md:text-7xl leading-none uppercase">
                   Digitales<br />Fundbüro
@@ -1025,7 +1025,7 @@ END:VCALENDAR`;
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
-          className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 md:gap-16"
+          className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-16"
         >
           
           {/* Info */}
@@ -1689,7 +1689,7 @@ END:VCALENDAR`;
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="md:hidden fixed bottom-0 left-0 w-full z-40 bg-[#0a0f12]/95 backdrop-blur-xl border-t border-white/10 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-3 px-4 flex justify-around items-center shadow-[0_-10px_40px_rgba(0,0,0,0.5)]"
+            className="lg:hidden fixed bottom-0 left-0 w-full z-40 bg-[#0a0f12]/95 backdrop-blur-xl border-t border-white/10 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-3 px-4 flex justify-around items-center shadow-[0_-10px_40px_rgba(0,0,0,0.5)]"
           >
             {/* Collapse Handle */}
             <div 
@@ -1736,7 +1736,7 @@ END:VCALENDAR`;
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
-            className="md:hidden fixed bottom-0 left-0 w-full z-40 flex justify-center pb-[max(0.5rem,env(safe-area-inset-bottom))]"
+            className="lg:hidden fixed bottom-0 left-0 w-full z-40 flex justify-center pb-[max(0.5rem,env(safe-area-inset-bottom))]"
           >
             <button
               onClick={() => setIsBottomNavExpanded(true)}
