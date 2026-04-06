@@ -137,6 +137,7 @@ function App() {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showAdminModal, setShowAdminModal] = useState(false);
   const [passwordInput, setPasswordInput] = useState("");
+  const [adminPassword, setAdminPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
   // Menu State
@@ -370,8 +371,8 @@ END:VCALENDAR`;
 
   useEffect(() => {
     if (clickCount > 0) {
-      const timer = setTimeout(() => setClickCount(0), 1000);
-      if (clickCount === 3) {
+      const timer = setTimeout(() => setClickCount(0), 2000);
+      if (clickCount === 5) {
         setShowPasswordModal(true);
         setClickCount(0);
       }
@@ -381,7 +382,8 @@ END:VCALENDAR`;
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (passwordInput === "vamela") {
+    if (passwordInput === "vamela" || passwordInput === import.meta.env.VITE_ADMIN_PASSWORD) {
+      setAdminPassword(passwordInput);
       setShowPasswordModal(false);
       setShowAdminModal(true);
       setPasswordInput("");
@@ -410,7 +412,7 @@ END:VCALENDAR`;
     fetch('/api/status', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: "vamela", status: newStatus })
+      body: JSON.stringify({ password: adminPassword || "vamela", status: newStatus })
     })
       .then(res => res.json())
       .then(data => {
@@ -435,7 +437,7 @@ END:VCALENDAR`;
     fetch('/api/status', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: "vamela", newOccupancy })
+      body: JSON.stringify({ password: adminPassword || "vamela", newOccupancy })
     })
       .then(res => res.json())
       .then(data => {
@@ -453,7 +455,7 @@ END:VCALENDAR`;
     fetch('/api/status', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: "vamela", newShowOccupancy })
+      body: JSON.stringify({ password: adminPassword || "vamela", newShowOccupancy })
     })
       .then(res => res.json())
       .then(data => {
@@ -469,7 +471,7 @@ END:VCALENDAR`;
     fetch('/api/found-items', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: "vamela", ...newFoundItem })
+      body: JSON.stringify({ password: adminPassword || "vamela", ...newFoundItem })
     })
       .then(res => res.json())
       .then(data => {
@@ -490,7 +492,7 @@ END:VCALENDAR`;
     fetch(`/api/found-items/${id}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: "vamela" })
+      body: JSON.stringify({ password: adminPassword || "vamela" })
     })
       .then(res => res.json())
       .then(data => {
@@ -559,9 +561,9 @@ END:VCALENDAR`;
                 {getWeatherIcon(weatherCode)} {weather !== null ? `${weather}°C` : '--°C'}
               </span>
               <div className={`w-1 h-1 rounded-full ${currentView === 'home' || isDarkMode ? 'bg-white/50' : 'bg-black/30'}`}></div>
-              <span className={isOpen ? "text-emerald-400" : "text-red-400"}>
-                <span className="hidden xs:inline">{isOpen ? "Geöffnet" : "Geschlossen"}</span>
-                <span className="xs:hidden">{isOpen ? "Offen" : "Zu"}</span>
+              <span className={isOpen ? "text-emerald-400 font-medium" : "text-red-400 font-medium"}>
+                <span className="hidden xs:inline">{isOpen ? "Heute Geöffnet" : "Heute Witterungsbedingt Geschlossen"}</span>
+                <span className="xs:hidden">{isOpen ? "Geöffnet" : "Geschlossen"}</span>
               </span>
             </div>
             
@@ -1462,7 +1464,7 @@ END:VCALENDAR`;
                       className={`flex-1 rounded-xl px-4 py-4 font-medium transition-all active:scale-95 border ${isOpen ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400' : 'bg-white/5 border-white/10 text-brand-light hover:bg-white/10'}`}
                       style={{ touchAction: 'manipulation' }}
                     >
-                      Geöffnet
+                      🍺 Geöffnet
                     </button>
                     <button 
                       type="button"
@@ -1470,7 +1472,7 @@ END:VCALENDAR`;
                       className={`flex-1 rounded-xl px-4 py-4 font-medium transition-all active:scale-95 border ${!isOpen ? 'bg-red-500/20 border-red-500/50 text-red-400' : 'bg-white/5 border-white/10 text-brand-light hover:bg-white/10'}`}
                       style={{ touchAction: 'manipulation' }}
                     >
-                      Geschlossen
+                      🌧️ Geschlossen
                     </button>
                   </div>
                 </div>

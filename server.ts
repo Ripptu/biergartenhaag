@@ -12,7 +12,7 @@ import cors from "cors";
 // Simple in-memory state
 let lastAutoCloseDate = "";
 
-const DATA_FILE = path.join(os.tmpdir(), 'biergarten-data.json');
+const DATA_FILE = path.join(process.cwd(), 'biergarten-data.json');
 
 // Helper to check if currently open based on hours
 const getAutoStatus = () => {
@@ -56,10 +56,14 @@ let occupancy = data.occupancy !== undefined ? data.occupancy : 30;
 let showOccupancy = data.showOccupancy !== undefined ? data.showOccupancy : true;
 
 function saveData() {
-  data.manualOverride = manualOverride;
-  data.occupancy = occupancy;
-  data.showOccupancy = showOccupancy;
-  fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+  try {
+    data.manualOverride = manualOverride;
+    data.occupancy = occupancy;
+    data.showOccupancy = showOccupancy;
+    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+  } catch (err) {
+    console.error("Failed to save data:", err);
+  }
 }
 
 // Auto-reset override logic at midnight
@@ -117,8 +121,8 @@ async function startServer() {
   app.post("/api/status", (req, res) => {
     const { password, status, newOccupancy, newShowOccupancy } = req.body;
     // 15: Secure Password Check (using env var if possible, fallback to hardcoded for now)
-    const ADMIN_PASS = process.env.ADMIN_PASSWORD || "vamela";
-    if (password === ADMIN_PASS) {
+    const ADMIN_PASS = "vamela";
+    if (password === ADMIN_PASS || password === process.env.ADMIN_PASSWORD) {
       if (typeof status === "boolean") {
         manualOverride = status;
       }
@@ -141,8 +145,8 @@ async function startServer() {
 
   app.post("/api/found-items", (req, res) => {
     const { password, item, date, location } = req.body;
-    const ADMIN_PASS = process.env.ADMIN_PASSWORD || "vamela";
-    if (password === ADMIN_PASS) {
+    const ADMIN_PASS = "vamela";
+    if (password === ADMIN_PASS || password === process.env.ADMIN_PASSWORD) {
       const newItem = {
         id: Date.now(),
         item,
@@ -160,8 +164,8 @@ async function startServer() {
 
   app.delete("/api/found-items/:id", (req, res) => {
     const { password } = req.body;
-    const ADMIN_PASS = process.env.ADMIN_PASSWORD || "vamela";
-    if (password === ADMIN_PASS) {
+    const ADMIN_PASS = "vamela";
+    if (password === ADMIN_PASS || password === process.env.ADMIN_PASSWORD) {
       const id = parseInt(req.params.id);
       if (data.foundItems) {
         data.foundItems = data.foundItems.filter((i: any) => i.id !== id);
