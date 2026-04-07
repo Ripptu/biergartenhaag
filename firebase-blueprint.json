@@ -1,0 +1,37 @@
+{
+  "entities": {
+    "Status": {
+      "title": "Status",
+      "description": "Biergarten status and occupancy",
+      "type": "object",
+      "properties": {
+        "isOpen": { "type": "boolean" },
+        "occupancy": { "type": "number" },
+        "showOccupancy": { "type": "boolean" }
+      },
+      "required": ["isOpen", "occupancy", "showOccupancy"]
+    },
+    "FoundItem": {
+      "title": "FoundItem",
+      "description": "A lost and found item",
+      "type": "object",
+      "properties": {
+        "item": { "type": "string" },
+        "date": { "type": "string" },
+        "location": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["item", "date", "location", "createdAt"]
+    }
+  },
+  "firestore": {
+    "settings/status": {
+      "schema": { "$ref": "#/entities/Status" },
+      "description": "Global status settings"
+    },
+    "foundItems/{itemId}": {
+      "schema": { "$ref": "#/entities/FoundItem" },
+      "description": "Lost and found items"
+    }
+  }
+}

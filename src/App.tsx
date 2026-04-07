@@ -3,6 +3,9 @@ import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
 import { MapPin, Clock, Phone, ArrowRight, ArrowLeft, X, Heart, Activity, Dog, Droplets, TreePine, Search, Info, Instagram, Facebook, CalendarPlus, Utensils } from 'lucide-react';
 import { Impressum, AGB, Datenschutz } from './components/LegalPages';
 import { FamiliePage } from './components/FamiliePage';
+import { db, auth } from './firebase';
+import { doc, onSnapshot, setDoc, collection, addDoc, deleteDoc } from 'firebase/firestore';
+import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
 
 /**
  * SECURITY COMPLIANCE LIST (39 MEASURES)
@@ -136,9 +139,19 @@ function App() {
   const [clickCount, setClickCount] = useState(0);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showAdminModal, setShowAdminModal] = useState(false);
-  const [passwordInput, setPasswordInput] = useState("");
-  const [adminPassword, setAdminPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (user && user.email === "ripptoprivat@gmail.com") {
+        setIsAdmin(true);
+      } else {
+        setIsAdmin(false);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   // Menu State
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -263,23 +276,19 @@ END:VCALENDAR`;
 
   useEffect(() => {
     // Fetch status from server every minute
-    const fetchStatus = () => {
-      fetch('/api/status')
-        .then(res => res.json())
-        .then(data => {
-          if (data) {
-            if (typeof data.isOpen === 'boolean') setIsOpen(data.isOpen);
-            if (typeof data.occupancy === 'number') setOccupancy(data.occupancy);
-            if (typeof data.showOccupancy === 'boolean') setShowOccupancy(data.showOccupancy);
-          }
-        })
-        .catch(err => console.error("Status fetch error:", err));
-    };
+    const statusRef = doc(db, 'settings', 'status');
+    const unsubscribeStatus = onSnapshot(statusRef, (doc) => {
+      if (doc.exists()) {
+        const data = doc.data();
+        if (typeof data.isOpen === 'boolean') setIsOpen(data.isOpen);
+        if (typeof data.occupancy === 'number') setOccupancy(data.occupancy);
+        if (typeof data.showOccupancy === 'boolean') setShowOccupancy(data.showOccupancy);
+      }
+    }, (error) => {
+      console.error("Status fetch error:", error);
+    });
 
-    fetchStatus();
-    const interval = setInterval(fetchStatus, 60000);
-
-    return () => clearInterval(interval);
+    return () => unsubscribeStatus();
   }, []);
 
   // SEO Schema
@@ -357,10 +366,15 @@ END:VCALENDAR`;
       .catch(err => console.error("Weather fetch error:", err));
 
     // Fetch found items
-    fetch('/api/found-items')
-      .then(res => res.json())
-      .then(data => setFoundItems(data))
-      .catch(err => console.error("Found items fetch error:", err));
+    const foundItemsRef = collection(db, 'foundItems');
+    const unsubscribeFoundItems = onSnapshot(foundItemsRef, (snapshot) => {
+      const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setFoundItems(items);
+    }, (error) => {
+      console.error("Found items fetch error:", error);
+    });
+
+    return () => unsubscribeFoundItems();
   }, []);
 
   const handleLogoClick = () => {
@@ -380,16 +394,22 @@ END:VCALENDAR`;
     }
   }, [clickCount]);
 
-  const handlePasswordSubmit = (e: React.FormEvent) => {
+  const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (passwordInput === "vamela" || passwordInput === import.meta.env.VITE_ADMIN_PASSWORD) {
-      setAdminPassword(passwordInput);
-      setShowPasswordModal(false);
-      setShowAdminModal(true);
-      setPasswordInput("");
-      setErrorMsg("");
-    } else {
-      setErrorMsg("Falsches Passwort");
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      if (result.user.email === "ripptoprivat@gmail.com") {
+        setShowPasswordModal(false);
+        setShowAdminModal(true);
+        setErrorMsg("");
+      } else {
+        await signOut(auth);
+        setErrorMsg("Keine Berechtigung");
+      }
+    } catch (error) {
+      console.error("Login Error", error);
+      setErrorMsg("Fehler beim Login");
     }
   };
 
@@ -408,104 +428,56 @@ END:VCALENDAR`;
     }
   }, [footerClickCount]);
 
-  const handleStatusChange = (newStatus: boolean) => {
-    fetch('/api/status', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: adminPassword || "vamela", status: newStatus })
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setIsOpen(data.isOpen);
-          setShowAdminModal(false);
-        } else {
-          alert("Fehler: " + (data.error || "Unbekannter Fehler"));
-        }
-      })
-      .catch(err => {
-        console.error("Status update error:", err);
-        alert("Netzwerkfehler beim Ändern des Status.");
-      });
+  const handleStatusChange = async (newStatus: boolean) => {
+    try {
+      await setDoc(doc(db, 'settings', 'status'), { isOpen: newStatus }, { merge: true });
+    } catch (err) {
+      console.error("Status update error:", err);
+      alert("Fehler beim Ändern des Status.");
+    }
   };
 
-  const handleOccupancyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOccupancyChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const newOccupancy = Number(e.target.value);
     setOccupancy(newOccupancy);
-    
-    // Debounce or just send update
-    fetch('/api/status', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: adminPassword || "vamela", newOccupancy })
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setOccupancy(data.occupancy);
-        }
-      })
-      .catch(err => console.error("Occupancy update error:", err));
+    try {
+      await setDoc(doc(db, 'settings', 'status'), { occupancy: newOccupancy }, { merge: true });
+    } catch (err) {
+      console.error("Occupancy update error:", err);
+    }
   };
 
-  const handleShowOccupancyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleShowOccupancyChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const newShowOccupancy = e.target.checked;
     setShowOccupancy(newShowOccupancy);
-    
-    fetch('/api/status', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: adminPassword || "vamela", newShowOccupancy })
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setShowOccupancy(data.showOccupancy);
-        }
-      })
-      .catch(err => console.error("Show occupancy update error:", err));
+    try {
+      await setDoc(doc(db, 'settings', 'status'), { showOccupancy: newShowOccupancy }, { merge: true });
+    } catch (err) {
+      console.error("Show occupancy update error:", err);
+    }
   };
 
-  const handleAddFoundItem = (e: React.FormEvent) => {
+  const handleAddFoundItem = async (e: React.FormEvent) => {
     e.preventDefault();
-    fetch('/api/found-items', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: adminPassword || "vamela", ...newFoundItem })
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setFoundItems(prev => [...prev, data.item]);
-          setNewFoundItem({ item: '', date: '', location: '' });
-        } else {
-          alert("Fehler: " + (data.error || "Unbekannter Fehler"));
-        }
-      })
-      .catch(err => {
-        console.error("Add item error:", err);
-        alert("Netzwerkfehler beim Hinzufügen der Fundsache.");
+    try {
+      await addDoc(collection(db, 'foundItems'), {
+        ...newFoundItem,
+        createdAt: new Date().toISOString()
       });
+      setNewFoundItem({ item: '', date: '', location: '' });
+    } catch (err) {
+      console.error("Add item error:", err);
+      alert("Fehler beim Hinzufügen der Fundsache.");
+    }
   };
 
-  const handleRemoveFoundItem = (id: number) => {
-    fetch(`/api/found-items/${id}`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: adminPassword || "vamela" })
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setFoundItems(prev => prev.filter(item => item.id !== id));
-        } else {
-          alert("Fehler: " + (data.error || "Unbekannter Fehler"));
-        }
-      })
-      .catch(err => {
-        console.error("Remove item error:", err);
-        alert("Netzwerkfehler beim Entfernen der Fundsache.");
-      });
+  const handleRemoveFoundItem = async (id: string) => {
+    try {
+      await deleteDoc(doc(db, 'foundItems', id));
+    } catch (err) {
+      console.error("Remove item error:", err);
+      alert("Fehler beim Entfernen der Fundsache.");
+    }
   };
 
   const triggerPouringAnimation = (callback?: () => void) => {
@@ -648,17 +620,6 @@ END:VCALENDAR`;
               </p>
               
               <div className="flex flex-row items-center gap-3 md:gap-4 mt-2 md:mt-4">
-                <motion.button 
-                  whileTap={{ scale: 0.96 }}
-                  onClick={() => { triggerPouringAnimation(() => setIsDigitalMenuOpen(true)); trackEvent('menuClicks'); }}
-                  className="group relative flex-1 sm:flex-none text-center bg-brand-orange text-white rounded-full px-4 py-3.5 md:px-10 md:py-4 font-bold text-sm md:text-lg shadow-[0_0_30px_rgba(242,125,38,0.3)] hover:shadow-[0_0_60px_rgba(242,125,38,0.6)] active:bg-brand-orange/80 transition-all duration-300 overflow-hidden"
-                >
-                  <span className="relative z-10 flex items-center justify-center gap-1.5 md:gap-2">
-                    Speisekarte
-                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform md:w-5 md:h-5" />
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[150%] group-hover:animate-[shimmer_1.5s_infinite]"></div>
-                </motion.button>
                 <motion.a 
                   whileTap={{ scale: 0.96 }}
                   href="#kontakt" 
@@ -705,32 +666,29 @@ END:VCALENDAR`;
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-8">
               {/* Item 1 */}
               <motion.div whileTap={{ scale: 0.98 }} className="group cursor-pointer">
-                <div className="aspect-[4/5] rounded-[32px] overflow-hidden mb-6 relative shadow-xl">
-                  <img src="https://s1.directupload.eu/images/260321/e8uqintp.webp" alt="Jaga Bier" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" referrerPolicy="no-referrer" />
-                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                <div className="aspect-[4/5] rounded-[32px] bg-gray-800 border border-gray-700 mb-6 p-8 flex flex-col justify-center items-center shadow-xl transition-all duration-500 hover:bg-gray-700">
+                  <h3 className="font-serif text-3xl text-center text-white mb-4">Hütte 1:<br/>Platzhalter</h3>
+                  <div className="w-12 h-1 bg-brand-orange/50 rounded-full mb-6"></div>
+                  <p className="text-gray-400 text-center text-sm">Hier entsteht bald eine neue Hütte. Weitere Informationen folgen in Kürze.</p>
                 </div>
-                <h3 className="font-serif text-2xl mb-2">Das naturtrübe Jaga Bier</h3>
-                <p className={isDarkMode ? 'text-brand-light/60' : 'text-brand-dark/60'}>Süffig, ehrlich und direkt aus dem Fass. Unser ganzer Stolz.</p>
               </motion.div>
 
               {/* Item 2 */}
               <motion.div whileTap={{ scale: 0.98 }} className="group cursor-pointer mt-0 md:mt-12">
-                <div className="aspect-[4/5] rounded-[32px] overflow-hidden mb-6 relative shadow-xl">
-                  <img src="https://www.radioarabella.de/storage/thumbs/1275x/323622.webp" alt="Steckerlfisch" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" referrerPolicy="no-referrer" />
-                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                <div className="aspect-[4/5] rounded-[32px] bg-gray-800 border border-gray-700 mb-6 p-8 flex flex-col justify-center items-center shadow-xl transition-all duration-500 hover:bg-gray-700">
+                  <h3 className="font-serif text-3xl text-center text-white mb-4">Hütte 2:<br/>Platzhalter</h3>
+                  <div className="w-12 h-1 bg-brand-orange/50 rounded-full mb-6"></div>
+                  <p className="text-gray-400 text-center text-sm">Hier entsteht bald eine neue Hütte. Weitere Informationen folgen in Kürze.</p>
                 </div>
-                <h3 className="font-serif text-2xl mb-2">Steckerlfisch-Braterei</h3>
-                <p className={isDarkMode ? 'text-brand-light/60' : 'text-brand-dark/60'}>Frisch über dem offenen Feuer gegrillt. Ein bayerischer Klassiker.</p>
               </motion.div>
 
               {/* Item 3 */}
               <motion.div whileTap={{ scale: 0.98 }} className="group cursor-pointer mt-0 lg:mt-24">
-                <div className="aspect-[4/5] rounded-[32px] overflow-hidden mb-6 relative shadow-xl">
-                  <img src="https://static.express.de/__images/2022/07/02/6d4d3850-bc96-46c5-80c0-ba1a13d3adc2.jpeg?w=4000&h=2667&fm=jpg&s=942917e7817d1db3a6b03e363a3d33a9" alt="Würstl-Grill" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" referrerPolicy="no-referrer" />
-                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                <div className="aspect-[4/5] rounded-[32px] bg-gray-800 border border-gray-700 mb-6 p-8 flex flex-col justify-center items-center shadow-xl transition-all duration-500 hover:bg-gray-700">
+                  <h3 className="font-serif text-3xl text-center text-white mb-4">Hütte 3:<br/>Platzhalter</h3>
+                  <div className="w-12 h-1 bg-brand-orange/50 rounded-full mb-6"></div>
+                  <p className="text-gray-400 text-center text-sm">Hier entsteht bald eine neue Hütte. Weitere Informationen folgen in Kürze.</p>
                 </div>
-                <h3 className="font-serif text-2xl mb-2">Würstl-Grill & Backstube</h3>
-                <p className={isDarkMode ? 'text-brand-light/60' : 'text-brand-dark/60'}>Regionale Spezialitäten, knusprige Brezn und süße Versuchungen.</p>
               </motion.div>
             </div>
           </motion.div>
@@ -1132,7 +1090,6 @@ END:VCALENDAR`;
               <X size={32} strokeWidth={1.5} />
             </button>
             <nav className="flex flex-col items-center gap-4 md:gap-8 text-center px-4">
-              <button onClick={() => { setIsMenuOpen(false); setIsDigitalMenuOpen(true); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Speisekarte</button>
               <a href="#schmankerl" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Schmankerl</a>
               <button onClick={() => { setIsMenuOpen(false); setCurrentView('familie'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Familien</button>
               <a href="#events" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Events</a>
@@ -1162,212 +1119,7 @@ END:VCALENDAR`;
         )}
       </AnimatePresence>
 
-      {/* Digital Menu Modal */}
-      <AnimatePresence>
-        {isDigitalMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-[120] bg-brand-light flex flex-col overflow-hidden pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]"
-          >
-            {/* Header */}
-            <div className="flex items-center justify-between p-6 md:p-8 border-b border-brand-dark/10 bg-brand-light sticky top-0 z-10">
-              <h2 className="font-serif text-3xl md:text-4xl text-brand-dark uppercase">Speisekarte</h2>
-              <button 
-                onClick={() => setIsDigitalMenuOpen(false)}
-                className="text-brand-dark hover:text-brand-orange transition-colors bg-brand-dark/5 p-2 rounded-full"
-              >
-                <X size={28} />
-              </button>
-            </div>
 
-            {/* Categories */}
-            <div className="flex overflow-x-auto hide-scrollbar gap-4 p-6 md:px-8 border-b border-brand-dark/5 bg-brand-light sticky top-[80px] md:top-[96px] z-10" style={{ WebkitOverflowScrolling: 'touch' }}>
-              {['Bier', 'Brotzeit', 'Warmes'].map(category => (
-                <button
-                  key={category}
-                  onClick={() => setActiveMenuCategory(category)}
-                  className={`px-6 py-2 rounded-full font-medium whitespace-nowrap transition-colors ${
-                    activeMenuCategory === category 
-                      ? 'bg-brand-dark text-brand-light' 
-                      : 'bg-brand-dark/5 text-brand-dark hover:bg-brand-dark/10'
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-
-            {/* Menu Items */}
-            <div className="flex-1 overflow-y-auto p-6 md:p-8 bg-brand-light" style={{ WebkitOverflowScrolling: 'touch' }}>
-              <div className="max-w-4xl mx-auto">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeMenuCategory}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
-                    className="flex flex-col gap-6"
-                  >
-                    {activeMenuCategory === 'Bier' && (
-                      <>
-                        <div className="flex items-center gap-4 p-4 rounded-2xl bg-white shadow-sm border border-brand-dark/5">
-                          <img src="https://s1.directupload.eu/images/260321/e8uqintp.webp" alt="Jaga Bier" className="w-20 h-20 object-cover rounded-xl" />
-                          <div className="flex-1">
-                            <div className="flex justify-between items-start">
-                              <h3 className="font-serif text-xl text-brand-dark">Jaga Bier (Naturtrüb)</h3>
-                              <div className="flex items-center gap-3">
-                                <span className="font-medium text-brand-orange">€ 9,50</span>
-                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('jaga')} className="text-brand-orange p-2 -m-2" style={{ touchAction: 'manipulation' }}>
-                                  <Heart size={20} fill={likedItems.has('jaga') ? "currentColor" : "none"} />
-                                </motion.button>
-                              </div>
-                            </div>
-                            <p className="text-brand-dark/60 text-sm mt-1">1,0l Mass - Süffig, ehrlich und direkt aus dem Fass.</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-4 p-4 rounded-2xl bg-white shadow-sm border border-brand-dark/5">
-                          <div className="w-20 h-20 bg-brand-dark/5 rounded-xl flex items-center justify-center text-brand-dark/20 font-serif text-2xl">🍺</div>
-                          <div className="flex-1">
-                            <div className="flex justify-between items-start">
-                              <h3 className="font-serif text-xl text-brand-dark">Helles</h3>
-                              <div className="flex items-center gap-3">
-                                <span className="font-medium text-brand-orange">€ 9,20</span>
-                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('helles')} className="text-brand-orange p-2 -m-2" style={{ touchAction: 'manipulation' }}>
-                                  <Heart size={20} fill={likedItems.has('helles') ? "currentColor" : "none"} />
-                                </motion.button>
-                              </div>
-                            </div>
-                            <p className="text-brand-dark/60 text-sm mt-1">1,0l Mass - Der bayerische Klassiker vom Hofbräuhaus Freising.</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-4 p-4 rounded-2xl bg-white shadow-sm border border-brand-dark/5">
-                          <div className="w-20 h-20 bg-brand-dark/5 rounded-xl flex items-center justify-center text-brand-dark/20 font-serif text-2xl">🍺</div>
-                          <div className="flex-1">
-                            <div className="flex justify-between items-start">
-                              <h3 className="font-serif text-xl text-brand-dark">Radler</h3>
-                              <div className="flex items-center gap-3">
-                                <span className="font-medium text-brand-orange">€ 9,20</span>
-                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('radler')} className="text-brand-orange p-2 -m-2" style={{ touchAction: 'manipulation' }}>
-                                  <Heart size={20} fill={likedItems.has('radler') ? "currentColor" : "none"} />
-                                </motion.button>
-                              </div>
-                            </div>
-                            <p className="text-brand-dark/60 text-sm mt-1">1,0l Mass - Erfrischend gemischt mit Zitronenlimonade.</p>
-                          </div>
-                        </div>
-                      </>
-                    )}
-
-                    {activeMenuCategory === 'Brotzeit' && (
-                      <>
-                        <div className="flex items-center gap-4 p-4 rounded-2xl bg-white shadow-sm border border-brand-dark/5">
-                          <div className="w-20 h-20 bg-brand-dark/5 rounded-xl flex items-center justify-center text-brand-dark/20 font-serif text-2xl">🥨</div>
-                          <div className="flex-1">
-                            <div className="flex justify-between items-start">
-                              <h3 className="font-serif text-xl text-brand-dark">Riesenbrezn</h3>
-                              <div className="flex items-center gap-3">
-                                <span className="font-medium text-brand-orange">€ 4,50</span>
-                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('brezn')} className="text-brand-orange p-2 -m-2" style={{ touchAction: 'manipulation' }}>
-                                  <Heart size={20} fill={likedItems.has('brezn') ? "currentColor" : "none"} />
-                                </motion.button>
-                              </div>
-                            </div>
-                            <p className="text-brand-dark/60 text-sm mt-1">Ofenfrisch vom Backhaus Weiß.</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-4 p-4 rounded-2xl bg-white shadow-sm border border-brand-dark/5">
-                          <div className="w-20 h-20 bg-brand-dark/5 rounded-xl flex items-center justify-center text-brand-dark/20 font-serif text-2xl">🧀</div>
-                          <div className="flex-1">
-                            <div className="flex justify-between items-start">
-                              <h3 className="font-serif text-xl text-brand-dark">Obatzda</h3>
-                              <div className="flex items-center gap-3">
-                                <span className="font-medium text-brand-orange">€ 7,80</span>
-                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('obatzda')} className="text-brand-orange p-2 -m-2" style={{ touchAction: 'manipulation' }}>
-                                  <Heart size={20} fill={likedItems.has('obatzda') ? "currentColor" : "none"} />
-                                </motion.button>
-                              </div>
-                            </div>
-                            <p className="text-brand-dark/60 text-sm mt-1">Hausgemacht, garniert mit roten Zwiebelringen und Schnittlauch.</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-4 p-4 rounded-2xl bg-white shadow-sm border border-brand-dark/5">
-                          <div className="w-20 h-20 bg-brand-dark/5 rounded-xl flex items-center justify-center text-brand-dark/20 font-serif text-2xl">🍖</div>
-                          <div className="flex-1">
-                            <div className="flex justify-between items-start">
-                              <h3 className="font-serif text-xl text-brand-dark">Bayerischer Wurstsalat</h3>
-                              <div className="flex items-center gap-3">
-                                <span className="font-medium text-brand-orange">€ 8,50</span>
-                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('wurstsalat')} className="text-brand-orange p-2 -m-2" style={{ touchAction: 'manipulation' }}>
-                                  <Heart size={20} fill={likedItems.has('wurstsalat') ? "currentColor" : "none"} />
-                                </motion.button>
-                              </div>
-                            </div>
-                            <p className="text-brand-dark/60 text-sm mt-1">Mit Essig, Öl und roten Zwiebeln, dazu ein Bauernbrot.</p>
-                          </div>
-                        </div>
-                      </>
-                    )}
-
-                    {activeMenuCategory === 'Warmes' && (
-                      <>
-                        <div className="flex items-center gap-4 p-4 rounded-2xl bg-white shadow-sm border border-brand-dark/5">
-                          <img src="https://www.radioarabella.de/storage/thumbs/1275x/323622.webp" alt="Steckerlfisch" className="w-20 h-20 object-cover rounded-xl" />
-                          <div className="flex-1">
-                            <div className="flex justify-between items-start">
-                              <h3 className="font-serif text-xl text-brand-dark">Steckerlfisch (Makrele)</h3>
-                              <div className="flex items-center gap-3">
-                                <span className="font-medium text-brand-orange">€ 18,50</span>
-                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('fisch')} className="text-brand-orange p-2 -m-2" style={{ touchAction: 'manipulation' }}>
-                                  <Heart size={20} fill={likedItems.has('fisch') ? "currentColor" : "none"} />
-                                </motion.button>
-                              </div>
-                            </div>
-                            <p className="text-brand-dark/60 text-sm mt-1">Frisch über dem offenen Feuer gegrillt, mit einer Brezn.</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-4 p-4 rounded-2xl bg-white shadow-sm border border-brand-dark/5">
-                          <img src="https://static.express.de/__images/2022/07/02/6d4d3850-bc96-46c5-80c0-ba1a13d3adc2.jpeg?w=4000&h=2667&fm=jpg&s=942917e7817d1db3a6b03e363a3d33a9" alt="Bratwurst" className="w-20 h-20 object-cover rounded-xl" />
-                          <div className="flex-1">
-                            <div className="flex justify-between items-start">
-                              <h3 className="font-serif text-xl text-brand-dark">1/2 Hendl</h3>
-                              <div className="flex items-center gap-3">
-                                <span className="font-medium text-brand-orange">€ 11,50</span>
-                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('hendl')} className="text-brand-orange p-2 -m-2" style={{ touchAction: 'manipulation' }}>
-                                  <Heart size={20} fill={likedItems.has('hendl') ? "currentColor" : "none"} />
-                                </motion.button>
-                              </div>
-                            </div>
-                            <p className="text-brand-dark/60 text-sm mt-1">Knusprig gebraten, mit Kartoffelsalat.</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-4 p-4 rounded-2xl bg-white shadow-sm border border-brand-dark/5">
-                          <div className="w-20 h-20 bg-brand-dark/5 rounded-xl flex items-center justify-center text-brand-dark/20 font-serif text-2xl">🌭</div>
-                          <div className="flex-1">
-                            <div className="flex justify-between items-start">
-                              <h3 className="font-serif text-xl text-brand-dark">Schweinswürstl</h3>
-                              <div className="flex items-center gap-3">
-                                <span className="font-medium text-brand-orange">€ 9,80</span>
-                                <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike('wuerstl')} className="text-brand-orange p-2 -m-2" style={{ touchAction: 'manipulation' }}>
-                                  <Heart size={20} fill={likedItems.has('wuerstl') ? "currentColor" : "none"} />
-                                </motion.button>
-                              </div>
-                            </div>
-                            <p className="text-brand-dark/60 text-sm mt-1">6 Stück auf Sauerkraut mit Senf.</p>
-                          </div>
-                        </div>
-                      </>
-                    )}
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Password Modal */}
       <AnimatePresence>
@@ -1401,21 +1153,14 @@ END:VCALENDAR`;
               </button>
               <h3 className="text-2xl font-serif text-brand-light mb-6 shrink-0">Admin Login</h3>
               <form onSubmit={handlePasswordSubmit} className="flex flex-col gap-4 overflow-y-auto pr-2 pb-4 hide-scrollbar overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
-                <input 
-                  type="password" 
-                  value={passwordInput}
-                  onChange={(e) => setPasswordInput(e.target.value)}
-                  placeholder="Passwort" 
-                  className="bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-base sm:text-sm text-brand-light focus:outline-none focus:border-brand-orange transition-colors"
-                  autoFocus
-                />
+                <p className="text-brand-light/70 text-sm">Bitte logge dich mit deinem Google-Account ein, um fortzufahren.</p>
                 {errorMsg && <p className="text-red-400 text-sm">{errorMsg}</p>}
                 <button 
                   type="submit"
                   className="bg-brand-orange text-white rounded-xl px-4 py-3 font-medium hover:bg-brand-orange/90 transition-all active:scale-95"
                   style={{ touchAction: 'manipulation' }}
                 >
-                  Bestätigen
+                  Mit Google einloggen
                 </button>
               </form>
             </motion.div>
@@ -1453,7 +1198,18 @@ END:VCALENDAR`;
               >
                 <X size={20} />
               </button>
-              <h3 className="text-2xl font-serif text-brand-light mb-6 shrink-0">Status & Auslastung</h3>
+              <div className="flex items-center justify-between mb-6 shrink-0">
+                <h3 className="text-2xl font-serif text-brand-light">Status & Auslastung</h3>
+                <button 
+                  onClick={async () => {
+                    await signOut(auth);
+                    setShowAdminModal(false);
+                  }}
+                  className="text-sm text-brand-light/50 hover:text-brand-light"
+                >
+                  Logout
+                </button>
+              </div>
               <div className="flex flex-col gap-6 overflow-y-auto pr-2 pb-4 hide-scrollbar overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
                 <div>
                   <label className="text-sm font-medium text-brand-light/80 block mb-2">Öffnungsstatus</label>
@@ -1611,7 +1367,7 @@ END:VCALENDAR`;
               <div className="grid grid-cols-2 gap-4 overflow-y-auto pr-2 pb-4 hide-scrollbar overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center">
                   <div className="text-4xl font-serif text-brand-orange mb-2">{trackingStats.menuClicks}</div>
-                  <div className="text-sm text-brand-light/70 uppercase tracking-wider text-center">Speisekarte<br/>geöffnet</div>
+                  <div className="text-sm text-brand-light/70 uppercase tracking-wider text-center">Menü<br/>geöffnet</div>
                 </div>
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center">
                   <div className="text-4xl font-serif text-brand-orange mb-2">{trackingStats.routeClicks}</div>

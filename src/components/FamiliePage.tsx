@@ -41,15 +41,7 @@ export const FamiliePage: React.FC<FamiliePageProps> = ({ isDarkMode, onBack }) 
               </p>
             </div>
 
-            <div className={`p-8 rounded-3xl border transition-colors duration-1000 ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-white border-brand-dark/10 shadow-lg shadow-brand-dark/5'}`}>
-              <IceCream className="text-brand-orange mb-6" size={40} />
-              <h3 className="font-serif text-3xl mb-4">Kinder-Speisekarte</h3>
-              <p className={`leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
-                Kleine Portionen für kleine Räuber! Von den klassischen Pommes über kleine Schnitzel bis hin 
-                zum Kaiserschmarrn – unsere Kindergerichte sind bei den Kleinsten besonders beliebt. 
-                Natürlich gibt es auch Eis als Nachtisch.
-              </p>
-            </div>
+
 
             <div className={`p-8 rounded-3xl border transition-colors duration-1000 ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-white border-brand-dark/10 shadow-lg shadow-brand-dark/5'}`}>
               <Trees className="text-brand-orange mb-6" size={40} />
