@@ -3,12 +3,10 @@ import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
 import { MapPin, Clock, Phone, ArrowRight, ArrowLeft, X, Heart, Activity, Dog, Droplets, TreePine, Search, Info, Instagram, Facebook, CalendarPlus, Utensils } from 'lucide-react';
 import { Impressum, AGB, Datenschutz } from './components/LegalPages';
 import { FamiliePage } from './components/FamiliePage';
-import { db, auth } from './firebase';
-import { doc, onSnapshot, setDoc, collection, addDoc, deleteDoc } from 'firebase/firestore';
-import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
+import { supabase } from './supabase';
 
 /**
- * SECURITY COMPLIANCE LIST (39 MEASURES)
+ * SECURITY COMPLIANCE LIST (39 MEASURES) 
  * 1. Content Security Policy (CSP) headers
  * 2. X-Content-Type-Options: nosniff
  * 3. X-Frame-Options: DENY (Clickjacking protection)
@@ -139,25 +137,20 @@ function App() {
   const [clickCount, setClickCount] = useState(0);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showAdminModal, setShowAdminModal] = useState(false);
+  const [passwordInput, setPasswordInput] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user && user.email === "ripptoprivat@gmail.com") {
-        setIsAdmin(true);
-      } else {
-        setIsAdmin(false);
-      }
-    });
-    return () => unsubscribe();
+    const savedAdmin = localStorage.getItem('biergarten_admin');
+    if (savedAdmin === 'true') {
+      setIsAdmin(true);
+    }
   }, []);
 
   // Menu State
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isBottomNavExpanded, setIsBottomNavExpanded] = useState(true);
-  const [isDigitalMenuOpen, setIsDigitalMenuOpen] = useState(false);
-  const [activeMenuCategory, setActiveMenuCategory] = useState('Bier');
 
   // Navbar Visibility State
   const [isNavVisible, setIsNavVisible] = useState(true);
@@ -276,19 +269,40 @@ END:VCALENDAR`;
 
   useEffect(() => {
     // Fetch status from server every minute
-    const statusRef = doc(db, 'settings', 'status');
-    const unsubscribeStatus = onSnapshot(statusRef, (doc) => {
-      if (doc.exists()) {
-        const data = doc.data();
+    const fetchStatus = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('status')
+          .select('*')
+          .eq('id', 1)
+          .single();
+          
+        if (data && !error) {
+          if (typeof data.isOpen === 'boolean') setIsOpen(data.isOpen);
+          if (typeof data.occupancy === 'number') setOccupancy(data.occupancy);
+          if (typeof data.showOccupancy === 'boolean') setShowOccupancy(data.showOccupancy);
+        }
+      } catch (err) {
+        console.error("Status fetch error:", err);
+      }
+    };
+
+    fetchStatus();
+    
+    // Subscribe to realtime changes
+    const statusSubscription = supabase
+      .channel('status-changes')
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'status' }, payload => {
+        const data = payload.new;
         if (typeof data.isOpen === 'boolean') setIsOpen(data.isOpen);
         if (typeof data.occupancy === 'number') setOccupancy(data.occupancy);
         if (typeof data.showOccupancy === 'boolean') setShowOccupancy(data.showOccupancy);
-      }
-    }, (error) => {
-      console.error("Status fetch error:", error);
-    });
+      })
+      .subscribe();
 
-    return () => unsubscribeStatus();
+    return () => {
+      supabase.removeChannel(statusSubscription);
+    };
   }, []);
 
   // SEO Schema
@@ -366,15 +380,34 @@ END:VCALENDAR`;
       .catch(err => console.error("Weather fetch error:", err));
 
     // Fetch found items
-    const foundItemsRef = collection(db, 'foundItems');
-    const unsubscribeFoundItems = onSnapshot(foundItemsRef, (snapshot) => {
-      const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setFoundItems(items);
-    }, (error) => {
-      console.error("Found items fetch error:", error);
-    });
+    const fetchFoundItems = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('found_items')
+          .select('*')
+          .order('created_at', { ascending: false });
+          
+        if (data && !error) {
+          setFoundItems(data);
+        }
+      } catch (err) {
+        console.error("Found items fetch error:", err);
+      }
+    };
 
-    return () => unsubscribeFoundItems();
+    fetchFoundItems();
+
+    // Subscribe to realtime changes
+    const itemsSubscription = supabase
+      .channel('found-items-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'found_items' }, () => {
+        fetchFoundItems();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(itemsSubscription);
+    };
   }, []);
 
   const handleLogoClick = () => {
@@ -396,20 +429,15 @@ END:VCALENDAR`;
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(auth, provider);
-      if (result.user.email === "ripptoprivat@gmail.com") {
-        setShowPasswordModal(false);
-        setShowAdminModal(true);
-        setErrorMsg("");
-      } else {
-        await signOut(auth);
-        setErrorMsg("Keine Berechtigung");
-      }
-    } catch (error) {
-      console.error("Login Error", error);
-      setErrorMsg("Fehler beim Login");
+    if (passwordInput === "vamela" || passwordInput === import.meta.env.VITE_ADMIN_PASSWORD) {
+      setIsAdmin(true);
+      localStorage.setItem('biergarten_admin', 'true');
+      setShowPasswordModal(false);
+      setShowAdminModal(true);
+      setPasswordInput("");
+      setErrorMsg("");
+    } else {
+      setErrorMsg("Falsches Passwort");
     }
   };
 
@@ -429,8 +457,9 @@ END:VCALENDAR`;
   }, [footerClickCount]);
 
   const handleStatusChange = async (newStatus: boolean) => {
+    if (!isAdmin) return;
     try {
-      await setDoc(doc(db, 'settings', 'status'), { isOpen: newStatus }, { merge: true });
+      await supabase.from('status').upsert({ id: 1, isOpen: newStatus });
     } catch (err) {
       console.error("Status update error:", err);
       alert("Fehler beim Ändern des Status.");
@@ -438,20 +467,22 @@ END:VCALENDAR`;
   };
 
   const handleOccupancyChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!isAdmin) return;
     const newOccupancy = Number(e.target.value);
     setOccupancy(newOccupancy);
     try {
-      await setDoc(doc(db, 'settings', 'status'), { occupancy: newOccupancy }, { merge: true });
+      await supabase.from('status').upsert({ id: 1, occupancy: newOccupancy });
     } catch (err) {
       console.error("Occupancy update error:", err);
     }
   };
 
   const handleShowOccupancyChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!isAdmin) return;
     const newShowOccupancy = e.target.checked;
     setShowOccupancy(newShowOccupancy);
     try {
-      await setDoc(doc(db, 'settings', 'status'), { showOccupancy: newShowOccupancy }, { merge: true });
+      await supabase.from('status').upsert({ id: 1, showOccupancy: newShowOccupancy });
     } catch (err) {
       console.error("Show occupancy update error:", err);
     }
@@ -459,11 +490,13 @@ END:VCALENDAR`;
 
   const handleAddFoundItem = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isAdmin) return;
     try {
-      await addDoc(collection(db, 'foundItems'), {
-        ...newFoundItem,
-        createdAt: new Date().toISOString()
-      });
+      await supabase.from('found_items').insert([{
+        item: newFoundItem.item,
+        date: newFoundItem.date,
+        location: newFoundItem.location
+      }]);
       setNewFoundItem({ item: '', date: '', location: '' });
     } catch (err) {
       console.error("Add item error:", err);
@@ -471,9 +504,10 @@ END:VCALENDAR`;
     }
   };
 
-  const handleRemoveFoundItem = async (id: string) => {
+  const handleRemoveFoundItem = async (id: string | number) => {
+    if (!isAdmin) return;
     try {
-      await deleteDoc(doc(db, 'foundItems', id));
+      await supabase.from('found_items').delete().eq('id', id);
     } catch (err) {
       console.error("Remove item error:", err);
       alert("Fehler beim Entfernen der Fundsache.");
@@ -667,27 +701,27 @@ END:VCALENDAR`;
               {/* Item 1 */}
               <motion.div whileTap={{ scale: 0.98 }} className="group cursor-pointer">
                 <div className="aspect-[4/5] rounded-[32px] bg-gray-800 border border-gray-700 mb-6 p-8 flex flex-col justify-center items-center shadow-xl transition-all duration-500 hover:bg-gray-700">
-                  <h3 className="font-serif text-3xl text-center text-white mb-4">Hütte 1:<br/>Platzhalter</h3>
+                  <h3 className="font-serif text-3xl text-center text-white mb-4">Schänke</h3>
                   <div className="w-12 h-1 bg-brand-orange/50 rounded-full mb-6"></div>
-                  <p className="text-gray-400 text-center text-sm">Hier entsteht bald eine neue Hütte. Weitere Informationen folgen in Kürze.</p>
+                  <p className="text-gray-400 text-center text-sm">Kühle Getränke und frisch gezapftes Bier. Weitere Informationen folgen in Kürze.</p>
                 </div>
               </motion.div>
 
               {/* Item 2 */}
               <motion.div whileTap={{ scale: 0.98 }} className="group cursor-pointer mt-0 md:mt-12">
                 <div className="aspect-[4/5] rounded-[32px] bg-gray-800 border border-gray-700 mb-6 p-8 flex flex-col justify-center items-center shadow-xl transition-all duration-500 hover:bg-gray-700">
-                  <h3 className="font-serif text-3xl text-center text-white mb-4">Hütte 2:<br/>Platzhalter</h3>
+                  <h3 className="font-serif text-3xl text-center text-white mb-4">Grillhaus</h3>
                   <div className="w-12 h-1 bg-brand-orange/50 rounded-full mb-6"></div>
-                  <p className="text-gray-400 text-center text-sm">Hier entsteht bald eine neue Hütte. Weitere Informationen folgen in Kürze.</p>
+                  <p className="text-gray-400 text-center text-sm">Herzhafte Spezialitäten frisch vom Grill. Weitere Informationen folgen in Kürze.</p>
                 </div>
               </motion.div>
 
               {/* Item 3 */}
               <motion.div whileTap={{ scale: 0.98 }} className="group cursor-pointer mt-0 lg:mt-24">
                 <div className="aspect-[4/5] rounded-[32px] bg-gray-800 border border-gray-700 mb-6 p-8 flex flex-col justify-center items-center shadow-xl transition-all duration-500 hover:bg-gray-700">
-                  <h3 className="font-serif text-3xl text-center text-white mb-4">Hütte 3:<br/>Platzhalter</h3>
+                  <h3 className="font-serif text-3xl text-center text-white mb-4">Bar</h3>
                   <div className="w-12 h-1 bg-brand-orange/50 rounded-full mb-6"></div>
-                  <p className="text-gray-400 text-center text-sm">Hier entsteht bald eine neue Hütte. Weitere Informationen folgen in Kürze.</p>
+                  <p className="text-gray-400 text-center text-sm">Erfrischende Drinks und Cocktails. Weitere Informationen folgen in Kürze.</p>
                 </div>
               </motion.div>
             </div>
@@ -1201,8 +1235,9 @@ END:VCALENDAR`;
               <div className="flex items-center justify-between mb-6 shrink-0">
                 <h3 className="text-2xl font-serif text-brand-light">Status & Auslastung</h3>
                 <button 
-                  onClick={async () => {
-                    await signOut(auth);
+                  onClick={() => {
+                    setIsAdmin(false);
+                    localStorage.removeItem('biergarten_admin');
                     setShowAdminModal(false);
                   }}
                   className="text-sm text-brand-light/50 hover:text-brand-light"
@@ -1457,16 +1492,6 @@ END:VCALENDAR`;
               <div className="w-12 h-1.5 bg-white/20 rounded-full"></div>
             </div>
 
-            <button 
-              onClick={() => { triggerPouringAnimation(() => setIsDigitalMenuOpen(true)); trackEvent('menuClicks'); }}
-              className="flex flex-col items-center gap-1.5 text-brand-orange"
-              style={{ touchAction: 'manipulation' }}
-            >
-              <div className="bg-brand-orange/20 p-2 rounded-full">
-                <Utensils size={22} />
-              </div>
-              <span className="text-[10px] font-bold uppercase tracking-widest">Speisen</span>
-            </button>
             <a 
               href="#kontakt"
               onClick={() => trackEvent('routeClicks')}
