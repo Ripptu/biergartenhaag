@@ -112,10 +112,6 @@ function App() {
   const [weatherCode, setWeatherCode] = useState<number | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   
-  // Occupancy State
-  const [occupancy, setOccupancy] = useState<number>(30); // 0-100%
-  const [showOccupancy, setShowOccupancy] = useState<boolean>(true);
-  
   // Found Items State
   const [foundItems, setFoundItems] = useState<any[]>([]);
   const [newFoundItem, setNewFoundItem] = useState({ item: '', date: '', location: '' });
@@ -279,8 +275,6 @@ END:VCALENDAR`;
           
         if (data && !error) {
           if (typeof data.isOpen === 'boolean') setIsOpen(data.isOpen);
-          if (typeof data.occupancy === 'number') setOccupancy(data.occupancy);
-          if (typeof data.showOccupancy === 'boolean') setShowOccupancy(data.showOccupancy);
         }
       } catch (err) {
         console.error("Status fetch error:", err);
@@ -292,11 +286,11 @@ END:VCALENDAR`;
     // Subscribe to realtime changes
     const statusSubscription = supabase
       .channel('status-changes')
-      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'status' }, payload => {
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'status' }, payload => {
         const data = payload.new;
-        if (typeof data.isOpen === 'boolean') setIsOpen(data.isOpen);
-        if (typeof data.occupancy === 'number') setOccupancy(data.occupancy);
-        if (typeof data.showOccupancy === 'boolean') setShowOccupancy(data.showOccupancy);
+        if (data) {
+          if (typeof data.isOpen === 'boolean') setIsOpen(data.isOpen);
+        }
       })
       .subscribe();
 
@@ -458,60 +452,49 @@ END:VCALENDAR`;
 
   const handleStatusChange = async (newStatus: boolean) => {
     if (!isAdmin) return;
-    try {
-      await supabase.from('status').upsert({ id: 1, isOpen: newStatus });
-    } catch (err) {
-      console.error("Status update error:", err);
-      alert("Fehler beim Ändern des Status.");
-    }
-  };
-
-  const handleOccupancyChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!isAdmin) return;
-    const newOccupancy = Number(e.target.value);
-    setOccupancy(newOccupancy);
-    try {
-      await supabase.from('status').upsert({ id: 1, occupancy: newOccupancy });
-    } catch (err) {
-      console.error("Occupancy update error:", err);
-    }
-  };
-
-  const handleShowOccupancyChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!isAdmin) return;
-    const newShowOccupancy = e.target.checked;
-    setShowOccupancy(newShowOccupancy);
-    try {
-      await supabase.from('status').upsert({ id: 1, showOccupancy: newShowOccupancy });
-    } catch (err) {
-      console.error("Show occupancy update error:", err);
+    setIsOpen(newStatus); // Optimistic UI update
+    const { error } = await supabase.from('status').update({ isOpen: newStatus }).eq('id', 1);
+    if (error) {
+      console.error("Status update error:", error);
+      alert("Fehler beim Ändern des Status: " + error.message);
+      setIsOpen(!newStatus); // Revert on error
     }
   };
 
   const handleAddFoundItem = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isAdmin) return;
-    try {
-      await supabase.from('found_items').insert([{
-        item: newFoundItem.item,
-        date: newFoundItem.date,
-        location: newFoundItem.location
-      }]);
-      setNewFoundItem({ item: '', date: '', location: '' });
-    } catch (err) {
-      console.error("Add item error:", err);
-      alert("Fehler beim Hinzufügen der Fundsache.");
+    
+    const { data, error } = await supabase.from('found_items').insert([{
+      item: newFoundItem.item,
+      date: newFoundItem.date,
+      location: newFoundItem.location
+    }]).select();
+    
+    if (error) {
+      console.error("Add item error:", error);
+      alert("Fehler beim Hinzufügen der Fundsache: " + error.message);
+      return;
     }
+    
+    if (data) {
+      setFoundItems(prev => [data[0], ...prev]);
+    }
+    setNewFoundItem({ item: '', date: '', location: '' });
   };
 
   const handleRemoveFoundItem = async (id: string | number) => {
     if (!isAdmin) return;
-    try {
-      await supabase.from('found_items').delete().eq('id', id);
-    } catch (err) {
-      console.error("Remove item error:", err);
-      alert("Fehler beim Entfernen der Fundsache.");
+    
+    const { error } = await supabase.from('found_items').delete().eq('id', id);
+    
+    if (error) {
+      console.error("Remove item error:", error);
+      alert("Fehler beim Entfernen der Fundsache: " + error.message);
+      return;
     }
+    
+    setFoundItems(prev => prev.filter(item => item.id !== id));
   };
 
   const triggerPouringAnimation = (callback?: () => void) => {
@@ -572,19 +555,6 @@ END:VCALENDAR`;
                 <span className="xs:hidden">{isOpen ? "Geöffnet" : "Geschlossen"}</span>
               </span>
             </div>
-            
-            {/* Occupancy Indicator */}
-            {isOpen && showOccupancy && (
-              <div className={`flex items-center gap-2 backdrop-blur-md border rounded-full px-3 py-2 md:px-4 md:py-2 text-[10px] xs:text-xs md:text-sm font-bold shadow-xl transition-colors duration-500 ${isDarkMode ? 'bg-[#1a242b]/80 border-white/10 text-brand-light' : (currentView === 'home' ? 'bg-white/10 border-white/20 text-brand-light' : 'bg-black/5 border-black/10 text-brand-dark')}`}>
-                <div className={`flex-1 w-10 xs:w-12 md:w-24 h-1.5 rounded-full overflow-hidden ${currentView === 'home' || isDarkMode ? 'bg-white/20' : 'bg-black/10'}`}>
-                  <div 
-                    className={`h-full rounded-full transition-all duration-1000 ${occupancy > 80 ? 'bg-red-500' : occupancy > 50 ? 'bg-yellow-500' : 'bg-emerald-500'}`}
-                    style={{ width: `${occupancy}%` }}
-                  />
-                </div>
-                <span className="whitespace-nowrap">{occupancy}%</span>
-              </div>
-            )}
 
             {/* Thunderstorm Warning */}
             {isThunderstorm && (
@@ -1187,14 +1157,22 @@ END:VCALENDAR`;
               </button>
               <h3 className="text-2xl font-serif text-brand-light mb-6 shrink-0">Admin Login</h3>
               <form onSubmit={handlePasswordSubmit} className="flex flex-col gap-4 overflow-y-auto pr-2 pb-4 hide-scrollbar overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
-                <p className="text-brand-light/70 text-sm">Bitte logge dich mit deinem Google-Account ein, um fortzufahren.</p>
+                <p className="text-brand-light/70 text-sm">Bitte gib dein Admin-Passwort ein, um fortzufahren.</p>
+                <input 
+                  type="password" 
+                  value={passwordInput}
+                  onChange={(e) => setPasswordInput(e.target.value)}
+                  placeholder="Passwort"
+                  className="bg-black/20 border border-white/10 rounded-lg px-3 py-3 text-base sm:text-sm text-brand-light focus:outline-none focus:border-brand-orange"
+                  required
+                />
                 {errorMsg && <p className="text-red-400 text-sm">{errorMsg}</p>}
                 <button 
                   type="submit"
                   className="bg-brand-orange text-white rounded-xl px-4 py-3 font-medium hover:bg-brand-orange/90 transition-all active:scale-95"
                   style={{ touchAction: 'manipulation' }}
                 >
-                  Mit Google einloggen
+                  Einloggen
                 </button>
               </form>
             </motion.div>
@@ -1265,37 +1243,6 @@ END:VCALENDAR`;
                     >
                       🌧️ Geschlossen
                     </button>
-                  </div>
-                </div>
-                
-                <div>
-                  <label className="text-sm font-medium text-brand-light/80 flex justify-between mb-2">
-                    <span>Auslastung</span>
-                    <span className="text-brand-orange">{occupancy}%</span>
-                  </label>
-                  <input 
-                    type="range" 
-                    min="0" 
-                    max="100" 
-                    value={occupancy} 
-                    onChange={handleOccupancyChange}
-                    className="w-full accent-brand-orange"
-                  />
-                  <div className="flex justify-between text-xs text-brand-light/40 mt-1">
-                    <span>Leer</span>
-                    <span>Voll</span>
-                  </div>
-                  <div className="mt-4 flex items-center justify-between">
-                    <label className="text-sm font-medium text-brand-light/80">Auslastung auf der Website anzeigen</label>
-                    <label className="relative inline-flex items-center cursor-pointer">
-                      <input 
-                        type="checkbox" 
-                        className="sr-only peer" 
-                        checked={showOccupancy}
-                        onChange={handleShowOccupancyChange}
-                      />
-                      <div className="w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-orange"></div>
-                    </label>
                   </div>
                 </div>
 
