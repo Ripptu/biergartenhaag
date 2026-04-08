@@ -110,7 +110,9 @@ function App() {
   // Weather & Status State
   const [weather, setWeather] = useState<number | null>(null);
   const [weatherCode, setWeatherCode] = useState<number | null>(null);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [dbIsOpen, setDbIsOpen] = useState<boolean>(false);
+  const [overrideDate, setOverrideDate] = useState<string | null>(null);
+  const [effectiveIsOpen, setEffectiveIsOpen] = useState<boolean>(false);
   
   // Found Items State
   const [foundItems, setFoundItems] = useState<any[]>([]);
@@ -264,7 +266,22 @@ END:VCALENDAR`;
   };
 
   useEffect(() => {
-    // Fetch status from server every minute
+    const updateEffectiveStatus = () => {
+      const today = new Date().toDateString();
+      if (overrideDate === today) {
+        setEffectiveIsOpen(dbIsOpen);
+      } else {
+        setEffectiveIsOpen(checkIsOpen());
+      }
+    };
+
+    updateEffectiveStatus();
+    const interval = setInterval(updateEffectiveStatus, 60000); // Check every minute
+    return () => clearInterval(interval);
+  }, [dbIsOpen, overrideDate]);
+
+  useEffect(() => {
+    // Fetch status from server
     const fetchStatus = async () => {
       try {
         const { data, error } = await supabase
@@ -274,7 +291,8 @@ END:VCALENDAR`;
           .single();
           
         if (data && !error) {
-          if (typeof data.isOpen === 'boolean') setIsOpen(data.isOpen);
+          if (typeof data.isOpen === 'boolean') setDbIsOpen(data.isOpen);
+          if (data.override_date !== undefined) setOverrideDate(data.override_date);
         }
       } catch (err) {
         console.error("Status fetch error:", err);
@@ -289,7 +307,8 @@ END:VCALENDAR`;
       .on('postgres_changes', { event: '*', schema: 'public', table: 'status' }, payload => {
         const data = payload.new;
         if (data) {
-          if (typeof data.isOpen === 'boolean') setIsOpen(data.isOpen);
+          if (typeof data.isOpen === 'boolean') setDbIsOpen(data.isOpen);
+          if (data.override_date !== undefined) setOverrideDate(data.override_date);
         }
       })
       .subscribe();
@@ -450,14 +469,29 @@ END:VCALENDAR`;
     }
   }, [footerClickCount]);
 
-  const handleStatusChange = async (newStatus: boolean) => {
+  const handleStatusChange = async (newStatus: boolean | null) => {
     if (!isAdmin) return;
-    setIsOpen(newStatus); // Optimistic UI update
-    const { error } = await supabase.from('status').update({ isOpen: newStatus }).eq('id', 1);
+    const today = new Date().toDateString();
+    
+    if (newStatus === null) {
+      // Reset to automatic
+      setOverrideDate(null);
+      const { error } = await supabase.from('status').update({ override_date: null }).eq('id', 1);
+      if (error) alert("Fehler beim Zurücksetzen: " + error.message);
+      return;
+    }
+
+    setDbIsOpen(newStatus);
+    setOverrideDate(today); // Optimistic UI update
+    
+    const { error } = await supabase.from('status').update({ 
+      isOpen: newStatus,
+      override_date: today
+    }).eq('id', 1);
+    
     if (error) {
       console.error("Status update error:", error);
-      alert("Fehler beim Ändern des Status: " + error.message);
-      setIsOpen(!newStatus); // Revert on error
+      alert("Fehler beim Ändern des Status: " + error.message + "\n\nWICHTIG: Bitte lege in Supabase in der Tabelle 'status' die Spalte 'override_date' (Typ: text) an!");
     }
   };
 
@@ -550,9 +584,9 @@ END:VCALENDAR`;
                 {getWeatherIcon(weatherCode)} {weather !== null ? `${weather}°C` : '--°C'}
               </span>
               <div className={`w-1 h-1 rounded-full ${currentView === 'home' || isDarkMode ? 'bg-white/50' : 'bg-black/30'}`}></div>
-              <span className={isOpen ? "text-emerald-400 font-medium" : "text-red-400 font-medium"}>
-                <span className="hidden xs:inline">{isOpen ? "Heute Geöffnet" : "Heute Witterungsbedingt Geschlossen"}</span>
-                <span className="xs:hidden">{isOpen ? "Geöffnet" : "Geschlossen"}</span>
+              <span className={effectiveIsOpen ? "text-emerald-400 font-medium" : "text-red-400 font-medium"}>
+                <span className="hidden xs:inline">{effectiveIsOpen ? "Heute Geöffnet" : "Heute Witterungsbedingt Geschlossen"}</span>
+                <span className="xs:hidden">{effectiveIsOpen ? "Geöffnet" : "Geschlossen"}</span>
               </span>
             </div>
 
@@ -1225,24 +1259,40 @@ END:VCALENDAR`;
               </div>
               <div className="flex flex-col gap-6 overflow-y-auto pr-2 pb-4 hide-scrollbar overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
                 <div>
-                  <label className="text-sm font-medium text-brand-light/80 block mb-2">Öffnungsstatus</label>
-                  <div className="flex gap-4">
-                    <button 
-                      type="button"
-                      onClick={() => handleStatusChange(true)}
-                      className={`flex-1 rounded-xl px-4 py-4 font-medium transition-all active:scale-95 border ${isOpen ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400' : 'bg-white/5 border-white/10 text-brand-light hover:bg-white/10'}`}
-                      style={{ touchAction: 'manipulation' }}
-                    >
-                      🍺 Geöffnet
-                    </button>
-                    <button 
-                      type="button"
-                      onClick={() => handleStatusChange(false)}
-                      className={`flex-1 rounded-xl px-4 py-4 font-medium transition-all active:scale-95 border ${!isOpen ? 'bg-red-500/20 border-red-500/50 text-red-400' : 'bg-white/5 border-white/10 text-brand-light hover:bg-white/10'}`}
-                      style={{ touchAction: 'manipulation' }}
-                    >
-                      🌧️ Geschlossen
-                    </button>
+                  <label className="text-sm font-medium text-brand-light/80 block mb-2">
+                    Öffnungsstatus 
+                    <span className="text-xs text-brand-light/50 ml-2">
+                      ({overrideDate === new Date().toDateString() ? 'Manuell überschrieben' : 'Automatisch nach Uhrzeit'})
+                    </span>
+                  </label>
+                  <div className="flex flex-col gap-3">
+                    <div className="flex gap-4">
+                      <button 
+                        type="button"
+                        onClick={() => handleStatusChange(true)}
+                        className={`flex-1 rounded-xl px-4 py-4 font-medium transition-all active:scale-95 border ${overrideDate === new Date().toDateString() && dbIsOpen ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400' : 'bg-white/5 border-white/10 text-brand-light hover:bg-white/10'}`}
+                        style={{ touchAction: 'manipulation' }}
+                      >
+                        🍺 Geöffnet
+                      </button>
+                      <button 
+                        type="button"
+                        onClick={() => handleStatusChange(false)}
+                        className={`flex-1 rounded-xl px-4 py-4 font-medium transition-all active:scale-95 border ${overrideDate === new Date().toDateString() && !dbIsOpen ? 'bg-red-500/20 border-red-500/50 text-red-400' : 'bg-white/5 border-white/10 text-brand-light hover:bg-white/10'}`}
+                        style={{ touchAction: 'manipulation' }}
+                      >
+                        🌧️ Geschlossen
+                      </button>
+                    </div>
+                    {overrideDate === new Date().toDateString() && (
+                      <button 
+                        type="button"
+                        onClick={() => handleStatusChange(null)}
+                        className="w-full rounded-xl px-4 py-3 text-sm font-medium transition-all active:scale-95 border bg-white/5 border-white/10 text-brand-light hover:bg-white/10"
+                      >
+                        🔄 Zurück auf Automatik (Öffnungszeiten)
+                      </button>
+                    )}
                   </div>
                 </div>
 
