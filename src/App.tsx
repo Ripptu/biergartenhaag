@@ -701,31 +701,61 @@ END:VCALENDAR`;
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-8">
-              {/* Item 1 */}
-              <motion.div whileTap={{ scale: 0.98 }} className="group cursor-pointer">
-                <div className="aspect-[4/5] rounded-[32px] bg-gray-800 border border-gray-700 mb-6 p-8 flex flex-col justify-center items-center shadow-xl transition-all duration-500 hover:bg-gray-700">
-                  <h3 className="font-serif text-3xl text-center text-white mb-4">Schänke</h3>
-                  <div className="w-12 h-1 bg-brand-orange/50 rounded-full mb-6"></div>
-                  <p className="text-gray-400 text-center text-sm">Kühle Getränke und frisch gezapftes Bier. Weitere Informationen folgen in Kürze.</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+              {/* Item 1: Schänke */}
+              <motion.div whileTap={{ scale: 0.98 }} className="group relative w-full aspect-[4/5] md:aspect-[3/4] rounded-[32px] overflow-hidden cursor-pointer shadow-2xl">
+                <img src="https://s1.directupload.eu/images/260408/lmf5s4xz.webp" alt="Schänke" className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" referrerPolicy="no-referrer" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f12] via-[#0a0f12]/60 to-transparent opacity-90 group-hover:opacity-80 transition-opacity duration-500"></div>
+                
+                <div className="absolute inset-4 border border-white/20 rounded-[20px] z-10 transition-colors duration-500 group-hover:border-brand-orange/50 pointer-events-none"></div>
+
+                <div className="absolute inset-0 p-8 md:p-10 flex flex-col justify-end z-20">
+                  <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                    <span className="text-white text-xs font-bold uppercase tracking-[0.2em] mb-3 block drop-shadow-md">Frisch Gezapft</span>
+                    <h3 className="font-serif text-4xl md:text-5xl text-white mb-4 drop-shadow-lg">Die Schänke</h3>
+                    <div className="w-0 h-[2px] bg-brand-orange mb-5 group-hover:w-16 transition-all duration-500 delay-100"></div>
+                    <p className="text-white/90 text-sm md:text-base leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200 drop-shadow-md">
+                      Kühles Jaga Bier vom Fass, traditionelle Radler und erfrischende alkoholfreie Getränke. Der gesellige Mittelpunkt unseres Biergartens.
+                    </p>
+                  </div>
                 </div>
               </motion.div>
 
-              {/* Item 2 */}
-              <motion.div whileTap={{ scale: 0.98 }} className="group cursor-pointer mt-0 md:mt-12">
-                <div className="aspect-[4/5] rounded-[32px] bg-gray-800 border border-gray-700 mb-6 p-8 flex flex-col justify-center items-center shadow-xl transition-all duration-500 hover:bg-gray-700">
-                  <h3 className="font-serif text-3xl text-center text-white mb-4">Grillhaus</h3>
-                  <div className="w-12 h-1 bg-brand-orange/50 rounded-full mb-6"></div>
-                  <p className="text-gray-400 text-center text-sm">Herzhafte Spezialitäten frisch vom Grill. Weitere Informationen folgen in Kürze.</p>
+              {/* Item 2: Grillhaus */}
+              <motion.div whileTap={{ scale: 0.98 }} className="group relative w-full aspect-[4/5] md:aspect-[3/4] rounded-[32px] overflow-hidden cursor-pointer shadow-2xl mt-0 md:mt-12">
+                <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80" alt="Grillhaus" className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" referrerPolicy="no-referrer" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f12] via-[#0a0f12]/60 to-transparent opacity-90 group-hover:opacity-80 transition-opacity duration-500"></div>
+                
+                <div className="absolute inset-4 border border-white/20 rounded-[20px] z-10 transition-colors duration-500 group-hover:border-brand-orange/50 pointer-events-none"></div>
+
+                <div className="absolute inset-0 p-8 md:p-10 flex flex-col justify-end z-20">
+                  <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                    <span className="text-white text-xs font-bold uppercase tracking-[0.2em] mb-3 block drop-shadow-md">Heiß & Deftig</span>
+                    <h3 className="font-serif text-4xl md:text-5xl text-white mb-4 drop-shadow-lg">Grillhaus</h3>
+                    <div className="w-0 h-[2px] bg-brand-orange mb-5 group-hover:w-16 transition-all duration-500 delay-100"></div>
+                    <p className="text-white/90 text-sm md:text-base leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200 drop-shadow-md">
+                      Herzhafte bayrische Spezialitäten, knuspriger Schweinsbraten und feine Schmankerl frisch vom Grill. Ein echter Genuss.
+                    </p>
+                  </div>
                 </div>
               </motion.div>
 
-              {/* Item 3 */}
-              <motion.div whileTap={{ scale: 0.98 }} className="group cursor-pointer mt-0 lg:mt-24">
-                <div className="aspect-[4/5] rounded-[32px] bg-gray-800 border border-gray-700 mb-6 p-8 flex flex-col justify-center items-center shadow-xl transition-all duration-500 hover:bg-gray-700">
-                  <h3 className="font-serif text-3xl text-center text-white mb-4">Bar</h3>
-                  <div className="w-12 h-1 bg-brand-orange/50 rounded-full mb-6"></div>
-                  <p className="text-gray-400 text-center text-sm">Erfrischende Drinks und Cocktails. Weitere Informationen folgen in Kürze.</p>
+              {/* Item 3: Bar */}
+              <motion.div whileTap={{ scale: 0.98 }} className="group relative w-full aspect-[4/5] md:aspect-[3/4] rounded-[32px] overflow-hidden cursor-pointer shadow-2xl mt-0 lg:mt-24">
+                <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=800&q=80" alt="Bar" className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" referrerPolicy="no-referrer" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f12] via-[#0a0f12]/60 to-transparent opacity-90 group-hover:opacity-80 transition-opacity duration-500"></div>
+                
+                <div className="absolute inset-4 border border-white/20 rounded-[20px] z-10 transition-colors duration-500 group-hover:border-brand-orange/50 pointer-events-none"></div>
+
+                <div className="absolute inset-0 p-8 md:p-10 flex flex-col justify-end z-20">
+                  <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                    <span className="text-white text-xs font-bold uppercase tracking-[0.2em] mb-3 block drop-shadow-md">Kühl & Spritzig</span>
+                    <h3 className="font-serif text-4xl md:text-5xl text-white mb-4 drop-shadow-lg">Die Bar</h3>
+                    <div className="w-0 h-[2px] bg-brand-orange mb-5 group-hover:w-16 transition-all duration-500 delay-100"></div>
+                    <p className="text-white/90 text-sm md:text-base leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200 drop-shadow-md">
+                      Erlesene Weine, spritzige Aperitifs und kreative Cocktails für die lauen Sommerabende unter unseren Kastanien.
+                    </p>
+                  </div>
                 </div>
               </motion.div>
             </div>
