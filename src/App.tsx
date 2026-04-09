@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
 import { MapPin, Clock, Phone, ArrowRight, ArrowLeft, X, Heart, Activity, Dog, Droplets, TreePine, Search, Info, Instagram, Facebook, CalendarPlus, Utensils } from 'lucide-react';
 import { Impressum, AGB, Datenschutz } from './components/LegalPages';
-import { FamiliePage } from './components/FamiliePage';
 import { supabase } from './supabase';
 
 /**
@@ -122,7 +121,7 @@ function App() {
   const [isDarkMode] = useState<boolean>(true);
 
   // View State (Subpages)
-  const [currentView, setCurrentView] = useState<'home' | 'impressum' | 'agb' | 'datenschutz' | 'familie'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'impressum' | 'agb' | 'datenschutz'>('home');
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -674,14 +673,6 @@ END:VCALENDAR`;
 
         </section>
 
-        {/* Partner Logo Strip */}
-        <div className={`hidden md:flex py-10 px-4 md:px-16 flex-wrap justify-center md:justify-between items-center gap-x-8 gap-y-6 transition-colors duration-1000 ${isDarkMode ? 'bg-[#12181c] text-brand-light/30' : 'bg-brand-light text-brand-dark/30'}`}>
-          <div className="font-serif text-lg xs:text-xl tracking-tight transition-colors">Hofbräuhaus Freising</div>
-          <div className="font-serif text-lg xs:text-xl tracking-tight transition-colors">Backhaus Weiß</div>
-          <div className="font-serif text-lg xs:text-xl tracking-tight transition-colors">Ortsmetzgerei Haag</div>
-          <div className="font-serif text-lg xs:text-xl tracking-tight transition-colors">Ampertalbahn</div>
-        </div>
-
         {/* SECTION B: Unsere Schmankerl & Hütt'n */}
         <section id="schmankerl" className={`py-24 md:py-40 px-4 sm:px-6 md:px-12 lg:px-20 relative z-20 transition-colors duration-1000 ${isDarkMode ? 'bg-[#12181c] text-brand-light' : 'bg-brand-light text-brand-dark'}`}>
           <motion.div 
@@ -786,14 +777,6 @@ END:VCALENDAR`;
               <p className={`text-lg leading-relaxed transition-colors duration-1000 ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
                 Unser riesiger Abenteuerspielplatz und die legendäre <strong className={`font-semibold transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>Ampertal-Kindereisenbahn</strong> machen den Besuch für die ganze Familie unvergesslich.
               </p>
-              <div className="mt-4">
-                <button 
-                  onClick={() => setCurrentView('familie')}
-                  className="inline-flex items-center gap-2 text-brand-orange font-medium hover:gap-4 transition-all"
-                >
-                  Mehr für Kinder entdecken <ArrowRight size={20} />
-                </button>
-              </div>
             </div>
           </motion.div>
         </section>
@@ -932,20 +915,43 @@ END:VCALENDAR`;
               </p>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
-                <div className={`p-6 rounded-3xl border transition-colors duration-1000 ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-white border-brand-dark/10 shadow-lg shadow-brand-dark/5'}`}>
-                  <Droplets className="text-brand-orange mb-4" size={28} />
-                  <h4 className="font-bold text-xl mb-2">Frisches Wasser</h4>
-                  <p className={`text-sm transition-colors duration-1000 ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
-                    Wassernäpfe stehen jederzeit frisch befüllt direkt an der Schänke und am Haupteingang bereit.
-                  </p>
-                </div>
-                <div className={`p-6 rounded-3xl border transition-colors duration-1000 ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-white border-brand-dark/10 shadow-lg shadow-brand-dark/5'}`}>
-                  <TreePine className="text-brand-orange mb-4" size={28} />
-                  <h4 className="font-bold text-xl mb-2">Viel Schatten</h4>
-                  <p className={`text-sm transition-colors duration-1000 ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
-                    Besonders die Tische im hinteren Bereich unter den alten Kastanien bieten an heißen Tagen perfekten Schatten.
-                  </p>
-                </div>
+                {/* Hunde Card 1 */}
+                <motion.div whileTap={{ scale: 0.98 }} className="group relative w-full aspect-square rounded-[32px] overflow-hidden cursor-pointer shadow-2xl">
+                  <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=800&q=80" alt="Hunde Wasser" className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" referrerPolicy="no-referrer" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f12] via-[#0a0f12]/70 to-transparent opacity-90 group-hover:opacity-80 transition-opacity duration-500"></div>
+                  
+                  <div className="absolute inset-4 border border-white/20 rounded-[20px] z-10 transition-colors duration-500 group-hover:border-brand-orange/50 pointer-events-none"></div>
+
+                  <div className="absolute inset-0 p-6 flex flex-col justify-end z-20">
+                    <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                      <Droplets className="text-brand-orange mb-3 drop-shadow-md w-6 h-6" />
+                      <h4 className="font-serif text-2xl text-white mb-2 drop-shadow-lg">Frisches Wasser</h4>
+                      <div className="w-0 h-[2px] bg-brand-orange mb-3 group-hover:w-12 transition-all duration-500 delay-100"></div>
+                      <p className="text-white/90 text-xs leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200 drop-shadow-md">
+                        Wassernäpfe stehen jederzeit frisch befüllt direkt an der Schänke und am Haupteingang bereit.
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Hunde Card 2 */}
+                <motion.div whileTap={{ scale: 0.98 }} className="group relative w-full aspect-square rounded-[32px] overflow-hidden cursor-pointer shadow-2xl">
+                  <img src="https://images.unsplash.com/photo-1529429617124-95b109e86bb8?auto=format&fit=crop&w=800&q=80" alt="Hunde Schatten" className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" referrerPolicy="no-referrer" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f12] via-[#0a0f12]/70 to-transparent opacity-90 group-hover:opacity-80 transition-opacity duration-500"></div>
+                  
+                  <div className="absolute inset-4 border border-white/20 rounded-[20px] z-10 transition-colors duration-500 group-hover:border-brand-orange/50 pointer-events-none"></div>
+
+                  <div className="absolute inset-0 p-6 flex flex-col justify-end z-20">
+                    <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                      <TreePine className="text-brand-orange mb-3 drop-shadow-md w-6 h-6" />
+                      <h4 className="font-serif text-2xl text-white mb-2 drop-shadow-lg">Viel Schatten</h4>
+                      <div className="w-0 h-[2px] bg-brand-orange mb-3 group-hover:w-12 transition-all duration-500 delay-100"></div>
+                      <p className="text-white/90 text-xs leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200 drop-shadow-md">
+                        Besonders die Tische im hinteren Bereich unter den alten Kastanien bieten an heißen Tagen perfekten Schatten.
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
               </div>
             </div>
             <div className="order-1 lg:order-2">
@@ -985,35 +991,47 @@ END:VCALENDAR`;
                     whileInView={{ opacity: 1, scale: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    whileHover={{ y: -5, scale: 1.02 }}
-                    className={`p-8 rounded-[32px] border transition-colors duration-500 flex flex-col gap-4 relative overflow-hidden group ${isDarkMode ? 'bg-[#1a242b]/80 border-white/10 hover:bg-white/10' : 'bg-white border-brand-dark/10 shadow-xl shadow-brand-dark/5 hover:shadow-2xl'}`}
+                    whileTap={{ scale: 0.98 }}
+                    className="group relative w-full aspect-[4/3] rounded-[32px] overflow-hidden cursor-pointer shadow-2xl"
                   >
-                    <div className={`absolute -right-6 -top-6 w-24 h-24 rounded-full blur-2xl transition-opacity duration-500 opacity-0 group-hover:opacity-100 ${isDarkMode ? 'bg-brand-orange/20' : 'bg-brand-orange/10'}`}></div>
-                    <div className="flex justify-between items-start relative z-10">
-                      <div className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${isDarkMode ? 'bg-white/10 text-brand-light' : 'bg-brand-dark/5 text-brand-dark/70'}`}>
-                        {foundItem.date}
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="Fundbüro Texture" className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-60" referrerPolicy="no-referrer" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f12] via-[#0a0f12]/80 to-[#0a0f12]/40 opacity-90 group-hover:opacity-80 transition-opacity duration-500"></div>
+                    
+                    <div className="absolute inset-4 border border-white/20 rounded-[20px] z-10 transition-colors duration-500 group-hover:border-brand-orange/50 pointer-events-none"></div>
+
+                    <div className="absolute inset-0 p-8 flex flex-col justify-end z-20">
+                      <div className="absolute top-8 right-8 w-10 h-10 rounded-full flex items-center justify-center border border-white/20 bg-white/5 text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all duration-500">
+                        <Search size={18} />
                       </div>
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${isDarkMode ? 'bg-white/5 text-brand-orange group-hover:bg-brand-orange group-hover:text-white' : 'bg-brand-dark/5 text-brand-orange group-hover:bg-brand-orange group-hover:text-white'}`}>
-                        <Search size={16} />
+                      
+                      <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <span className="text-white text-xs font-bold uppercase tracking-[0.2em] mb-3 block drop-shadow-md">{foundItem.date}</span>
+                        <h3 className="font-serif text-3xl text-white mb-4 drop-shadow-lg">{foundItem.item}</h3>
+                        <div className="w-0 h-[2px] bg-brand-orange mb-4 group-hover:w-16 transition-all duration-500 delay-100"></div>
+                        <div className="flex items-center gap-2 text-white/90 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200 drop-shadow-md">
+                          <MapPin size={16} className="text-brand-orange" />
+                          <p>{foundItem.location}</p>
+                        </div>
                       </div>
-                    </div>
-                    <h3 className="font-serif text-2xl mt-2 relative z-10">{foundItem.item}</h3>
-                    <div className={`mt-auto pt-4 border-t flex items-center gap-2 transition-colors duration-1000 relative z-10 ${isDarkMode ? 'border-white/10 text-brand-light/60' : 'border-brand-dark/10 text-brand-dark/60'}`}>
-                      <MapPin size={14} className="text-brand-orange" />
-                      <p className="text-sm">{foundItem.location}</p>
                     </div>
                   </motion.div>
                 )) : (
                   <motion.div 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className={`col-span-full p-12 rounded-[32px] border text-center flex flex-col items-center justify-center gap-4 ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-white border-brand-dark/10 shadow-xl shadow-brand-dark/5'}`}
+                    className="col-span-full group relative w-full aspect-[21/9] md:aspect-[3/1] rounded-[32px] overflow-hidden shadow-2xl flex items-center justify-center"
                   >
-                    <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center mb-2">
-                      <Heart size={32} />
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80" alt="Fundbüro Texture" className="absolute inset-0 w-full h-full object-cover opacity-40" referrerPolicy="no-referrer" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f12] via-[#0a0f12]/80 to-[#0a0f12]/60"></div>
+                    <div className="absolute inset-4 border border-white/20 rounded-[20px] z-10 pointer-events-none"></div>
+                    
+                    <div className="relative z-20 flex flex-col items-center text-center p-8">
+                      <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center mb-4 border border-emerald-500/30">
+                        <Heart size={32} />
+                      </div>
+                      <h3 className="font-serif text-3xl text-white mb-2">Alles da, wo es hingehört!</h3>
+                      <p className="text-white/70 text-sm md:text-base max-w-md">Aktuell gibt es keine verlorenen Gegenstände. Wir passen gut auf eure Sachen auf!</p>
                     </div>
-                    <h3 className="font-serif text-2xl">Alles da, wo es hingehört!</h3>
-                    <p className={`text-sm md:text-base max-w-md ${isDarkMode ? 'text-brand-light/60' : 'text-brand-dark/60'}`}>Aktuell gibt es keine verlorenen Gegenstände. Wir passen gut auf eure Sachen auf!</p>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -1039,7 +1057,6 @@ END:VCALENDAR`;
               {currentView === 'impressum' && <Impressum isDarkMode={isDarkMode} />}
               {currentView === 'agb' && <AGB isDarkMode={isDarkMode} />}
               {currentView === 'datenschutz' && <Datenschutz isDarkMode={isDarkMode} />}
-              {currentView === 'familie' && <FamiliePage isDarkMode={isDarkMode} onBack={() => setCurrentView('home')} />}
             </div>
           </div>
         )}
@@ -1131,7 +1148,12 @@ END:VCALENDAR`;
         </motion.div>
 
         <div className={`max-w-7xl mx-auto mt-24 pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-8 text-sm transition-colors duration-1000 ${isDarkMode ? 'border-white/10 text-brand-light/40' : 'border-white/10 text-brand-light/40'}`}>
-          <p onClick={handleFooterClick} className="cursor-pointer select-none text-center md:text-left leading-relaxed">© 2026 Schlossallee-Biergarten Haag an der Amper.<br className="md:hidden" /> Alle Rechte vorbehalten.</p>
+          <div className="flex flex-col items-center md:items-start gap-2">
+            <p onClick={handleFooterClick} className="cursor-pointer select-none text-center md:text-left leading-relaxed">© 2026 Schlossallee-Biergarten Haag an der Amper.<br className="md:hidden" /> Alle Rechte vorbehalten.</p>
+            <p className="text-center md:text-left font-medium text-brand-light/60">
+              Mit ❤️ g'macht in Bayern von <a href="http://vamela.info" target="_blank" rel="noopener noreferrer" className="text-brand-orange hover:text-brand-orange/80 transition-colors">Vamela</a>
+            </p>
+          </div>
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-4">
             <button onClick={() => setCurrentView('impressum')} className="transition-colors hover:text-brand-orange py-2">Impressum</button>
             <button onClick={() => setCurrentView('agb')} className="transition-colors hover:text-brand-orange py-2">AGB</button>
@@ -1159,7 +1181,6 @@ END:VCALENDAR`;
             </button>
             <nav className="flex flex-col items-center gap-4 md:gap-8 text-center px-4">
               <a href="#schmankerl" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Schmankerl</a>
-              <button onClick={() => { setIsMenuOpen(false); setCurrentView('familie'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Familien</button>
               <a href="#events" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Events</a>
               <a href="#fundbuero" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Fundbüro</a>
               <a href="#kontakt" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Kontakt</a>
