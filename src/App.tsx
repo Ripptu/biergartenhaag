@@ -659,7 +659,9 @@ END:VCALENDAR`;
               <div className="flex flex-row items-center gap-3 md:gap-4 mt-2 md:mt-4">
                 <motion.a 
                   whileTap={{ scale: 0.96 }}
-                  href="#kontakt" 
+                  href="https://maps.google.com/?q=Biergarten+Schlossallee+Haag+an+der+Amper"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() => trackEvent('routeClicks')}
                   className="flex-1 sm:flex-none text-center border border-white/30 md:border-2 md:border-white/40 backdrop-blur-sm text-white rounded-full px-4 py-3.5 md:px-8 md:py-4 font-semibold md:font-bold text-sm md:text-lg hover:bg-white/10 active:bg-white/20 transition-colors flex items-center justify-center gap-1.5 md:gap-2"
                 >
