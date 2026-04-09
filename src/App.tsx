@@ -777,17 +777,16 @@ END:VCALENDAR`;
                 <div className="w-16 h-[2px] bg-brand-orange mx-auto"></div>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-8">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 lg:gap-12 max-w-6xl mx-auto">
                 {/* Category 1 */}
-                <div className="flex flex-col gap-8 p-8 md:p-10 rounded-[32px] bg-white/5 border border-white/10 shadow-xl relative overflow-hidden">
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-orange/20 via-brand-orange to-brand-orange/20"></div>
-                  <div className="border-b border-white/10 pb-4">
+                <div className="flex flex-col gap-10">
+                  <div>
                     <h4 className="font-serif text-2xl md:text-3xl text-brand-orange mb-1">Bayerisch & Deftig</h4>
                     <span className="text-xs md:text-sm uppercase tracking-widest opacity-60">Die Klassiker</span>
                   </div>
                   
                   <div className="flex flex-col gap-8">
-                    <div className="relative pl-5 border-l-2 border-brand-orange/30 hover:border-brand-orange transition-colors duration-300">
+                    <div>
                       <h5 className="font-bold text-lg mb-2 flex flex-wrap items-baseline gap-2">
                         Die Grill-Hütt'n
                         <span className="font-normal opacity-60 text-xs">(Steak & Würstl)</span>
@@ -796,13 +795,13 @@ END:VCALENDAR`;
                         Hier gibt's das Herzhafte vom Holzkohlegrill. Vom saftigen Halsgrat bis zur knackigen Bratwurst – die perfekte Anlaufstelle für den klassischen Biergarten-Hunger.
                       </p>
                     </div>
-                    <div className="relative pl-5 border-l-2 border-brand-orange/30 hover:border-brand-orange transition-colors duration-300">
+                    <div>
                       <h5 className="font-bold text-lg mb-2">Die Fischbraterei</h5>
                       <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
                         Ein absolutes Muss unter den Kastanien. Hier wird der traditionelle Steckerlfisch knusprig und frisch direkt über der Glut gegrillt.
                       </p>
                     </div>
-                    <div className="relative pl-5 border-l-2 border-brand-orange/30 hover:border-brand-orange transition-colors duration-300">
+                    <div>
                       <h5 className="font-bold text-lg mb-2">Die Bäckerei-Hütte</h5>
                       <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
                         Die Basis für jede gscheite Brotzeit. Resche Brezn, frisches Brot und alles, was man für den kleinen Hunger oder zum Teilen am Biertisch braucht.
@@ -812,15 +811,14 @@ END:VCALENDAR`;
                 </div>
 
                 {/* Category 2 */}
-                <div className="flex flex-col gap-8 p-8 md:p-10 rounded-[32px] bg-white/5 border border-white/10 shadow-xl relative overflow-hidden">
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-orange/20 via-brand-orange to-brand-orange/20"></div>
-                  <div className="border-b border-white/10 pb-4">
+                <div className="flex flex-col gap-10">
+                  <div>
                     <h4 className="font-serif text-2xl md:text-3xl text-brand-orange mb-1">Dolce Vita</h4>
                     <span className="text-xs md:text-sm uppercase tracking-widest opacity-60">im Biergarten</span>
                   </div>
                   
                   <div className="flex flex-col gap-8">
-                    <div className="relative pl-5 border-l-2 border-brand-orange/30 hover:border-brand-orange transition-colors duration-300">
+                    <div>
                       <h5 className="font-bold text-lg mb-2 flex flex-wrap items-baseline gap-2">
                         Casa Della Pizza
                         <span className="font-normal opacity-60 text-xs">"Alma"</span>
@@ -833,21 +831,20 @@ END:VCALENDAR`;
                 </div>
 
                 {/* Category 3 */}
-                <div className="flex flex-col gap-8 p-8 md:p-10 rounded-[32px] bg-white/5 border border-white/10 shadow-xl relative overflow-hidden">
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-orange/20 via-brand-orange to-brand-orange/20"></div>
-                  <div className="border-b border-white/10 pb-4">
+                <div className="flex flex-col gap-10">
+                  <div>
                     <h4 className="font-serif text-2xl md:text-3xl text-brand-orange mb-1">Zum Anstoßen</h4>
                     <span className="text-xs md:text-sm uppercase tracking-widest opacity-60">& Genießen</span>
                   </div>
                   
                   <div className="flex flex-col gap-8">
-                    <div className="relative pl-5 border-l-2 border-brand-orange/30 hover:border-brand-orange transition-colors duration-300">
+                    <div>
                       <h5 className="font-bold text-lg mb-2">Die Getränke-Schänke</h5>
                       <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
                         Das flüssige Herzstück. Hier holst du dir dein kühles, naturtrübes "Jaga Bier" im Keferloher oder ein frisches Weißbier von Huber Weisse. Natürlich gibt's auch alle alkoholfreien Klassiker.
                       </p>
                     </div>
-                    <div className="relative pl-5 border-l-2 border-brand-orange/30 hover:border-brand-orange transition-colors duration-300">
+                    <div>
                       <h5 className="font-bold text-lg mb-2">Die Outdoor-Bar</h5>
                       <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
                         Aus dem alten "Glückshafen" wurde eine moderne Bar! Perfekt, um den lauen Sommerabend bei einem kühlen Spritz, Longdrink oder Cocktail unter den Lampions ausklingen zu lassen.
