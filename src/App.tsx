@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
-import { MapPin, Clock, Phone, ArrowRight, ArrowLeft, X, Heart, Activity, Dog, Droplets, TreePine, Search, Info, Instagram, Facebook, CalendarPlus, Utensils } from 'lucide-react';
+import { MapPin, Clock, Phone, ArrowRight, ArrowLeft, X, Heart, Activity, Dog, Droplets, TreePine, Search, Info, Instagram, Facebook, CalendarPlus, Utensils, Tv, Play } from 'lucide-react';
 import { Impressum, AGB, Datenschutz } from './components/LegalPages';
 import { supabase } from './supabase';
 
@@ -582,10 +582,9 @@ END:VCALENDAR`;
               <span className="flex items-center gap-1">
                 {getWeatherIcon(weatherCode)} {weather !== null ? `${weather}°C` : '--°C'}
               </span>
-              <div className={`w-1 h-1 rounded-full ${currentView === 'home' || isDarkMode ? 'bg-white/50' : 'bg-black/30'}`}></div>
-              <span className={effectiveIsOpen ? "text-emerald-400 font-medium" : "text-red-400 font-medium"}>
-                <span className="hidden xs:inline">{effectiveIsOpen ? "Heute Geöffnet" : "Heute Witterungsbedingt Geschlossen"}</span>
-                <span className="xs:hidden">{effectiveIsOpen ? "Geöffnet" : "Geschlossen"}</span>
+              <div className={`hidden md:block w-1 h-1 rounded-full ${currentView === 'home' || isDarkMode ? 'bg-white/50' : 'bg-black/30'}`}></div>
+              <span className={`hidden md:inline ${effectiveIsOpen ? "text-emerald-400 font-medium" : "text-red-400 font-medium"}`}>
+                <span>{effectiveIsOpen ? "Heute Geöffnet" : "Heute Geschlossen"}</span>
               </span>
             </div>
 
@@ -643,6 +642,24 @@ END:VCALENDAR`;
 
           <div className="flex flex-col gap-6 md:gap-8 w-full relative z-10 mt-auto">
             
+            {/* Mobile Status Indicator (Hero) */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="md:hidden mb-2"
+            >
+              <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 shadow-2xl">
+                <div className="relative flex h-3 w-3">
+                  <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${effectiveIsOpen ? 'bg-emerald-400' : 'bg-red-400'}`}></span>
+                  <span className={`relative inline-flex rounded-full h-3 w-3 ${effectiveIsOpen ? 'bg-emerald-500' : 'bg-red-500'}`}></span>
+                </div>
+                <span className="font-serif text-lg tracking-wide text-white">
+                  {effectiveIsOpen ? "Geöffnet" : "Geschlossen"}
+                </span>
+              </div>
+            </motion.div>
+
             {/* Heading */}
             <div className="flex flex-col gap-3 md:gap-4 items-start lg:items-end text-left lg:text-right">
               <h2 className="font-serif text-[10.5vw] xs:text-[9.5vw] sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[0.95] tracking-tight uppercase text-white drop-shadow-2xl">
@@ -697,7 +714,7 @@ END:VCALENDAR`;
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
               {/* Item 1: Schänke */}
               <motion.div whileTap={{ scale: 0.98 }} className="group relative w-full aspect-[4/5] md:aspect-[3/4] rounded-[32px] overflow-hidden cursor-pointer shadow-2xl">
-                <img src="https://s1.directupload.eu/images/260408/lmf5s4xz.webp" alt="Schänke" className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" referrerPolicy="no-referrer" />
+                <img src="https://s1.directupload.eu/images/260409/98yijxvs.webp" alt="Schänke" className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" referrerPolicy="no-referrer" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f12] via-[#0a0f12]/60 to-transparent opacity-90 group-hover:opacity-80 transition-opacity duration-500"></div>
                 
                 <div className="absolute inset-4 border border-white/20 rounded-[20px] z-10 transition-colors duration-500 group-hover:border-brand-orange/50 pointer-events-none"></div>
@@ -751,6 +768,151 @@ END:VCALENDAR`;
                   </div>
                 </div>
               </motion.div>
+            </div>
+
+            {/* Weitere Standl (Text-based) */}
+            <div className="mt-24 md:mt-32 pt-16 md:pt-24 border-t border-white/10">
+              <div className="text-center mb-16 md:mb-20">
+                <h3 className="font-serif text-3xl md:text-5xl mb-4">Alle Standl auf einen Blick</h3>
+                <div className="w-16 h-[2px] bg-brand-orange mx-auto"></div>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-8">
+                {/* Category 1 */}
+                <div className="flex flex-col gap-8 p-8 md:p-10 rounded-[32px] bg-white/5 border border-white/10 shadow-xl relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-orange/20 via-brand-orange to-brand-orange/20"></div>
+                  <div className="border-b border-white/10 pb-4">
+                    <h4 className="font-serif text-2xl md:text-3xl text-brand-orange mb-1">Bayerisch & Deftig</h4>
+                    <span className="text-xs md:text-sm uppercase tracking-widest opacity-60">Die Klassiker</span>
+                  </div>
+                  
+                  <div className="flex flex-col gap-8">
+                    <div className="relative pl-5 border-l-2 border-brand-orange/30 hover:border-brand-orange transition-colors duration-300">
+                      <h5 className="font-bold text-lg mb-2 flex flex-wrap items-baseline gap-2">
+                        Die Grill-Hütt'n
+                        <span className="font-normal opacity-60 text-xs">(Steak & Würstl)</span>
+                      </h5>
+                      <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
+                        Hier gibt's das Herzhafte vom Holzkohlegrill. Vom saftigen Halsgrat bis zur knackigen Bratwurst – die perfekte Anlaufstelle für den klassischen Biergarten-Hunger.
+                      </p>
+                    </div>
+                    <div className="relative pl-5 border-l-2 border-brand-orange/30 hover:border-brand-orange transition-colors duration-300">
+                      <h5 className="font-bold text-lg mb-2">Die Fischbraterei</h5>
+                      <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
+                        Ein absolutes Muss unter den Kastanien. Hier wird der traditionelle Steckerlfisch knusprig und frisch direkt über der Glut gegrillt.
+                      </p>
+                    </div>
+                    <div className="relative pl-5 border-l-2 border-brand-orange/30 hover:border-brand-orange transition-colors duration-300">
+                      <h5 className="font-bold text-lg mb-2">Die Bäckerei-Hütte</h5>
+                      <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
+                        Die Basis für jede gscheite Brotzeit. Resche Brezn, frisches Brot und alles, was man für den kleinen Hunger oder zum Teilen am Biertisch braucht.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Category 2 */}
+                <div className="flex flex-col gap-8 p-8 md:p-10 rounded-[32px] bg-white/5 border border-white/10 shadow-xl relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-orange/20 via-brand-orange to-brand-orange/20"></div>
+                  <div className="border-b border-white/10 pb-4">
+                    <h4 className="font-serif text-2xl md:text-3xl text-brand-orange mb-1">Dolce Vita</h4>
+                    <span className="text-xs md:text-sm uppercase tracking-widest opacity-60">im Biergarten</span>
+                  </div>
+                  
+                  <div className="flex flex-col gap-8">
+                    <div className="relative pl-5 border-l-2 border-brand-orange/30 hover:border-brand-orange transition-colors duration-300">
+                      <h5 className="font-bold text-lg mb-2 flex flex-wrap items-baseline gap-2">
+                        Casa Della Pizza
+                        <span className="font-normal opacity-60 text-xs">"Alma"</span>
+                      </h5>
+                      <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
+                        Das absolute Upgrade für die Schlossallee! Wo früher Kaffee ausgeschenkt wurde, zieht jetzt der Duft von frischer Pizza durch den Biergarten. Wer mal Abwechslung vom Grillfleisch sucht, bekommt hier original italienisches Flair direkt an den Biertisch.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Category 3 */}
+                <div className="flex flex-col gap-8 p-8 md:p-10 rounded-[32px] bg-white/5 border border-white/10 shadow-xl relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-orange/20 via-brand-orange to-brand-orange/20"></div>
+                  <div className="border-b border-white/10 pb-4">
+                    <h4 className="font-serif text-2xl md:text-3xl text-brand-orange mb-1">Zum Anstoßen</h4>
+                    <span className="text-xs md:text-sm uppercase tracking-widest opacity-60">& Genießen</span>
+                  </div>
+                  
+                  <div className="flex flex-col gap-8">
+                    <div className="relative pl-5 border-l-2 border-brand-orange/30 hover:border-brand-orange transition-colors duration-300">
+                      <h5 className="font-bold text-lg mb-2">Die Getränke-Schänke</h5>
+                      <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
+                        Das flüssige Herzstück. Hier holst du dir dein kühles, naturtrübes "Jaga Bier" im Keferloher oder ein frisches Weißbier von Huber Weisse. Natürlich gibt's auch alle alkoholfreien Klassiker.
+                      </p>
+                    </div>
+                    <div className="relative pl-5 border-l-2 border-brand-orange/30 hover:border-brand-orange transition-colors duration-300">
+                      <h5 className="font-bold text-lg mb-2">Die Outdoor-Bar</h5>
+                      <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
+                        Aus dem alten "Glückshafen" wurde eine moderne Bar! Perfekt, um den lauen Sommerabend bei einem kühlen Spritz, Longdrink oder Cocktail unter den Lampions ausklingen zu lassen.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </section>
+
+        {/* SECTION TV: Mein Lokal, Dein Lokal */}
+        <section id="tv-feature" className={`py-24 md:py-40 px-4 sm:px-6 md:px-12 lg:px-20 relative z-20 transition-colors duration-1000 ${isDarkMode ? 'bg-[#161f26] text-brand-light' : 'bg-brand-dark/5 text-brand-dark'}`}>
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+            className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-center"
+          >
+            <div className="order-2 lg:order-2">
+              <div className="aspect-square md:aspect-[4/3] rounded-[32px] md:rounded-[40px] overflow-hidden relative shadow-2xl border border-white/10 group">
+                <img src="https://www.merkur.de/assets/images/39/494/39494937-dem-sternekoch-schmeckt-ali-guengoermues-probierte-im-beisein-von-chefkoechin-michaela-harrer-und-betreiber-suleiman-hotaki-das-steirische-schnitzel-hzc1BpIatec.jpg" alt="Mein Lokal Dein Lokal in der Schlossallee" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" loading="lazy" referrerPolicy="no-referrer" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f12]/80 via-transparent to-transparent opacity-60"></div>
+                
+                {/* Play Button Overlay */}
+                <a 
+                  href="https://www.joyn.de/serien/mein-lokal-dein-lokal-der-profi-kommt-dprmg046bvl0/19-102-viel-masse-aber-auch-klasse-schlossallee-haag" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="absolute inset-0 flex items-center justify-center z-10"
+                >
+                  <div className="w-20 h-20 rounded-full bg-brand-orange/90 text-white flex items-center justify-center shadow-[0_0_40px_rgba(217,119,6,0.5)] transform transition-transform duration-500 group-hover:scale-110">
+                    <Play size={36} strokeWidth={2} className="ml-2" />
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div className="order-1 lg:order-1 flex flex-col gap-6">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-10 h-[2px] bg-brand-orange"></div>
+                <span className="text-brand-orange font-bold uppercase tracking-widest text-sm">Bekannt aus dem TV</span>
+              </div>
+              <h2 className="font-serif text-5xl md:text-6xl leading-[1.1] uppercase">
+                Mein Lokal,<br />Dein Lokal.
+              </h2>
+              <p className={`text-lg leading-relaxed transition-colors duration-1000 ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
+                Wir durften Sternekoch Ali Güngörmüş und das Team von Kabel Eins bei uns in der Schlossallee begrüßen. Ein besonderes Erlebnis für unser gesamtes Team!
+              </p>
+              <p className={`text-lg leading-relaxed transition-colors duration-1000 ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
+                Überzeuge dich selbst von unseren Schmankerln und schau dir an, wie unser Steirisches Schnitzel beim Profi abgeschnitten hat.
+              </p>
+              
+              <div className="mt-4">
+                <a 
+                  href="https://www.joyn.de/serien/mein-lokal-dein-lokal-der-profi-kommt-dprmg046bvl0/19-102-viel-masse-aber-auch-klasse-schlossallee-haag" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 bg-brand-orange text-white px-8 py-4 rounded-full font-bold shadow-lg hover:bg-brand-orange/90 active:scale-95 transition-all w-fit"
+                >
+                  <Tv size={20} />
+                  Zur Folge auf Joyn
+                </a>
+              </div>
             </div>
           </motion.div>
         </section>
@@ -994,26 +1156,28 @@ END:VCALENDAR`;
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     whileTap={{ scale: 0.98 }}
-                    className="group relative w-full aspect-[4/3] rounded-[32px] overflow-hidden cursor-pointer shadow-2xl"
+                    className="group relative w-full rounded-[32px] overflow-hidden cursor-pointer shadow-2xl bg-[#161f26] border border-white/10 hover:border-brand-orange/30 transition-colors duration-500 p-6 md:p-8 flex flex-col min-h-[240px]"
                   >
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="Fundbüro Texture" className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-60" referrerPolicy="no-referrer" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f12] via-[#0a0f12]/80 to-[#0a0f12]/40 opacity-90 group-hover:opacity-80 transition-opacity duration-500"></div>
+                    {/* Subtle Bavarian Diamond Pattern Overlay */}
+                    <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, #ffffff 10px, #ffffff 11px), repeating-linear-gradient(-45deg, transparent, transparent 10px, #ffffff 10px, #ffffff 11px)' }}></div>
                     
-                    <div className="absolute inset-4 border border-white/20 rounded-[20px] z-10 transition-colors duration-500 group-hover:border-brand-orange/50 pointer-events-none"></div>
-
-                    <div className="absolute inset-0 p-8 flex flex-col justify-end z-20">
-                      <div className="absolute top-8 right-8 w-10 h-10 rounded-full flex items-center justify-center border border-white/20 bg-white/5 text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all duration-500">
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    <div className="flex justify-between items-start relative z-10 mb-auto">
+                      <div className="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest bg-brand-dark/50 text-brand-orange border border-brand-orange/20">
+                        {foundItem.date}
+                      </div>
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center border border-white/10 bg-white/5 text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all duration-500">
                         <Search size={18} />
                       </div>
-                      
-                      <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                        <span className="text-white text-xs font-bold uppercase tracking-[0.2em] mb-3 block drop-shadow-md">{foundItem.date}</span>
-                        <h3 className="font-serif text-3xl text-white mb-4 drop-shadow-lg">{foundItem.item}</h3>
-                        <div className="w-0 h-[2px] bg-brand-orange mb-4 group-hover:w-16 transition-all duration-500 delay-100"></div>
-                        <div className="flex items-center gap-2 text-white/90 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200 drop-shadow-md">
-                          <MapPin size={16} className="text-brand-orange" />
-                          <p>{foundItem.location}</p>
-                        </div>
+                    </div>
+                    
+                    <div className="relative z-10 mt-8">
+                      <h3 className="font-serif text-2xl md:text-3xl text-white mb-4 drop-shadow-lg">{foundItem.item}</h3>
+                      <div className="w-8 h-[2px] bg-brand-orange mb-4 group-hover:w-16 transition-all duration-500"></div>
+                      <div className="flex items-center gap-2 text-white/70 text-sm">
+                        <MapPin size={16} className="text-brand-orange" />
+                        <p>{foundItem.location}</p>
                       </div>
                     </div>
                   </motion.div>
@@ -1021,18 +1185,21 @@ END:VCALENDAR`;
                   <motion.div 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="col-span-full group relative w-full aspect-[21/9] md:aspect-[3/1] rounded-[32px] overflow-hidden shadow-2xl flex items-center justify-center"
+                    className="col-span-full group relative w-full rounded-[32px] overflow-hidden shadow-2xl flex items-center justify-center bg-[#161f26] border border-white/10 p-10 md:p-16 lg:p-20"
                   >
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80" alt="Fundbüro Texture" className="absolute inset-0 w-full h-full object-cover opacity-40" referrerPolicy="no-referrer" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f12] via-[#0a0f12]/80 to-[#0a0f12]/60"></div>
-                    <div className="absolute inset-4 border border-white/20 rounded-[20px] z-10 pointer-events-none"></div>
+                    {/* Subtle Bavarian Diamond Pattern Overlay */}
+                    <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 20px, #ffffff 20px, #ffffff 21px), repeating-linear-gradient(-45deg, transparent, transparent 20px, #ffffff 20px, #ffffff 21px)' }}></div>
                     
-                    <div className="relative z-20 flex flex-col items-center text-center p-8">
-                      <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center mb-4 border border-emerald-500/30">
-                        <Heart size={32} />
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20"></div>
+                    <div className="absolute inset-4 border border-white/10 rounded-[20px] z-10 pointer-events-none"></div>
+                    
+                    <div className="relative z-20 flex flex-col items-center text-center">
+                      <div className="w-20 h-20 rounded-full bg-brand-orange/10 text-brand-orange flex items-center justify-center mb-6 border border-brand-orange/20 shadow-[0_0_30px_rgba(217,119,6,0.15)]">
+                        <Heart size={36} strokeWidth={1.5} />
                       </div>
-                      <h3 className="font-serif text-3xl text-white mb-2">Alles da, wo es hingehört!</h3>
-                      <p className="text-white/70 text-sm md:text-base max-w-md">Aktuell gibt es keine verlorenen Gegenstände. Wir passen gut auf eure Sachen auf!</p>
+                      <h3 className="font-serif text-3xl md:text-4xl text-white mb-4">Nix verlorn, ois beinand!</h3>
+                      <div className="w-12 h-[2px] bg-brand-orange mb-6"></div>
+                      <p className="text-white/60 text-base md:text-lg max-w-md leading-relaxed">Aktuell gibt es keine verlorenen Gegenstände. Wir passen gut auf eure Sachen auf!</p>
                     </div>
                   </motion.div>
                 )}
@@ -1152,8 +1319,8 @@ END:VCALENDAR`;
         <div className={`max-w-7xl mx-auto mt-24 pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-8 text-sm transition-colors duration-1000 ${isDarkMode ? 'border-white/10 text-brand-light/40' : 'border-white/10 text-brand-light/40'}`}>
           <div className="flex flex-col items-center md:items-start gap-2">
             <p onClick={handleFooterClick} className="cursor-pointer select-none text-center md:text-left leading-relaxed">© 2026 Schlossallee-Biergarten Haag an der Amper.<br className="md:hidden" /> Alle Rechte vorbehalten.</p>
-            <p className="text-center md:text-left font-medium text-brand-light/60">
-              Mit ❤️ g'macht in Bayern von <a href="http://vamela.info" target="_blank" rel="noopener noreferrer" className="text-brand-orange hover:text-brand-orange/80 transition-colors">Vamela</a>
+            <p className="text-center md:text-left text-brand-light/50">
+              Webdesign & Entwicklung durch <a href="http://vamela.info" target="_blank" rel="noopener noreferrer" className="font-serif text-brand-light hover:text-brand-orange transition-colors">Vamela</a>
             </p>
           </div>
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-4">
@@ -1518,7 +1685,7 @@ END:VCALENDAR`;
               transition={{ delay: 0.5 }}
               className="mt-8 font-serif text-2xl text-brand-light"
             >
-              O'zapft is...
+              Herzlich Willkommen...
             </motion.p>
           </motion.div>
         )}
@@ -1529,7 +1696,7 @@ END:VCALENDAR`;
         {isBottomNavExpanded ? (
           <motion.div 
             initial={{ y: '100%' }}
-            animate={{ y: 0 }}
+            animate={{ y: isNavVisible ? 0 : '85%' }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="lg:hidden fixed bottom-0 left-0 w-full z-40 bg-[#0a0f12]/95 backdrop-blur-xl border-t border-white/10 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-3 px-4 flex justify-around items-center shadow-[0_-10px_40px_rgba(0,0,0,0.5)]"
@@ -1567,8 +1734,9 @@ END:VCALENDAR`;
         ) : (
           <motion.div
             initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
+            animate={{ y: isNavVisible ? 0 : '75%', opacity: isNavVisible ? 1 : 0.8 }}
             exit={{ y: 100, opacity: 0 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="lg:hidden fixed bottom-0 left-0 w-full z-40 flex justify-center pb-[max(0.5rem,env(safe-area-inset-bottom))]"
           >
             <button
