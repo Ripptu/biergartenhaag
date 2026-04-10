@@ -1285,10 +1285,10 @@ END:VCALENDAR`;
                       +49 (0) 8167 12345
                     </a>
                     <a 
-                      href="mailto:servus@schlossallee-haag.de" 
+                      href="mailto:info@schlossalleehaag.de" 
                       className={`text-lg transition-colors duration-1000 hover:text-brand-orange ${isDarkMode ? 'text-brand-light/70' : 'text-brand-light/70'}`}
                     >
-                      servus@schlossallee-haag.de
+                      info@schlossalleehaag.de
                     </a>
                   </div>
                 </div>

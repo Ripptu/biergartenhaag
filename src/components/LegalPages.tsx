@@ -26,7 +26,7 @@ export const Impressum: React.FC<LegalPageProps> = ({ isDarkMode }) => (
       <h2 className="font-bold text-xl">Kontakt</h2>
       <p className="opacity-80">
         Telefon: 0176/40216107<br />
-        E-Mail: info@schlossallee-biergarten.de<br />
+        E-Mail: info@schlossalleehaag.de<br />
         Website: www.schlossalleehaag.de
       </p>
     </div>
