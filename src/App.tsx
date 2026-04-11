@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
 import { MapPin, Clock, Phone, ArrowRight, ArrowLeft, X, Heart, Activity, Dog, Droplets, TreePine, Search, Info, Instagram, Facebook, CalendarPlus, Utensils, Tv, Play } from 'lucide-react';
 import { Impressum, AGB, Datenschutz } from './components/LegalPages';
+import { AboutUs } from './components/AboutUs';
 import { supabase } from './supabase';
 
 /**
@@ -121,7 +122,7 @@ function App() {
   const [isDarkMode] = useState<boolean>(true);
 
   // View State (Subpages)
-  const [currentView, setCurrentView] = useState<'home' | 'impressum' | 'agb' | 'datenschutz'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'impressum' | 'agb' | 'datenschutz' | 'about'>('home');
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -229,7 +230,7 @@ END:VCALENDAR`;
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   
   useEffect(() => {
-    const targetDate = new Date('2026-08-15T18:00:00').getTime();
+    const targetDate = new Date('2026-07-04T18:00:00').getTime();
     
     const interval = setInterval(() => {
       const now = new Date().getTime();
@@ -936,7 +937,7 @@ END:VCALENDAR`;
                 Während die Eltern in Ruhe ihr kühles Jaga Bier unter den schattigen Kastanien genießen, wartet auf die kleinen Gäste das ganz große Abenteuer. 
               </p>
               <p className={`text-lg leading-relaxed transition-colors duration-1000 ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
-                Unser riesiger Abenteuerspielplatz und die legendäre <strong className={`font-semibold transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>Ampertal-Kindereisenbahn</strong> machen den Besuch für die ganze Familie unvergesslich.
+                Unser <strong className={`font-semibold transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>2500m² großes Kinderparadies</strong> mit Hüpfburg, großem Abenteuerspielplatz und der legendären <strong className={`font-semibold transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>Ampertal-Kindereisenbahn</strong> macht den Besuch für die ganze Familie unvergesslich.
               </p>
             </div>
           </motion.div>
@@ -994,13 +995,13 @@ END:VCALENDAR`;
                   </div>
                   <div className="text-left md:text-right flex flex-col items-start md:items-end gap-4">
                     <div>
-                      <div className="font-serif text-6xl md:text-8xl text-brand-orange">15.</div>
-                      <div className="text-2xl font-medium tracking-widest uppercase">August</div>
+                      <div className="font-serif text-6xl md:text-8xl text-brand-orange">04.</div>
+                      <div className="text-2xl font-medium tracking-widest uppercase">Juli</div>
                     </div>
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();
-                        downloadICS('Das Lampion-Fest - Schlossallee', 'Ein magischer Abend mit Live-Musik und besonderer Atmosphäre im Biergarten Schlossallee.', '20260815T180000Z', '20260815T230000Z');
+                        downloadICS('Das Lampion-Fest - Schlossallee', 'Ein magischer Abend mit Live-Musik und besonderer Atmosphäre im Biergarten Schlossallee.', '20260704T180000Z', '20260704T230000Z');
                       }}
                       className="flex items-center gap-2 bg-brand-orange/20 hover:bg-brand-orange text-brand-orange hover:text-white px-4 py-2 rounded-full transition-colors text-sm font-medium"
                     >
@@ -1033,27 +1034,54 @@ END:VCALENDAR`;
                 </div>
               </div>
 
-              {/* Event 3 */}
-              <div className={`group flex flex-col lg:flex-row items-center justify-between gap-8 py-8 border-b cursor-pointer hover:px-4 transition-all duration-1000 ${isDarkMode ? 'border-white/10' : 'border-brand-dark/10'}`}>
-                <div className="flex-1">
-                  <h3 className={`font-serif text-4xl mb-2 group-hover:text-brand-orange transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>Oldtimer-Motorradtreffen</h3>
-                  <p className={`transition-colors duration-1000 ${isDarkMode ? 'text-brand-light/60' : 'text-brand-dark/60'}`}>Historische Maschinen, Benzingespräche und zünftige Brotzeit.</p>
+              {/* Event 3 - Kaiserzeitausfahrt */}
+              <details className={`group py-8 border-b transition-all duration-1000 ${isDarkMode ? 'border-white/10' : 'border-brand-dark/10'}`}>
+                <summary className="flex flex-col lg:flex-row items-center justify-between gap-8 cursor-pointer hover:px-4 transition-all duration-300 list-none [&::-webkit-details-marker]:hidden">
+                  <div className="flex-1">
+                    <h3 className={`font-serif text-4xl mb-2 group-hover:text-brand-orange transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>14. Kaiserzeitausfahrt</h3>
+                    <p className={`transition-colors duration-1000 ${isDarkMode ? 'text-brand-light/60' : 'text-brand-dark/60'}`}>Für Motorräder aus der Kaiserzeit bis Baujahr 1918 + Sonderklasse bis 1926. <span className="text-brand-orange text-sm ml-2">Mehr Infos ↓</span></p>
+                  </div>
+                  <div className="text-right flex flex-col lg:flex-row items-start lg:items-center gap-4 lg:gap-8">
+                    <div className="text-xl font-medium">Ganztägig</div>
+                    <div className={`font-serif text-4xl transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>1.-2. <span className="text-2xl uppercase tracking-widest">Aug</span></div>
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        downloadICS('14. Kaiserzeitausfahrt - Schlossallee', 'Für Motorräder aus der Kaiserzeit bis Baujahr 1918 + Sonderklasse bis 1926.', '20260801T080000Z', '20260802T200000Z');
+                      }}
+                      className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors text-xs font-medium border ${isDarkMode ? 'border-white/20 hover:bg-white hover:text-brand-dark' : 'border-brand-dark/20 hover:bg-brand-dark hover:text-brand-light'}`}
+                    >
+                      <CalendarPlus size={14} />
+                      <span className="hidden sm:inline">Kalender</span>
+                    </button>
+                  </div>
+                </summary>
+                <div className={`mt-8 px-4 lg:px-8 py-6 rounded-2xl border transition-colors duration-1000 ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'}`}>
+                  <div className="flex flex-col md:flex-row gap-8">
+                    <div className="flex-1 space-y-4">
+                      <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/80' : 'text-brand-dark/80'}`}>
+                        Liebe Freunde der ganz alten Motorräder, wir freuen uns, dass wir bereits zum 14. Mal zu einer der schönsten internationalen Ausfahrten für Motorräder einladen dürfen.
+                      </p>
+                      <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/80' : 'text-brand-dark/80'}`}>
+                        Wir starten von einem der schönsten Biergärten Bayerns, dem Biergarten Schlossallee in Haag an der Amper. Dort präsentieren wir die mindestens hundert Jahre alten Fahrzeuge der Teilnehmer aus 10 europäischen Ländern.
+                      </p>
+                      <ul className={`list-disc pl-5 text-sm space-y-2 ${isDarkMode ? 'text-brand-light/80' : 'text-brand-dark/80'}`}>
+                        <li><strong>Samstag ab 10:00 Uhr:</strong> Die Maschinen werden vom TÜV Süd überprüft und können von den Besuchern bestaunt werden.</li>
+                        <li><strong>Samstag ab 13:00 Uhr:</strong> Kleine Einstellfahrt rund um Haag.</li>
+                        <li><strong>Sonntag um 10:00 Uhr:</strong> Start der großen Ausfahrt.</li>
+                      </ul>
+                      <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/80' : 'text-brand-dark/80'}`}>
+                        Die Veranstaltung ist geprägt durch Gastfreundschaft und Geselligkeit rund um die seltenen Motorräder. Teilnehmer und Gäste zeigen sich gerne in zeitgemäßer Bekleidung. Wir freuen uns auf viele interessierte Besucher und möchten diese ermuntern, ebenfalls in Bekleidung im Stil der Anfangsjahre des 20. Jahrhunderts zu kommen.
+                      </p>
+                      <p className={`text-sm font-medium mt-4 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>
+                        Organisiert vom Münchner Veteranen Motorrad Club e.V. - MVMC<br/>
+                        <a href="https://www.kaiserzeitausfahrt.de" target="_blank" rel="noopener noreferrer" className="text-brand-orange hover:underline">www.kaiserzeitausfahrt.de</a>
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-right flex flex-col lg:flex-row items-start lg:items-center gap-4 lg:gap-8">
-                  <div className="text-xl font-medium">Ganztägig</div>
-                  <div className={`font-serif text-4xl transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>05. <span className="text-2xl uppercase tracking-widest">Jun</span></div>
-                  <button 
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      downloadICS('Oldtimer-Motorradtreffen - Schlossallee', 'Historische Maschinen, Benzingespräche und zünftige Brotzeit.', '20260605T080000Z', '20260605T200000Z');
-                    }}
-                    className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors text-xs font-medium border ${isDarkMode ? 'border-white/20 hover:bg-white hover:text-brand-dark' : 'border-brand-dark/20 hover:bg-brand-dark hover:text-brand-light'}`}
-                  >
-                    <CalendarPlus size={14} />
-                    <span className="hidden sm:inline">Kalender</span>
-                  </button>
-                </div>
-              </div>
+              </details>
             </div>
           </motion.div>
         </section>
@@ -1211,6 +1239,8 @@ END:VCALENDAR`;
           </motion.div>
         </section>
           </>
+        ) : currentView === 'about' ? (
+          <AboutUs isDarkMode={isDarkMode} onBack={() => setCurrentView('home')} />
         ) : (
           <div className="pt-40 pb-24 px-4 sm:px-6 md:px-12 lg:px-20 min-h-[80vh]">
             <div className="max-w-4xl mx-auto">
@@ -1321,6 +1351,7 @@ END:VCALENDAR`;
             </p>
           </div>
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-4">
+            <button onClick={() => setCurrentView('about')} className="transition-colors hover:text-brand-orange py-2">Über uns</button>
             <button onClick={() => setCurrentView('impressum')} className="transition-colors hover:text-brand-orange py-2">Impressum</button>
             <button onClick={() => setCurrentView('agb')} className="transition-colors hover:text-brand-orange py-2">AGB</button>
             <button onClick={() => setCurrentView('datenschutz')} className="transition-colors hover:text-brand-orange py-2">Datenschutz</button>
@@ -1349,6 +1380,7 @@ END:VCALENDAR`;
               <a href="#schmankerl" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Schmankerl</a>
               <a href="#events" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Events</a>
               <a href="#fundbuero" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Fundbüro</a>
+              <button onClick={() => { setIsMenuOpen(false); setCurrentView('about'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Über uns</button>
               <a href="#kontakt" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Kontakt</a>
               
               <div className="mt-8 flex gap-6">
