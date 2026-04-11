@@ -976,38 +976,32 @@ END:VCALENDAR`;
                     {/* Countdown */}
                     <div className="flex gap-3 md:gap-4 text-center">
                       <div className="bg-white/10 backdrop-blur-sm rounded-xl p-2 md:p-3 min-w-[60px] md:min-w-[70px]">
-                        <div className="font-serif text-2xl md:text-3xl text-brand-orange">{timeLeft.days}</div>
+                        <div className="font-serif text-2xl md:text-3xl text-brand-orange blur-[6px] select-none opacity-80">{timeLeft.days}</div>
                         <div className="text-[10px] md:text-xs uppercase tracking-wider opacity-70">Tage</div>
                       </div>
                       <div className="bg-white/10 backdrop-blur-sm rounded-xl p-2 md:p-3 min-w-[60px] md:min-w-[70px]">
-                        <div className="font-serif text-2xl md:text-3xl text-brand-orange">{timeLeft.hours}</div>
+                        <div className="font-serif text-2xl md:text-3xl text-brand-orange blur-[6px] select-none opacity-80">{timeLeft.hours}</div>
                         <div className="text-[10px] md:text-xs uppercase tracking-wider opacity-70">Std</div>
                       </div>
                       <div className="bg-white/10 backdrop-blur-sm rounded-xl p-2 md:p-3 min-w-[60px] md:min-w-[70px]">
-                        <div className="font-serif text-2xl md:text-3xl text-brand-orange">{timeLeft.minutes}</div>
+                        <div className="font-serif text-2xl md:text-3xl text-brand-orange blur-[6px] select-none opacity-80">{timeLeft.minutes}</div>
                         <div className="text-[10px] md:text-xs uppercase tracking-wider opacity-70">Min</div>
                       </div>
                       <div className="bg-white/10 backdrop-blur-sm rounded-xl p-2 md:p-3 min-w-[60px] md:min-w-[70px]">
-                        <div className="font-serif text-2xl md:text-3xl text-brand-orange">{timeLeft.seconds}</div>
+                        <div className="font-serif text-2xl md:text-3xl text-brand-orange blur-[6px] select-none opacity-80">{timeLeft.seconds}</div>
                         <div className="text-[10px] md:text-xs uppercase tracking-wider opacity-70">Sek</div>
                       </div>
                     </div>
                   </div>
                   <div className="text-left md:text-right flex flex-col items-start md:items-end gap-4">
                     <div>
-                      <div className="font-serif text-6xl md:text-8xl text-brand-orange">04.</div>
-                      <div className="text-2xl font-medium tracking-widest uppercase">Juli</div>
+                      <div className="font-serif text-6xl md:text-8xl text-brand-orange blur-[8px] select-none opacity-80">04.</div>
+                      <div className="text-2xl font-medium tracking-widest uppercase blur-[6px] select-none opacity-80">Juli</div>
                     </div>
-                    <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        downloadICS('Das Lampion-Fest - Schlossallee', 'Ein magischer Abend mit Live-Musik und besonderer Atmosphäre im Biergarten Schlossallee.', '20260704T180000Z', '20260704T230000Z');
-                      }}
-                      className="flex items-center gap-2 bg-brand-orange/20 hover:bg-brand-orange text-brand-orange hover:text-white px-4 py-2 rounded-full transition-colors text-sm font-medium"
-                    >
+                    <div className="flex items-center gap-2 bg-white/5 text-white/50 px-4 py-2 rounded-full text-sm font-medium cursor-not-allowed">
                       <CalendarPlus size={16} />
-                      <span>Zum Kalender</span>
-                    </button>
+                      <span>Termin folgt</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1020,17 +1014,11 @@ END:VCALENDAR`;
                 </div>
                 <div className="text-right flex flex-col lg:flex-row items-start lg:items-center gap-4 lg:gap-8">
                   <div className="text-xl font-medium">Ab 18:00 Uhr</div>
-                  <div className={`font-serif text-4xl transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>22. <span className="text-2xl uppercase tracking-widest">Mai</span></div>
-                  <button 
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      downloadICS('Live-Musik: Austro-Pop - Schlossallee', 'Mit der lokalen Stadtkapelle und Special Guests.', '20260522T180000Z', '20260522T220000Z');
-                    }}
-                    className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors text-xs font-medium border ${isDarkMode ? 'border-white/20 hover:bg-white hover:text-brand-dark' : 'border-brand-dark/20 hover:bg-brand-dark hover:text-brand-light'}`}
-                  >
+                  <div className={`font-serif text-4xl transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}><span className="blur-[6px] select-none opacity-80">22.</span> <span className="text-2xl uppercase tracking-widest blur-[6px] select-none opacity-80">Mai</span></div>
+                  <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors text-xs font-medium border opacity-50 cursor-not-allowed ${isDarkMode ? 'border-white/20 text-brand-light' : 'border-brand-dark/20 text-brand-dark'}`}>
                     <CalendarPlus size={14} />
-                    <span className="hidden sm:inline">Kalender</span>
-                  </button>
+                    <span className="hidden sm:inline">Termin folgt</span>
+                  </div>
                 </div>
               </div>
 
@@ -1043,18 +1031,11 @@ END:VCALENDAR`;
                   </div>
                   <div className="text-right flex flex-col lg:flex-row items-start lg:items-center gap-4 lg:gap-8">
                     <div className="text-xl font-medium">Ganztägig</div>
-                    <div className={`font-serif text-4xl transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>1.-2. <span className="text-2xl uppercase tracking-widest">Aug</span></div>
-                    <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        downloadICS('14. Kaiserzeitausfahrt - Schlossallee', 'Für Motorräder aus der Kaiserzeit bis Baujahr 1918 + Sonderklasse bis 1926.', '20260801T080000Z', '20260802T200000Z');
-                      }}
-                      className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors text-xs font-medium border ${isDarkMode ? 'border-white/20 hover:bg-white hover:text-brand-dark' : 'border-brand-dark/20 hover:bg-brand-dark hover:text-brand-light'}`}
-                    >
+                    <div className={`font-serif text-4xl transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}><span className="blur-[6px] select-none opacity-80">1.-2.</span> <span className="text-2xl uppercase tracking-widest blur-[6px] select-none opacity-80">Aug</span></div>
+                    <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors text-xs font-medium border opacity-50 cursor-not-allowed ${isDarkMode ? 'border-white/20 text-brand-light' : 'border-brand-dark/20 text-brand-dark'}`}>
                       <CalendarPlus size={14} />
-                      <span className="hidden sm:inline">Kalender</span>
-                    </button>
+                      <span className="hidden sm:inline">Termin folgt</span>
+                    </div>
                   </div>
                 </summary>
                 <div className={`mt-8 px-4 lg:px-8 py-6 rounded-2xl border transition-colors duration-1000 ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'}`}>
