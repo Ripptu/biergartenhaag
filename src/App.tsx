@@ -1290,10 +1290,10 @@ END:VCALENDAR`;
                   <h4 className="text-brand-orange font-bold uppercase tracking-widest text-xs mb-1">Kontakt</h4>
                   <div className="flex flex-col">
                     <a 
-                      href="tel:+49816712345" 
+                      href="tel:+4917640216107" 
                       className={`text-lg transition-colors duration-1000 hover:text-brand-orange ${isDarkMode ? 'text-brand-light/70' : 'text-brand-light/70'}`}
                     >
-                      +49 (0) 8167 12345
+                      +49 176 40216107
                     </a>
                     <a 
                       href="mailto:info@schlossalleehaag.de" 
@@ -1731,7 +1731,7 @@ END:VCALENDAR`;
               <span className="text-[10px] font-bold uppercase tracking-widest">Route</span>
             </a>
             <a 
-              href="tel:+498167958800"
+              href="tel:+4917640216107"
               className="flex flex-col items-center gap-1.5 text-brand-light/70 hover:text-brand-light transition-colors"
               style={{ touchAction: 'manipulation' }}
             >

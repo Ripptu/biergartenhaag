@@ -25,7 +25,7 @@ export const Impressum: React.FC<LegalPageProps> = ({ isDarkMode }) => (
     <div className="flex flex-col gap-2">
       <h2 className="font-bold text-xl">Kontakt</h2>
       <p className="opacity-80">
-        Telefon: 0176/40216107<br />
+        Telefon: +49 176 40216107<br />
         E-Mail: info@schlossalleehaag.de<br />
         Website: www.schlossalleehaag.de
       </p>
