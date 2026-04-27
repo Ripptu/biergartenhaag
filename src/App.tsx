@@ -585,7 +585,7 @@ END:VCALENDAR`;
               </span>
               <div className={`hidden md:block w-1 h-1 rounded-full ${currentView === 'home' || isDarkMode ? 'bg-white/50' : 'bg-black/30'}`}></div>
               <span className={`hidden md:inline ${effectiveIsOpen ? "text-emerald-400 font-medium" : "text-red-400 font-medium"}`}>
-                <span>{effectiveIsOpen ? "Heute Geöffnet" : "Heute Geschlossen"}</span>
+                <span>{effectiveIsOpen ? "Geöffnet" : "Geschlossen"}</span>
               </span>
             </div>
 
@@ -962,107 +962,38 @@ END:VCALENDAR`;
             <div className="flex flex-col gap-8">
               {/* Event 1 - Highlight */}
               <div className="group relative bg-brand-dark text-brand-light rounded-3xl p-8 md:p-12 overflow-hidden cursor-pointer hover:shadow-2xl transition-shadow">
-                <div className="absolute top-0 right-0 w-1/2 h-full opacity-20 group-hover:opacity-40 transition-opacity duration-700">
-                  <img src="https://i0.wp.com/www.siltry.de/bild/haa9.jpg" alt="Lampion-Fest" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-brand-dark to-transparent"></div>
+                <div className="absolute top-0 right-0 w-1/2 h-full opacity-30 group-hover:opacity-50 transition-opacity duration-700">
+                  <img src="https://cageystrings.de/oktoberfest/bottom/CS_websiteOktoberfest24_019.jpg" alt="Cagey Strings" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/80 to-transparent"></div>
                 </div>
                 <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
                   <div>
-                    <span className="text-brand-orange font-bold tracking-widest uppercase text-sm mb-4 block">Zentrales Highlight</span>
-                    <h3 className="font-serif text-5xl md:text-7xl mb-4">Das Lampion-Fest</h3>
-                    <p className="text-brand-light/80 text-lg max-w-md mb-6">
-                      Sobald es dunkel wird, erleuchten tausende Lampions den Biergarten. Ein magischer Abend mit Live-Musik und besonderer Atmosphäre.
+                    <span className="text-brand-orange font-bold tracking-widest uppercase text-sm mb-4 block">Eintritt frei • Nur bei schönem Wetter</span>
+                    <h3 className="font-serif text-5xl md:text-7xl mb-4">Cagey Strings</h3>
+                    <p className="font-serif text-2xl md:text-3xl text-brand-light/80 max-w-md">
+                      Partyrocknroller
                     </p>
-                    {/* Countdown */}
-                    <div className="flex gap-3 md:gap-4 text-center">
-                      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-2 md:p-3 min-w-[60px] md:min-w-[70px]">
-                        <div className="font-serif text-2xl md:text-3xl text-brand-orange blur-[6px] select-none opacity-80">{timeLeft.days}</div>
-                        <div className="text-[10px] md:text-xs uppercase tracking-wider opacity-70">Tage</div>
-                      </div>
-                      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-2 md:p-3 min-w-[60px] md:min-w-[70px]">
-                        <div className="font-serif text-2xl md:text-3xl text-brand-orange blur-[6px] select-none opacity-80">{timeLeft.hours}</div>
-                        <div className="text-[10px] md:text-xs uppercase tracking-wider opacity-70">Std</div>
-                      </div>
-                      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-2 md:p-3 min-w-[60px] md:min-w-[70px]">
-                        <div className="font-serif text-2xl md:text-3xl text-brand-orange blur-[6px] select-none opacity-80">{timeLeft.minutes}</div>
-                        <div className="text-[10px] md:text-xs uppercase tracking-wider opacity-70">Min</div>
-                      </div>
-                      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-2 md:p-3 min-w-[60px] md:min-w-[70px]">
-                        <div className="font-serif text-2xl md:text-3xl text-brand-orange blur-[6px] select-none opacity-80">{timeLeft.seconds}</div>
-                        <div className="text-[10px] md:text-xs uppercase tracking-wider opacity-70">Sek</div>
-                      </div>
-                    </div>
                   </div>
-                  <div className="text-left md:text-right flex flex-col items-start md:items-end gap-4">
+                  <div className="text-left md:text-right flex flex-col items-start md:items-end gap-3">
+                    <div className="text-xl font-medium text-brand-orange">Ab 14:00 Uhr</div>
                     <div>
-                      <div className="font-serif text-6xl md:text-8xl text-brand-orange blur-[8px] select-none opacity-80">04.</div>
-                      <div className="text-2xl font-medium tracking-widest uppercase blur-[6px] select-none opacity-80">Juli</div>
+                      <div className="font-serif text-6xl md:text-8xl text-brand-light">01.</div>
+                      <div className="text-2xl font-medium tracking-widest uppercase text-brand-light/70">Mai 2026</div>
                     </div>
-                    <div className="flex items-center gap-2 bg-white/5 text-white/50 px-4 py-2 rounded-full text-sm font-medium cursor-not-allowed">
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        downloadICS('Cagey Strings - Schlossallee', 'Partyrocknroller. Eintritt frei. Nur bei schönem Wetter.', '20260501T140000Z', '20260501T180000Z');
+                      }}
+                      className="flex items-center gap-2 bg-brand-orange/20 hover:bg-brand-orange text-brand-orange hover:text-white px-4 py-2 mt-2 rounded-full transition-colors text-sm font-medium"
+                    >
                       <CalendarPlus size={16} />
-                      <span>Termin folgt</span>
-                    </div>
+                      <span>Zum Kalender</span>
+                    </button>
                   </div>
                 </div>
               </div>
 
-              {/* Event 2 */}
-              <div className={`group flex flex-col lg:flex-row items-center justify-between gap-8 py-8 border-b cursor-pointer hover:px-4 transition-all duration-1000 ${isDarkMode ? 'border-white/10' : 'border-brand-dark/10'}`}>
-                <div className="flex-1">
-                  <h3 className={`font-serif text-4xl mb-2 group-hover:text-brand-orange transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>Live-Musik: Austro-Pop</h3>
-                  <p className={`transition-colors duration-1000 ${isDarkMode ? 'text-brand-light/60' : 'text-brand-dark/60'}`}>Mit der lokalen Stadtkapelle und Special Guests.</p>
-                </div>
-                <div className="text-right flex flex-col lg:flex-row items-start lg:items-center gap-4 lg:gap-8">
-                  <div className="text-xl font-medium">Ab 18:00 Uhr</div>
-                  <div className={`font-serif text-4xl transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}><span className="blur-[6px] select-none opacity-80">22.</span> <span className="text-2xl uppercase tracking-widest blur-[6px] select-none opacity-80">Mai</span></div>
-                  <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors text-xs font-medium border opacity-50 cursor-not-allowed ${isDarkMode ? 'border-white/20 text-brand-light' : 'border-brand-dark/20 text-brand-dark'}`}>
-                    <CalendarPlus size={14} />
-                    <span className="hidden sm:inline">Termin folgt</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Event 3 - Kaiserzeitausfahrt */}
-              <details className={`group py-8 border-b transition-all duration-1000 ${isDarkMode ? 'border-white/10' : 'border-brand-dark/10'}`}>
-                <summary className="flex flex-col lg:flex-row items-center justify-between gap-8 cursor-pointer hover:px-4 transition-all duration-300 list-none [&::-webkit-details-marker]:hidden">
-                  <div className="flex-1">
-                    <h3 className={`font-serif text-4xl mb-2 group-hover:text-brand-orange transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>14. Kaiserzeitausfahrt</h3>
-                    <p className={`transition-colors duration-1000 ${isDarkMode ? 'text-brand-light/60' : 'text-brand-dark/60'}`}>Für Motorräder aus der Kaiserzeit bis Baujahr 1918 + Sonderklasse bis 1926. <span className="text-brand-orange text-sm ml-2">Mehr Infos ↓</span></p>
-                  </div>
-                  <div className="text-right flex flex-col lg:flex-row items-start lg:items-center gap-4 lg:gap-8">
-                    <div className="text-xl font-medium">Ganztägig</div>
-                    <div className={`font-serif text-4xl transition-colors duration-1000 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}><span className="blur-[6px] select-none opacity-80">1.-2.</span> <span className="text-2xl uppercase tracking-widest blur-[6px] select-none opacity-80">Aug</span></div>
-                    <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors text-xs font-medium border opacity-50 cursor-not-allowed ${isDarkMode ? 'border-white/20 text-brand-light' : 'border-brand-dark/20 text-brand-dark'}`}>
-                      <CalendarPlus size={14} />
-                      <span className="hidden sm:inline">Termin folgt</span>
-                    </div>
-                  </div>
-                </summary>
-                <div className={`mt-8 px-4 lg:px-8 py-6 rounded-2xl border transition-colors duration-1000 ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'}`}>
-                  <div className="flex flex-col md:flex-row gap-8">
-                    <div className="flex-1 space-y-4">
-                      <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/80' : 'text-brand-dark/80'}`}>
-                        Liebe Freunde der ganz alten Motorräder, wir freuen uns, dass wir bereits zum 14. Mal zu einer der schönsten internationalen Ausfahrten für Motorräder einladen dürfen.
-                      </p>
-                      <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/80' : 'text-brand-dark/80'}`}>
-                        Wir starten von einem der schönsten Biergärten Bayerns, dem Biergarten Schlossallee in Haag an der Amper. Dort präsentieren wir die mindestens hundert Jahre alten Fahrzeuge der Teilnehmer aus 10 europäischen Ländern.
-                      </p>
-                      <ul className={`list-disc pl-5 text-sm space-y-2 ${isDarkMode ? 'text-brand-light/80' : 'text-brand-dark/80'}`}>
-                        <li><strong>Samstag ab 10:00 Uhr:</strong> Die Maschinen werden vom TÜV Süd überprüft und können von den Besuchern bestaunt werden.</li>
-                        <li><strong>Samstag ab 13:00 Uhr:</strong> Kleine Einstellfahrt rund um Haag.</li>
-                        <li><strong>Sonntag um 10:00 Uhr:</strong> Start der großen Ausfahrt.</li>
-                      </ul>
-                      <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/80' : 'text-brand-dark/80'}`}>
-                        Die Veranstaltung ist geprägt durch Gastfreundschaft und Geselligkeit rund um die seltenen Motorräder. Teilnehmer und Gäste zeigen sich gerne in zeitgemäßer Bekleidung. Wir freuen uns auf viele interessierte Besucher und möchten diese ermuntern, ebenfalls in Bekleidung im Stil der Anfangsjahre des 20. Jahrhunderts zu kommen.
-                      </p>
-                      <p className={`text-sm font-medium mt-4 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>
-                        Organisiert vom Münchner Veteranen Motorrad Club e.V. - MVMC<br/>
-                        <a href="https://www.kaiserzeitausfahrt.de" target="_blank" rel="noopener noreferrer" className="text-brand-orange hover:underline">www.kaiserzeitausfahrt.de</a>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </details>
             </div>
           </motion.div>
         </section>
