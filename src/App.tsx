@@ -970,12 +970,19 @@ END:VCALENDAR`;
                   <div>
                     <span className="text-brand-orange font-bold tracking-widest uppercase text-sm mb-4 block">Eintritt frei • Nur bei schönem Wetter</span>
                     <h3 className="font-serif text-5xl md:text-7xl mb-4">Cagey Strings</h3>
-                    <p className="font-serif text-2xl md:text-3xl text-brand-light/80 max-w-md">
+                    <p className="font-serif text-2xl md:text-3xl text-brand-light/80 max-w-md mb-3">
                       Partyrocknroller
+                    </p>
+                    <p className="text-brand-light/80 text-lg">
+                      Biergarten öffnet um 11:00 Uhr.<br />
+                      Band spielt ab 14:00 Uhr.
                     </p>
                   </div>
                   <div className="text-left md:text-right flex flex-col items-start md:items-end gap-3">
-                    <div className="text-xl font-medium text-brand-orange">Ab 14:00 Uhr</div>
+                    <div className="text-xl font-medium text-brand-orange">
+                      <span className="block text-sm text-brand-light/70 mb-1">Öffnung: 11:00 Uhr</span>
+                      Live-Musik: 14:00 Uhr
+                    </div>
                     <div>
                       <div className="font-serif text-6xl md:text-8xl text-brand-light">01.</div>
                       <div className="text-2xl font-medium tracking-widest uppercase text-brand-light/70">Mai 2026</div>
