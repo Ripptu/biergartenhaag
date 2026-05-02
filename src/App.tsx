@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
-import { MapPin, Clock, Phone, ArrowRight, ArrowLeft, X, Heart, Activity, Dog, Droplets, TreePine, Search, Info, Instagram, Facebook, CalendarPlus, Utensils, Tv, Play } from 'lucide-react';
+import { MapPin, Clock, Phone, ArrowRight, ArrowLeft, X, Heart, Activity, Dog, Droplets, TreePine, Search, Info, Instagram, Facebook, CalendarPlus, Utensils, Tv, Play, Beer, Flame, Fish, Wheat, Pizza, Wine, Coffee } from 'lucide-react';
 import { Impressum, AGB, Datenschutz } from './components/LegalPages';
 import { AboutUs } from './components/AboutUs';
 import { supabase } from './supabase';
@@ -771,88 +771,107 @@ END:VCALENDAR`;
               </motion.div>
             </div>
 
-            {/* Weitere Standl (Text-based) */}
-            <div className="mt-24 md:mt-32 pt-16 md:pt-24 border-t border-white/10">
-              <div className="text-center mb-16 md:mb-20">
-                <h3 className="font-serif text-3xl md:text-5xl mb-4">Alle Standl auf einen Blick</h3>
+            {/* Weitere Standl (Menu List) */}
+            <div className="mt-20 md:mt-32 pt-16 md:pt-24 border-t border-white/10">
+              <div className="text-center mb-16 md:mb-24">
+                <h3 className="font-serif text-4xl md:text-6xl mb-4">Alle Standl</h3>
                 <div className="w-16 h-[2px] bg-brand-orange mx-auto"></div>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 lg:gap-12 max-w-6xl mx-auto">
-                {/* Category 1 */}
-                <div className="flex flex-col gap-10">
-                  <div>
-                    <h4 className="font-serif text-2xl md:text-3xl text-brand-orange mb-1">Bayerisch & Deftig</h4>
-                    <span className="text-xs md:text-sm uppercase tracking-widest opacity-60">Die Klassiker</span>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-20 gap-y-16 max-w-6xl mx-auto px-6">
+                
+                {/* Category 1: Bayerisch & Deftig */}
+                <div className="flex flex-col gap-8">
+                  <div className="border-b border-brand-orange/30 pb-4">
+                    <h4 className="font-serif text-3xl md:text-4xl text-brand-orange">Bayerisch & Deftig</h4>
+                    <span className={`uppercase tracking-[0.2em] text-xs font-bold ${isDarkMode ? 'text-white/50' : 'text-black/50'}`}>Die Klassiker</span>
                   </div>
                   
-                  <div className="flex flex-col gap-8">
-                    <div>
-                      <h5 className="font-bold text-lg mb-2 flex flex-wrap items-baseline gap-2">
+                  <div className="flex flex-col gap-10">
+                    <div className="group">
+                      <h5 className="font-bold text-xl md:text-2xl mb-1 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
                         Die Grill-Hütt'n
-                        <span className="font-normal opacity-60 text-xs">(Steak & Würstl)</span>
+                        <span className="font-sans text-xs uppercase tracking-widest text-brand-orange/80">Steak & Würstl</span>
                       </h5>
-                      <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
+                      <p className={`text-base leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
                         Hier gibt's das Herzhafte vom Holzkohlegrill. Vom saftigen Halsgrat bis zur knackigen Bratwurst – die perfekte Anlaufstelle für den klassischen Biergarten-Hunger.
                       </p>
                     </div>
-                    <div>
-                      <h5 className="font-bold text-lg mb-2">Die Fischbraterei</h5>
-                      <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
-                        Ein absolutes Muss unter den Kastanien. Hier wird der traditionelle Steckerlfisch knusprig und frisch direkt über der Glut gegrillt.
+
+                    <div className="group">
+                      <h5 className="font-bold text-xl md:text-2xl mb-1 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
+                        Die Fischbraterei
+                        <span className="font-sans text-xs uppercase tracking-widest text-brand-orange/80">Steckerlfisch</span>
+                      </h5>
+                      <p className={`text-base leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
+                        Ein absolutes Muss unter den Kastanien. Hier wird der traditionelle Steckerlfisch knusprig und frisch direkt über der heißen Glut gegrillt.
                       </p>
                     </div>
-                    <div>
-                      <h5 className="font-bold text-lg mb-2">Die Bäckerei-Hütte</h5>
-                      <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
+
+                    <div className="group">
+                      <h5 className="font-bold text-xl md:text-2xl mb-1 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
+                        Die Bäckerei-Hütte
+                        <span className="font-sans text-xs uppercase tracking-widest text-brand-orange/80">Brezn & Co.</span>
+                      </h5>
+                      <p className={`text-base leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
                         Die Basis für jede gscheite Brotzeit. Resche Brezn, frisches Brot und alles, was man für den kleinen Hunger oder zum Teilen am Biertisch braucht.
                       </p>
                     </div>
                   </div>
                 </div>
 
-                {/* Category 2 */}
-                <div className="flex flex-col gap-10">
-                  <div>
-                    <h4 className="font-serif text-2xl md:text-3xl text-brand-orange mb-1">Dolce Vita</h4>
-                    <span className="text-xs md:text-sm uppercase tracking-widest opacity-60">im Biergarten</span>
-                  </div>
-                  
+                <div className="flex flex-col gap-16">
+                  {/* Category 2: La Dolce Vita */}
                   <div className="flex flex-col gap-8">
-                    <div>
-                      <h5 className="font-bold text-lg mb-2 flex flex-wrap items-baseline gap-2">
-                        Casa Della Pizza
-                        <span className="font-normal opacity-60 text-xs">"Alma"</span>
-                      </h5>
-                      <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
-                        Das absolute Upgrade für die Schlossallee! Wo früher Kaffee ausgeschenkt wurde, zieht jetzt der Duft von frischer Pizza durch den Biergarten. Wer mal Abwechslung vom Grillfleisch sucht, bekommt hier original italienisches Flair direkt an den Biertisch.
-                      </p>
+                    <div className="border-b border-brand-orange/30 pb-4">
+                      <h4 className="font-serif text-3xl md:text-4xl text-brand-orange">La Dolce Vita</h4>
+                      <span className={`uppercase tracking-[0.2em] text-xs font-bold ${isDarkMode ? 'text-white/50' : 'text-black/50'}`}>Für die Abwechslung</span>
+                    </div>
+                    
+                    <div className="flex flex-col gap-10">
+                      <div className="group">
+                        <h5 className="font-bold text-xl md:text-2xl mb-1 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
+                          Casa Della Pizza
+                          <span className="font-sans text-xs uppercase tracking-widest text-brand-orange/80">"Alma"</span>
+                        </h5>
+                        <p className={`text-base leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
+                          Das absolute Upgrade für die Schlossallee! Frischer Pizzateig, der Duft zieht durch den Biergarten. Wer mal Abwechslung vom Grillfleisch sucht, bekommt hier original italienisches Flair.
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Category 3 */}
-                <div className="flex flex-col gap-10">
-                  <div>
-                    <h4 className="font-serif text-2xl md:text-3xl text-brand-orange mb-1">Zum Anstoßen</h4>
-                    <span className="text-xs md:text-sm uppercase tracking-widest opacity-60">& Genießen</span>
-                  </div>
-                  
+                  {/* Category 3: Zum Anstoßen */}
                   <div className="flex flex-col gap-8">
-                    <div>
-                      <h5 className="font-bold text-lg mb-2">Die Getränke-Schänke</h5>
-                      <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
-                        Das flüssige Herzstück. Hier holst du dir dein kühles, naturtrübes "Jaga Bier" im Keferloher oder ein frisches Weißbier von Huber Weisse. Natürlich gibt's auch alle alkoholfreien Klassiker.
-                      </p>
+                    <div className="border-b border-brand-orange/30 pb-4">
+                      <h4 className="font-serif text-3xl md:text-4xl text-brand-orange">Zum Anstoßen</h4>
+                      <span className={`uppercase tracking-[0.2em] text-xs font-bold ${isDarkMode ? 'text-white/50' : 'text-black/50'}`}>Bier & Genuss</span>
                     </div>
-                    <div>
-                      <h5 className="font-bold text-lg mb-2">Die Outdoor-Bar</h5>
-                      <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
-                        Aus dem alten "Glückshafen" wurde eine moderne Bar! Perfekt, um den lauen Sommerabend bei einem kühlen Spritz, Longdrink oder Cocktail unter den Lampions ausklingen zu lassen.
-                      </p>
+                    
+                    <div className="flex flex-col gap-10">
+                      <div className="group">
+                        <h5 className="font-bold text-xl md:text-2xl mb-1 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
+                          Die Getränke-Schänke
+                          <span className="font-sans text-xs uppercase tracking-widest text-brand-orange/80">Bier & Limo</span>
+                        </h5>
+                        <p className={`text-base leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
+                          Das flüssige Herzstück. Hier holst du dir dein kühles, naturtrübes "Jaga Bier" im Keferloher oder ein frisches Weißbier von Huber Weisse. 
+                        </p>
+                      </div>
+
+                      <div className="group">
+                        <h5 className="font-bold text-xl md:text-2xl mb-1 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
+                          Die Outdoor-Bar
+                          <span className="font-sans text-xs uppercase tracking-widest text-brand-orange/80">Cocktails & Wein</span>
+                        </h5>
+                        <p className={`text-base leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
+                          Aus dem alten "Glückshafen" wurde eine moderne Bar! Perfekt, um den lauen Sommerabend bei einem kühlen Spritz oder Cocktail unter den Lampions ausklingen zu lassen.
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
+                
               </div>
             </div>
           </motion.div>
@@ -1012,59 +1031,52 @@ END:VCALENDAR`;
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
-            className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-center"
+            className="max-w-7xl mx-auto"
           >
-            <div className="order-2 lg:order-1 flex flex-col gap-6">
-              <h2 className="font-serif text-5xl md:text-6xl leading-[1.1] uppercase">
-                Ein Platz für<br />Vierbeiner.
+            <div className="text-center mb-12 md:mb-20">
+              <h2 className="font-serif text-5xl sm:text-6xl md:text-8xl leading-none uppercase mb-4 md:mb-6">
+                Ein Platz für<br />Vierbeiner
               </h2>
-              <p className={`text-lg leading-relaxed transition-colors duration-1000 ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
-                Gut erzogene Hunde sind bei uns im Biergarten Schlossallee herzlich willkommen! Damit sich auch unsere vierbeinigen Gäste rundum wohlfühlen, haben wir an alles gedacht.
-              </p>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
-                {/* Hunde Card 1 */}
-                <motion.div whileTap={{ scale: 0.98 }} className="group relative w-full aspect-square rounded-[32px] overflow-hidden cursor-pointer shadow-2xl">
-                  <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=800&q=80" alt="Hunde Wasser" className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" referrerPolicy="no-referrer" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f12] via-[#0a0f12]/70 to-transparent opacity-90 group-hover:opacity-80 transition-opacity duration-500"></div>
-                  
-                  <div className="absolute inset-4 border border-white/20 rounded-[20px] z-10 transition-colors duration-500 group-hover:border-brand-orange/50 pointer-events-none"></div>
+              <p className={`text-lg md:text-xl font-medium transition-colors duration-1000 ${isDarkMode ? 'text-brand-light/60' : 'text-brand-dark/60'}`}>Auch eure Hunde sollen sich rundum wohlfühlen.</p>
+            </div>
 
-                  <div className="absolute inset-0 p-6 flex flex-col justify-end z-20">
-                    <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                      <Droplets className="text-brand-orange mb-3 drop-shadow-md w-6 h-6" />
-                      <h4 className="font-serif text-2xl text-white mb-2 drop-shadow-lg">Frisches Wasser</h4>
-                      <div className="w-0 h-[2px] bg-brand-orange mb-3 group-hover:w-12 transition-all duration-500 delay-100"></div>
-                      <p className="text-white/90 text-xs leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200 drop-shadow-md">
-                        Wassernäpfe stehen jederzeit frisch befüllt direkt an der Schänke und am Haupteingang bereit.
+            <div className="group relative bg-brand-dark text-brand-light rounded-3xl p-8 md:p-12 overflow-hidden cursor-pointer hover:shadow-2xl transition-shadow">
+              <div className="absolute top-0 right-0 w-full lg:w-2/3 h-full opacity-30 group-hover:opacity-50 transition-opacity duration-700">
+                <img src="https://images.unsplash.com/photo-1544568100-847a948585b9?auto=format&fit=crop&w=1600&q=80" alt="Hund im Biergarten" className="w-full h-full object-cover object-[center_30%]" referrerPolicy="no-referrer" />
+                <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-brand-dark via-brand-dark/90 to-transparent"></div>
+              </div>
+              
+              <div className="relative z-10 flex flex-col gap-12">
+                <div className="max-w-2xl">
+                  <span className="text-brand-orange font-bold tracking-widest uppercase text-sm mb-4 block">Immer Willkommen</span>
+                  <h3 className="font-serif text-4xl md:text-6xl mb-6">Für die treuesten Begleiter.</h3>
+                  <p className="text-brand-light/80 text-lg md:text-xl leading-relaxed mb-10">
+                    Gut erzogene Hunde sind bei uns im Biergarten Schlossallee herzlich willkommen! 
+                    Damit sich auch unsere vierbeinigen Gäste rundum wohlfühlen, haben wir natürlich an eine hundegerechte Umgebung gedacht.
+                  </p>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-brand-orange/30 transition-colors">
+                      <div className="flex items-center gap-3 mb-4">
+                        <Droplets className="text-brand-orange w-6 h-6" />
+                        <h4 className="font-serif text-2xl text-white">Trinkwasser</h4>
+                      </div>
+                      <p className="text-brand-light/70 text-base leading-relaxed">
+                        Wassernäpfe stehen jederzeit frisch befüllt direkt an der Schänke und am Haupteingang für euch bereit.
                       </p>
                     </div>
-                  </div>
-                </motion.div>
-
-                {/* Hunde Card 2 */}
-                <motion.div whileTap={{ scale: 0.98 }} className="group relative w-full aspect-square rounded-[32px] overflow-hidden cursor-pointer shadow-2xl">
-                  <img src="https://images.unsplash.com/photo-1529429617124-95b109e86bb8?auto=format&fit=crop&w=800&q=80" alt="Hunde Schatten" className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" referrerPolicy="no-referrer" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f12] via-[#0a0f12]/70 to-transparent opacity-90 group-hover:opacity-80 transition-opacity duration-500"></div>
-                  
-                  <div className="absolute inset-4 border border-white/20 rounded-[20px] z-10 transition-colors duration-500 group-hover:border-brand-orange/50 pointer-events-none"></div>
-
-                  <div className="absolute inset-0 p-6 flex flex-col justify-end z-20">
-                    <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                      <TreePine className="text-brand-orange mb-3 drop-shadow-md w-6 h-6" />
-                      <h4 className="font-serif text-2xl text-white mb-2 drop-shadow-lg">Viel Schatten</h4>
-                      <div className="w-0 h-[2px] bg-brand-orange mb-3 group-hover:w-12 transition-all duration-500 delay-100"></div>
-                      <p className="text-white/90 text-xs leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200 drop-shadow-md">
+                    
+                    <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-brand-orange/30 transition-colors">
+                      <div className="flex items-center gap-3 mb-4">
+                        <TreePine className="text-brand-orange w-6 h-6" />
+                        <h4 className="font-serif text-2xl text-white">Schattenplätze</h4>
+                      </div>
+                      <p className="text-brand-light/70 text-base leading-relaxed">
                         Besonders die Tische im hinteren Bereich unter den alten Kastanien bieten an heißen Tagen perfekten Schatten.
                       </p>
                     </div>
                   </div>
-                </motion.div>
-              </div>
-            </div>
-            <div className="order-1 lg:order-2">
-              <div className="aspect-square md:aspect-[4/3] rounded-[40px] overflow-hidden relative shadow-2xl">
-                <img src="https://images.unsplash.com/photo-1544568100-847a948585b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" alt="Hund im Biergarten" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                </div>
               </div>
             </div>
           </motion.div>
