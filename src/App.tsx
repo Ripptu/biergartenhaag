@@ -305,7 +305,7 @@ END:VCALENDAR`;
     const statusSubscription = supabase
       .channel('status-changes')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'status' }, payload => {
-        const data = payload.new;
+        const data = payload.new as any;
         if (data) {
           if (typeof data.isOpen === 'boolean') setDbIsOpen(data.isOpen);
           if (data.override_date !== undefined) setOverrideDate(data.override_date);
@@ -979,18 +979,21 @@ END:VCALENDAR`;
             </div>
 
             <div className="flex flex-col gap-8">
-              {/* Event 1 - Highlight */}
+              {/* Event 1 - Next Event / Jack Rabbit */}
               <div className="group relative bg-brand-dark text-brand-light rounded-3xl p-8 md:p-12 overflow-hidden cursor-pointer hover:shadow-2xl transition-shadow">
-                <div className="absolute top-0 right-0 w-1/2 h-full opacity-30 group-hover:opacity-50 transition-opacity duration-700">
-                  <img src="https://cageystrings.de/oktoberfest/bottom/CS_websiteOktoberfest24_019.jpg" alt="Cagey Strings" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/80 to-transparent"></div>
+                <div className="absolute top-0 right-0 w-1/2 h-full opacity-35 group-hover:opacity-55 transition-opacity duration-700">
+                  <img src="https://mein.toubiz.de/api/v1/media/b7febda2-1a5d-4dc4-ba38-5da2db65548c/view?fm=image/jpeg&w=1900" alt="Jack Rabbit Blues Rock" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/90 to-transparent"></div>
                 </div>
                 <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
                   <div>
-                    <span className="text-brand-orange font-bold tracking-widest uppercase text-sm mb-4 block">Eintritt frei • Nur bei schönem Wetter</span>
-                    <h3 className="font-serif text-5xl md:text-7xl mb-4">Cagey Strings</h3>
-                    <p className="font-serif text-2xl md:text-3xl text-brand-light/80 max-w-md mb-3">
-                      Partyrocknroller
+                    <div className="flex flex-wrap gap-2 items-center mb-4">
+                      <span className="bg-brand-orange text-brand-dark font-bold tracking-widest uppercase text-[10px] px-3 py-1 rounded-full">Nächstes Event</span>
+                      <span className="text-brand-orange/90 font-bold tracking-widest uppercase text-xs">Eintritt frei • Nur bei schönem Wetter</span>
+                    </div>
+                    <h3 className="font-serif text-5xl md:text-7xl mb-4">Jack Rabbit</h3>
+                    <p className="font-serif text-2xl md:text-3xl text-brand-orange mb-3">
+                      Blues Rock, New Country & Classic Rock
                     </p>
                     <p className="text-brand-light/80 text-lg">
                       Biergarten öffnet um 11:00 Uhr.<br />
@@ -1003,13 +1006,14 @@ END:VCALENDAR`;
                       Live-Musik: 14:00 Uhr
                     </div>
                     <div>
-                      <div className="font-serif text-6xl md:text-8xl text-brand-light">01.</div>
-                      <div className="text-2xl font-medium tracking-widest uppercase text-brand-light/70">Mai 2026</div>
+                      <div className="font-serif text-6xl md:text-8xl text-brand-light">04.</div>
+                      <div className="text-2xl font-medium tracking-widest uppercase text-brand-light/70">Juni 2026</div>
+                      <div className="text-xs uppercase tracking-wider text-brand-orange font-bold mt-1">Fronleichnam (Feiertag)</div>
                     </div>
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();
-                        downloadICS('Cagey Strings - Schlossallee', 'Partyrocknroller. Eintritt frei. Nur bei schönem Wetter.', '20260501T140000Z', '20260501T180000Z');
+                        downloadICS('Jack Rabbit - Schlossallee', 'Blues rock, new country, classic rock. Eintritt frei. Nur bei schönem Wetter.', '20260604T140000Z', '20260604T180000Z');
                       }}
                       className="flex items-center gap-2 bg-brand-orange/20 hover:bg-brand-orange text-brand-orange hover:text-white px-4 py-2 mt-2 rounded-full transition-colors text-sm font-medium"
                     >
