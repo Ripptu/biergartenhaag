@@ -55,12 +55,17 @@ function App() {
     script.type = 'application/ld+json';
     script.text = JSON.stringify({
       "@context": "https://schema.org",
-      "@type": "Restaurant",
-      "name": "Schlossallee Biergarten Haag",
-      "image": "https://scontent-dus1-1.xx.fbcdn.net/v/t39.30808-6/492210388_1194107815843563_1337847489003514631_n.jpg",
-      "@id": "https://schlossallee-haag.de",
+      "@type": ["BarOrPub", "Restaurant"],
+      "name": "Biergarten Schlossallee Haag",
+      "image": [
+        "https://scontent-dus1-1.xx.fbcdn.net/v/t39.30808-6/492210388_1194107815843563_1337847489003514631_n.jpg",
+        "https://mein.toubiz.de/api/v1/media/b7febda2-1a5d-4dc4-ba38-5da2db65548c/view?fm=image/jpeg&w=1900"
+      ],
+      "logo": "https://s1.directupload.eu/images/260410/rr3s4qn8.webp",
+      "@id": "https://schlossallee-haag.de/#restaurant",
       "url": "https://schlossallee-haag.de",
-      "telephone": "+49816712345",
+      "telephone": "+4917640216107",
+      "email": "info@schlossalleehaag.de",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Freisinger Str. 1",
@@ -71,8 +76,8 @@ function App() {
       },
       "geo": {
         "@type": "GeoCoordinates",
-        "latitude": 48.45,
-        "longitude": 11.83
+        "latitude": 48.455200,
+        "longitude": 11.831000
       },
       "openingHoursSpecification": [
         {
@@ -88,9 +93,15 @@ function App() {
           "closes": "22:00"
         }
       ],
-      "servesCuisine": ["Bavarian", "German"],
+      "servesCuisine": [
+        "Bayerisch", 
+        "Regionale bayerische Spezialitäten", 
+        "Steckerlfisch", 
+        "Pizza", 
+        "Grillspezialitäten"
+      ],
       "priceRange": "$$",
-      "description": "Der beste Biergarten in Bayern! Schlossallee Haag an der Amper bietet traditionelle bayerische Küche, Steckerlfisch und eine entspannte Atmosphäre unter alten Kastanien."
+      "description": "Der urgemütliche Biergarten Schlossallee Haag an der Amper bietet bayerische Küche, knusprigen Steckerlfisch, Pizza sowie Events unter kühlen Kastanienbäumen. Perfektes Ausflugsziel nahe Freising und München."
     });
     document.head.appendChild(script);
     return () => {
@@ -1046,7 +1057,7 @@ END:VCALENDAR`;
 
             <div className="group relative bg-brand-dark text-brand-light rounded-3xl p-8 md:p-12 overflow-hidden cursor-pointer hover:shadow-2xl transition-shadow">
               <div className="absolute top-0 right-0 w-full lg:w-2/3 h-full opacity-30 group-hover:opacity-50 transition-opacity duration-700">
-                <img src="https://images.unsplash.com/photo-1544568100-847a948585b9?auto=format&fit=crop&w=1600&q=80" alt="Hund im Biergarten" className="w-full h-full object-cover object-[center_30%]" referrerPolicy="no-referrer" />
+                <img src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_2zg6kRsQgLvpBAc5mmGVtMaqZi0%2Fhf_20260531_131345_930b092d-2f54-46a0-b897-a2f90fbdefda.png&w=1280&q=85" alt="Hund im Biergarten" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
                 <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-brand-dark via-brand-dark/90 to-transparent"></div>
               </div>
               
@@ -1319,10 +1330,10 @@ END:VCALENDAR`;
               <a href="#kontakt" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Kontakt</a>
               
               <div className="mt-8 flex gap-6">
-                <a href="#" className="w-14 h-14 rounded-full bg-white/5 flex items-center justify-center text-white active:bg-brand-orange transition-colors">
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Folge unserem Biergarten auf Instagram" title="Biergarten Schlossallee Haag auf Instagram" className="w-14 h-14 rounded-full bg-white/5 flex items-center justify-center text-white active:bg-brand-orange transition-colors">
                   <Instagram size={24} />
                 </a>
-                <a href="#" className="w-14 h-14 rounded-full bg-white/5 flex items-center justify-center text-white active:bg-brand-orange transition-colors">
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Folge unserem Biergarten auf Facebook" title="Biergarten Schlossallee Haag auf Facebook" className="w-14 h-14 rounded-full bg-white/5 flex items-center justify-center text-white active:bg-brand-orange transition-colors">
                   <Facebook size={24} />
                 </a>
               </div>

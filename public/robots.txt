@@ -1,0 +1,28 @@
+# Robots.txt for Biergarten Schlossallee Haag
+# Optimized for search engines and AI web agents (Google, Bing, Perplexity, OpenAI, Anthropic, Apple)
+
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://schlossallee-haag.de/sitemap.xml
+
+# AI Crawler and Agent Permissions
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
