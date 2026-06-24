@@ -990,47 +990,130 @@ END:VCALENDAR`;
             </div>
 
             <div className="flex flex-col gap-8">
-              {/* Event 1 - Next Event / Jack Rabbit */}
-              <div className="group relative bg-brand-dark text-brand-light rounded-3xl p-8 md:p-12 overflow-hidden cursor-pointer hover:shadow-2xl transition-shadow">
-                <div className="absolute top-0 right-0 w-1/2 h-full opacity-35 group-hover:opacity-55 transition-opacity duration-700">
-                  <img src="https://mein.toubiz.de/api/v1/media/b7febda2-1a5d-4dc4-ba38-5da2db65548c/view?fm=image/jpeg&w=1900" alt="Jack Rabbit Blues Rock" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/90 to-transparent"></div>
+              {/* Event 1 - Next Event / 14. Kaiserzeitausfahrt® */}
+              <div className="group relative bg-brand-dark text-brand-light rounded-3xl p-8 md:p-12 overflow-hidden hover:shadow-2xl transition-shadow">
+                <div className="absolute top-0 right-0 w-full lg:w-1/2 h-full opacity-25 group-hover:opacity-40 transition-opacity duration-700 pointer-events-none">
+                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1nNF57d5b6aKNjzENaFy0MIuzyd8jvP1KBiC5aQwG_-ysyBLHkimr0RU&s=10" alt="14. Kaiserzeitausfahrt Oldtimer Motorräder" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
+                  <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-brand-dark via-brand-dark/95 to-transparent"></div>
                 </div>
-                <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-                  <div>
+                
+                <div className="relative z-10 flex flex-col xl:flex-row justify-between gap-10">
+                  <div className="max-w-3xl">
                     <div className="flex flex-wrap gap-2 items-center mb-4">
                       <span className="bg-brand-orange text-brand-dark font-bold tracking-widest uppercase text-[10px] px-3 py-1 rounded-full">Nächstes Event</span>
-                      <span className="text-brand-orange/90 font-bold tracking-widest uppercase text-xs">Eintritt frei • Nur bei schönem Wetter</span>
+                      <span className="text-brand-orange/90 font-bold tracking-widest uppercase text-xs">Internationale Oldtimer-Ausfahrt</span>
                     </div>
-                    <h3 className="font-serif text-5xl md:text-7xl mb-4">Jack Rabbit</h3>
-                    <p className="font-serif text-2xl md:text-3xl text-brand-orange mb-3">
-                      Blues Rock, New Country & Classic Rock
+                    
+                    <h3 className="font-serif text-4xl sm:text-6xl md:text-7xl mb-3 text-brand-light">14. Kaiserzeitausfahrt®</h3>
+                    <p className="font-serif text-xl sm:text-2xl md:text-3xl text-brand-orange mb-6 font-medium">
+                      Internationale Oldtimer-Ausfahrt der Extraklasse im Biergarten Schlossallee
                     </p>
-                    <p className="text-brand-light/80 text-lg">
-                      Biergarten öffnet um 11:00 Uhr.<br />
-                      Band spielt ab 14:00 Uhr.
-                    </p>
+                    
+                    <div className="space-y-4 text-brand-light/85 text-base sm:text-lg mb-8 leading-relaxed">
+                      <p>
+                        Zum 14. Mal lädt der Münchner Veteranen Motorrad Club e. V. zu einer der schönsten internationalen Ausfahrten für historische Motorräder ein. Inmitten eines der schönsten Biergärten Bayerns – der Schlossallee in Haag an der Amper – präsentieren Teilnehmer aus 10 europäischen Ländern ihre mindestens 100 Jahre alten Fahrzeuge.
+                      </p>
+                      <p>
+                        Zugelassen sind historische Motorräder aus der Kaiserzeit bis einschließlich Baujahr 1918 sowie eine Sonderklasse bis Baujahr 1926. Die Veranstaltung steht ganz im Zeichen von Gastfreundschaft, Geselligkeit und der Faszination für seltene, historische Technik.
+                      </p>
+                      
+                      <div className="bg-white/5 border border-brand-orange/30 p-5 rounded-2xl mt-4 backdrop-blur-sm">
+                        <span className="text-brand-orange font-bold text-base block mb-2">✨ Besucher-Highlight:</span>
+                        <p className="text-sm sm:text-base text-brand-light/90">
+                          Viele Teilnehmer und Gäste präsentieren sich in zeitgemäßer Bekleidung. Auch interessierte Besucher sind herzlich dazu eingeladen, im Stil der Anfangsjahre des 20. Jahrhunderts zu erscheinen und die Maschinen aus nächster Nähe zu bewundern.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="bg-black/20 rounded-2xl p-6 border border-white/10 mb-8">
+                      <h4 className="text-brand-orange font-bold text-sm uppercase tracking-widest mb-4">Programm & Ablauf</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                          <span className="text-brand-light font-bold text-sm block border-b border-white/10 pb-1">Samstag, 1. August 2026:</span>
+                          <p className="text-xs sm:text-sm text-brand-light/80 leading-normal">
+                            <strong className="text-brand-orange">Ab 10:00 Uhr:</strong> Technische Überprüfung der Maschinen durch den TÜV Süd (können von Besuchern bestaunt werden). Die meisten Maschinen sind bereits am Samstag zu bewundern.
+                          </p>
+                          <p className="text-xs sm:text-sm text-brand-light/80 leading-normal">
+                            <strong className="text-brand-orange">Ab 13:00 Uhr:</strong> Kleine Einstellfahrt rund um Haag.
+                          </p>
+                        </div>
+                        <div className="space-y-2">
+                          <span className="text-brand-light font-bold text-sm block border-b border-white/10 pb-1">Sonntag, 2. August 2026:</span>
+                          <p className="text-xs sm:text-sm text-brand-light/80 leading-normal">
+                            <strong className="text-brand-orange">10:00 Uhr:</strong> Offizieller Start der Ausfahrt.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-4 items-center justify-between border-t border-white/10 pt-6">
+                      <div className="text-xs sm:text-sm text-brand-light/60">
+                        <span className="block font-semibold text-brand-light/80">Veranstalter:</span>
+                        Münchner Veteranen Motorrad Club e. V. (MVMC)
+                      </div>
+                      <a 
+                        href="http://www.kaiserzeitausfahrt.de" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="inline-flex items-center gap-2 bg-brand-orange hover:bg-brand-orange/90 text-brand-dark px-6 py-3 rounded-full transition-colors font-bold text-sm shadow-lg active:scale-95"
+                      >
+                        <Info size={16} />
+                        <span>www.kaiserzeitausfahrt.de</span>
+                      </a>
+                    </div>
                   </div>
-                  <div className="text-left md:text-right flex flex-col items-start md:items-end gap-3">
-                    <div className="text-xl font-medium text-brand-orange">
-                      <span className="block text-sm text-brand-light/70 mb-1">Öffnung: 11:00 Uhr</span>
-                      Live-Musik: 14:00 Uhr
+
+                  <div className="text-left xl:text-right flex flex-col items-start xl:items-end justify-between min-w-[220px] border-t xl:border-t-0 pt-8 xl:pt-0 border-white/10">
+                    <div className="text-base sm:text-lg font-medium text-brand-orange">
+                      <span className="block text-xs uppercase tracking-wider text-brand-light/60 mb-1">Veranstaltungsort</span>
+                      Biergarten Schlossallee<br />
+                      <span className="text-sm text-brand-light/80">Freisinger Str. 1, 85410 Haag an der Amper</span>
                     </div>
-                    <div>
-                      <div className="font-serif text-6xl md:text-8xl text-brand-light">04.</div>
-                      <div className="text-2xl font-medium tracking-widest uppercase text-brand-light/70">Juni 2026</div>
-                      <div className="text-xs uppercase tracking-wider text-brand-orange font-bold mt-1">Fronleichnam (Feiertag)</div>
+                    <div className="my-6 xl:my-0">
+                      <div className="font-serif text-6xl sm:text-7xl md:text-8xl text-brand-light leading-none">01.-02.</div>
+                      <div className="text-xl sm:text-2xl font-medium tracking-widest uppercase text-brand-light/70 mt-2">August 2026</div>
+                      <div className="text-xs uppercase tracking-wider text-brand-orange font-bold mt-1">Samstag & Sonntag</div>
                     </div>
                     <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        downloadICS('Jack Rabbit - Schlossallee', 'Blues rock, new country, classic rock. Eintritt frei. Nur bei schönem Wetter.', '20260604T140000Z', '20260604T180000Z');
+                      onClick={() => {
+                        downloadICS('14. Kaiserzeitausfahrt® - Schlossallee', 'Internationale Oldtimer-Ausfahrt der Extraklasse im Biergarten Schlossallee Haag. Veranstalter: MVMC.', '20260801T080000Z', '20260802T160000Z');
                       }}
-                      className="flex items-center gap-2 bg-brand-orange/20 hover:bg-brand-orange text-brand-orange hover:text-white px-4 py-2 mt-2 rounded-full transition-colors text-sm font-medium"
+                      className="flex items-center gap-2 bg-brand-orange/20 hover:bg-brand-orange text-brand-orange hover:text-white px-5 py-2.5 rounded-full transition-colors text-sm font-medium cursor-pointer"
                     >
                       <CalendarPlus size={16} />
                       <span>Zum Kalender</span>
                     </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Event 2 - Vergangenes Event / Jack Rabbit */}
+              <div className="group relative bg-[#1c2328] text-brand-light rounded-3xl p-8 md:p-12 overflow-hidden hover:shadow-2xl transition-shadow opacity-80 hover:opacity-100 transition-opacity">
+                <div className="absolute top-0 right-0 w-1/2 h-full opacity-20 group-hover:opacity-40 transition-opacity duration-700 pointer-events-none">
+                  <img src="https://mein.toubiz.de/api/v1/media/b7febda2-1a5d-4dc4-ba38-5da2db65548c/view?fm=image/jpeg&w=1900" alt="Jack Rabbit Blues Rock" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#1c2328] via-[#1c2328]/80 to-transparent"></div>
+                </div>
+                <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+                  <div>
+                    <span className="text-brand-light/50 font-bold tracking-widest uppercase text-xs mb-4 block">Vergangenes Event</span>
+                    <h3 className="font-serif text-4xl md:text-5xl mb-3 text-brand-light/90">Jack Rabbit</h3>
+                    <p className="font-serif text-xl md:text-2xl text-brand-light/60 max-w-md mb-3">
+                      Blues Rock, New Country & Classic Rock
+                    </p>
+                    <p className="text-brand-light/60 text-sm">
+                      Biergarten öffnete um 11:00 Uhr.<br />
+                      Band spielte ab 14:00 Uhr.
+                    </p>
+                  </div>
+                  <div className="text-left md:text-right flex flex-col items-start md:items-end gap-3">
+                    <div className="text-lg font-medium text-brand-light/50">
+                      Rückblick
+                    </div>
+                    <div>
+                      <div className="font-serif text-5xl md:text-6xl text-brand-light/50">04.</div>
+                      <div className="text-xl font-medium tracking-widest uppercase text-brand-light/40">Juni 2026</div>
+                      <div className="text-xs uppercase tracking-wider text-brand-light/30 font-bold mt-1">Fronleichnam</div>
+                    </div>
                   </div>
                 </div>
               </div>
