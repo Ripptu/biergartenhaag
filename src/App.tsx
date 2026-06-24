@@ -146,6 +146,7 @@ function App() {
   const [clickCount, setClickCount] = useState(0);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showAdminModal, setShowAdminModal] = useState(false);
+  const [showEventModal, setShowEventModal] = useState(false);
   const [passwordInput, setPasswordInput] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
@@ -991,98 +992,38 @@ END:VCALENDAR`;
 
             <div className="flex flex-col gap-8">
               {/* Event 1 - Next Event / 14. Kaiserzeitausfahrt® */}
-              <div className="group relative bg-brand-dark text-brand-light rounded-3xl p-8 md:p-12 overflow-hidden hover:shadow-2xl transition-shadow">
-                <div className="absolute top-0 right-0 w-full lg:w-1/2 h-full opacity-25 group-hover:opacity-40 transition-opacity duration-700 pointer-events-none">
+              <div 
+                onClick={() => setShowEventModal(true)}
+                className="group relative bg-brand-dark text-brand-light rounded-3xl p-8 md:p-12 overflow-hidden hover:shadow-2xl transition-all cursor-pointer border border-brand-orange/20 hover:border-brand-orange/50"
+              >
+                <div className="absolute top-0 right-0 w-full md:w-1/2 h-full opacity-25 group-hover:opacity-40 transition-opacity duration-700 pointer-events-none">
                   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1nNF57d5b6aKNjzENaFy0MIuzyd8jvP1KBiC5aQwG_-ysyBLHkimr0RU&s=10" alt="14. Kaiserzeitausfahrt Oldtimer Motorräder" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
-                  <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-brand-dark via-brand-dark/95 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-brand-dark via-brand-dark/85 to-transparent"></div>
                 </div>
-                
-                <div className="relative z-10 flex flex-col xl:flex-row justify-between gap-10">
-                  <div className="max-w-3xl">
+                <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+                  <div>
                     <div className="flex flex-wrap gap-2 items-center mb-4">
                       <span className="bg-brand-orange text-brand-dark font-bold tracking-widest uppercase text-[10px] px-3 py-1 rounded-full">Nächstes Event</span>
                       <span className="text-brand-orange/90 font-bold tracking-widest uppercase text-xs">Internationale Oldtimer-Ausfahrt</span>
                     </div>
-                    
-                    <h3 className="font-serif text-4xl sm:text-6xl md:text-7xl mb-3 text-brand-light">14. Kaiserzeitausfahrt®</h3>
-                    <p className="font-serif text-xl sm:text-2xl md:text-3xl text-brand-orange mb-6 font-medium">
-                      Internationale Oldtimer-Ausfahrt der Extraklasse im Biergarten Schlossallee
+                    <h3 className="font-serif text-4xl md:text-5xl mb-3 text-brand-light group-hover:text-brand-orange transition-colors">14. Kaiserzeitausfahrt®</h3>
+                    <p className="font-serif text-xl md:text-2xl text-brand-light/70 max-w-lg mb-4">
+                      Historische Motorräder aus 10 europäischen Ländern im Schlossallee Biergarten
                     </p>
-                    
-                    <div className="space-y-4 text-brand-light/85 text-base sm:text-lg mb-8 leading-relaxed">
-                      <p>
-                        Zum 14. Mal lädt der Münchner Veteranen Motorrad Club e. V. zu einer der schönsten internationalen Ausfahrten für historische Motorräder ein. Inmitten eines der schönsten Biergärten Bayerns – der Schlossallee in Haag an der Amper – präsentieren Teilnehmer aus 10 europäischen Ländern ihre mindestens 100 Jahre alten Fahrzeuge.
-                      </p>
-                      <p>
-                        Zugelassen sind historische Motorräder aus der Kaiserzeit bis einschließlich Baujahr 1918 sowie eine Sonderklasse bis Baujahr 1926. Die Veranstaltung steht ganz im Zeichen von Gastfreundschaft, Geselligkeit und der Faszination für seltene, historische Technik.
-                      </p>
-                      
-                      <div className="bg-white/5 border border-brand-orange/30 p-5 rounded-2xl mt-4 backdrop-blur-sm">
-                        <span className="text-brand-orange font-bold text-base block mb-2">✨ Besucher-Highlight:</span>
-                        <p className="text-sm sm:text-base text-brand-light/90">
-                          Viele Teilnehmer und Gäste präsentieren sich in zeitgemäßer Bekleidung. Auch interessierte Besucher sind herzlich dazu eingeladen, im Stil der Anfangsjahre des 20. Jahrhunderts zu erscheinen und die Maschinen aus nächster Nähe zu bewundern.
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="bg-black/20 rounded-2xl p-6 border border-white/10 mb-8">
-                      <h4 className="text-brand-orange font-bold text-sm uppercase tracking-widest mb-4">Programm & Ablauf</h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                          <span className="text-brand-light font-bold text-sm block border-b border-white/10 pb-1">Samstag, 1. August 2026:</span>
-                          <p className="text-xs sm:text-sm text-brand-light/80 leading-normal">
-                            <strong className="text-brand-orange">Ab 10:00 Uhr:</strong> Technische Überprüfung der Maschinen durch den TÜV Süd (können von Besuchern bestaunt werden). Die meisten Maschinen sind bereits am Samstag zu bewundern.
-                          </p>
-                          <p className="text-xs sm:text-sm text-brand-light/80 leading-normal">
-                            <strong className="text-brand-orange">Ab 13:00 Uhr:</strong> Kleine Einstellfahrt rund um Haag.
-                          </p>
-                        </div>
-                        <div className="space-y-2">
-                          <span className="text-brand-light font-bold text-sm block border-b border-white/10 pb-1">Sonntag, 2. August 2026:</span>
-                          <p className="text-xs sm:text-sm text-brand-light/80 leading-normal">
-                            <strong className="text-brand-orange">10:00 Uhr:</strong> Offizieller Start der Ausfahrt.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-wrap gap-4 items-center justify-between border-t border-white/10 pt-6">
-                      <div className="text-xs sm:text-sm text-brand-light/60">
-                        <span className="block font-semibold text-brand-light/80">Veranstalter:</span>
-                        Münchner Veteranen Motorrad Club e. V. (MVMC)
-                      </div>
-                      <a 
-                        href="http://www.kaiserzeitausfahrt.de" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="inline-flex items-center gap-2 bg-brand-orange hover:bg-brand-orange/90 text-brand-dark px-6 py-3 rounded-full transition-colors font-bold text-sm shadow-lg active:scale-95"
-                      >
-                        <Info size={16} />
-                        <span>www.kaiserzeitausfahrt.de</span>
-                      </a>
+                    <div className="text-brand-orange text-sm font-semibold flex items-center gap-2 mt-2 pt-2 border-t border-white/10 max-w-sm group-hover:translate-x-1 transition-transform">
+                      <span>Veranstaltungsdetails & Programm anzeigen</span>
+                      <ArrowRight size={16} />
                     </div>
                   </div>
-
-                  <div className="text-left xl:text-right flex flex-col items-start xl:items-end justify-between min-w-[220px] border-t xl:border-t-0 pt-8 xl:pt-0 border-white/10">
-                    <div className="text-base sm:text-lg font-medium text-brand-orange">
-                      <span className="block text-xs uppercase tracking-wider text-brand-light/60 mb-1">Veranstaltungsort</span>
-                      Biergarten Schlossallee<br />
-                      <span className="text-sm text-brand-light/80">Freisinger Str. 1, 85410 Haag an der Amper</span>
+                  <div className="text-left md:text-right flex flex-col items-start md:items-end gap-3 shrink-0">
+                    <div className="text-base font-medium text-brand-orange">
+                      Samstag & Sonntag
                     </div>
-                    <div className="my-6 xl:my-0">
-                      <div className="font-serif text-6xl sm:text-7xl md:text-8xl text-brand-light leading-none">01.-02.</div>
-                      <div className="text-xl sm:text-2xl font-medium tracking-widest uppercase text-brand-light/70 mt-2">August 2026</div>
-                      <div className="text-xs uppercase tracking-wider text-brand-orange font-bold mt-1">Samstag & Sonntag</div>
+                    <div>
+                      <div className="font-serif text-5xl md:text-6xl text-brand-light leading-none">01.-02.</div>
+                      <div className="text-xl font-medium tracking-widest uppercase text-brand-light/70 mt-1">August 2026</div>
+                      <div className="text-xs uppercase tracking-wider text-brand-orange font-bold mt-1.5">Eintritt frei</div>
                     </div>
-                    <button 
-                      onClick={() => {
-                        downloadICS('14. Kaiserzeitausfahrt® - Schlossallee', 'Internationale Oldtimer-Ausfahrt der Extraklasse im Biergarten Schlossallee Haag. Veranstalter: MVMC.', '20260801T080000Z', '20260802T160000Z');
-                      }}
-                      className="flex items-center gap-2 bg-brand-orange/20 hover:bg-brand-orange text-brand-orange hover:text-white px-5 py-2.5 rounded-full transition-colors text-sm font-medium cursor-pointer"
-                    >
-                      <CalendarPlus size={16} />
-                      <span>Zum Kalender</span>
-                    </button>
                   </div>
                 </div>
               </div>
@@ -1436,6 +1377,131 @@ END:VCALENDAR`;
       </AnimatePresence>
 
 
+
+      {/* Event Details Modal */}
+      <AnimatePresence>
+        {showEventModal && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setShowEventModal(false);
+            }}
+          >
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="bg-brand-dark border border-white/10 rounded-3xl p-6 sm:p-10 w-full max-w-3xl relative shadow-2xl text-brand-light max-h-[90dvh] flex flex-col"
+            >
+              <button 
+                onClick={() => setShowEventModal(false)}
+                className="absolute top-5 right-5 text-white/50 hover:text-brand-orange transition-colors p-2 rounded-full bg-white/5 hover:bg-white/10 shrink-0 z-10"
+              >
+                <X size={20} />
+              </button>
+
+              <div className="overflow-y-auto pr-2 hide-scrollbar space-y-8 flex-1">
+                <div>
+                  <div className="flex flex-wrap gap-2 items-center mb-3">
+                    <span className="bg-brand-orange text-brand-dark font-bold tracking-widest uppercase text-xs px-3 py-1 rounded-full">Event Details</span>
+                    <span className="text-brand-orange font-medium text-xs sm:text-sm">01. – 02. August 2026</span>
+                  </div>
+                  <h3 className="font-serif text-3xl sm:text-5xl md:text-6xl text-brand-light mb-2">14. Kaiserzeitausfahrt®</h3>
+                  <p className="font-serif text-lg sm:text-2xl text-brand-orange font-medium">
+                    Internationale Oldtimer-Ausfahrt der Extraklasse im Biergarten Schlossallee
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm bg-white/5 p-5 rounded-2xl border border-white/10">
+                  <div>
+                    <span className="text-brand-light/50 text-xs uppercase tracking-wider block mb-1">Datum & Uhrzeit</span>
+                    <strong className="text-brand-light block">Samstag & Sonntag, 1. – 2. August 2026</strong>
+                    <span className="text-brand-light/70 text-xs">Samstag ab 10:00 Uhr • Sonntag Start 10:00 Uhr</span>
+                  </div>
+                  <div>
+                    <span className="text-brand-light/50 text-xs uppercase tracking-wider block mb-1">Veranstaltungsort</span>
+                    <strong className="text-brand-light block">Biergarten Schlossallee</strong>
+                    <span className="text-brand-light/70 text-xs">Freisinger Str. 1, 85410 Haag an der Amper</span>
+                  </div>
+                </div>
+
+                <div className="space-y-4 text-brand-light/85 text-base leading-relaxed">
+                  <p>
+                    Zum 14. Mal lädt der Münchner Veteranen Motorrad Club e. V. (MVMC) zu einer der schönsten internationalen Ausfahrten für historische Motorräder ein. Inmitten eines der schönsten Biergärten Bayerns – der Schlossallee in Haag an der Amper – präsentieren Teilnehmer aus 10 europäischen Ländern ihre mindestens 100 Jahre alten Fahrzeuge.
+                  </p>
+                  <p>
+                    Zugelassen sind historische Motorräder aus der Kaiserzeit bis einschließlich Baujahr 1918 sowie eine Sonderklasse bis Baujahr 1926. Die Veranstaltung steht ganz im Zeichen von Gastfreundschaft, Geselligkeit und der Faszination für seltene, historische Technik.
+                  </p>
+                </div>
+
+                <div className="bg-gradient-to-br from-brand-orange/20 to-transparent border border-brand-orange/40 p-5 rounded-2xl">
+                  <span className="text-brand-orange font-bold text-base block mb-2">Besucher-Highlight</span>
+                  <p className="text-sm sm:text-base text-brand-light/90 leading-relaxed">
+                    Viele Teilnehmer und Gäste präsentieren sich in zeitgemäßer Bekleidung. Auch interessierte Besucher sind herzlich dazu eingeladen, im Stil der Anfangsjahre des 20. Jahrhunderts zu erscheinen und die Maschinen aus nächster Nähe zu bewundern.
+                  </p>
+                </div>
+
+                <div>
+                  <h4 className="text-brand-orange font-bold text-xs uppercase tracking-widest mb-4">Programm & Ablauf</h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="bg-black/30 p-4 rounded-xl border border-white/5 space-y-2">
+                      <span className="text-brand-light font-bold text-sm block border-b border-white/10 pb-1.5 text-brand-orange">Samstag, 1. August 2026</span>
+                      <p className="text-xs text-brand-light/80 leading-normal">
+                        <strong>Ab 10:00 Uhr:</strong> Technische Überprüfung der Maschinen durch den TÜV Süd (können von Besuchern bestaunt werden). Die meisten Maschinen sind bereits am Samstag zu bewundern.
+                      </p>
+                      <p className="text-xs text-brand-light/80 leading-normal">
+                        <strong>Ab 13:00 Uhr:</strong> Kleine Einstellfahrt rund um Haag.
+                      </p>
+                    </div>
+                    <div className="bg-black/30 p-4 rounded-xl border border-white/5 space-y-2">
+                      <span className="text-brand-light font-bold text-sm block border-b border-white/10 pb-1.5 text-brand-orange">Sonntag, 2. August 2026</span>
+                      <p className="text-xs text-brand-light/80 leading-normal">
+                        <strong>10:00 Uhr:</strong> Offizieller Start der Ausfahrt.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="text-xs text-brand-light/60 pt-2 flex flex-wrap justify-between items-center gap-2 border-t border-white/10">
+                  <div>
+                    <span className="text-brand-light/80 font-semibold">Veranstalter: </span>
+                    Münchner Veteranen Motorrad Club e. V. (MVMC)
+                  </div>
+                  <div>
+                    <span className="text-brand-light/80 font-semibold">Website: </span>
+                    <a href="http://www.kaiserzeitausfahrt.de" target="_blank" rel="noopener noreferrer" className="text-brand-orange hover:underline">www.kaiserzeitausfahrt.de</a>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-6 mt-6 border-t border-white/10 flex flex-wrap gap-4 justify-end items-center shrink-0">
+                <a 
+                  href="http://www.kaiserzeitausfahrt.de" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-brand-light px-6 py-3 rounded-full transition-colors text-sm font-semibold"
+                >
+                  <Info size={16} />
+                  <span>Website besuchen</span>
+                </a>
+                <button 
+                  onClick={() => {
+                    downloadICS('14. Kaiserzeitausfahrt® - Schlossallee', 'Internationale Oldtimer-Ausfahrt der Extraklasse im Biergarten Schlossallee Haag. Veranstalter: MVMC.', '20260801T080000Z', '20260802T160000Z');
+                  }}
+                  className="flex items-center gap-2 bg-brand-orange hover:bg-brand-orange/90 text-brand-dark px-6 py-3 rounded-full transition-colors text-sm font-bold shadow-lg"
+                >
+                  <CalendarPlus size={16} />
+                  <span>In Kalender eintragen</span>
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Password Modal */}
       <AnimatePresence>
