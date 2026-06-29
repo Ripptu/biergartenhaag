@@ -4,6 +4,7 @@ import { MapPin, Clock, Phone, ArrowRight, ArrowLeft, X, Heart, Activity, Dog, D
 import { Impressum, AGB, Datenschutz } from './components/LegalPages';
 import { AboutUs } from './components/AboutUs';
 import { supabase } from './supabase';
+import schlagerPartyBg from './assets/images/schlager_party_bg_1782754694324.jpg';
 
 /**
  * SECURITY COMPLIANCE LIST (39 MEASURES) 
@@ -147,6 +148,7 @@ function App() {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showAdminModal, setShowAdminModal] = useState(false);
   const [showEventModal, setShowEventModal] = useState(false);
+  const [showSchlagerModal, setShowSchlagerModal] = useState(false);
   const [passwordInput, setPasswordInput] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
@@ -991,23 +993,60 @@ END:VCALENDAR`;
             </div>
 
             <div className="flex flex-col gap-8">
-              {/* Event 1 - Next Event / 14. Kaiserzeitausfahrt® */}
+              {/* Event 1 - Next Event / Schlager-Abend */}
               <div 
-                onClick={() => setShowEventModal(true)}
+                onClick={() => setShowSchlagerModal(true)}
                 className="group relative bg-brand-dark text-brand-light rounded-3xl p-8 md:p-12 overflow-hidden hover:shadow-2xl transition-all cursor-pointer border border-brand-orange/20 hover:border-brand-orange/50"
               >
-                <div className="absolute top-0 right-0 w-full md:w-1/2 h-full opacity-25 group-hover:opacity-40 transition-opacity duration-700 pointer-events-none">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1nNF57d5b6aKNjzENaFy0MIuzyd8jvP1KBiC5aQwG_-ysyBLHkimr0RU&s=10" alt="14. Kaiserzeitausfahrt Oldtimer Motorräder" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
+                <div className="absolute top-0 right-0 w-full md:w-1/2 h-full opacity-20 group-hover:opacity-35 transition-opacity duration-700 pointer-events-none">
+                  <img src={schlagerPartyBg} alt="Schlager-Abend im Biergarten" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
                   <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-brand-dark via-brand-dark/85 to-transparent"></div>
                 </div>
                 <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
                   <div>
                     <div className="flex flex-wrap gap-2 items-center mb-4">
                       <span className="bg-brand-orange text-brand-dark font-bold tracking-widest uppercase text-[10px] px-3 py-1 rounded-full">Nächstes Event</span>
-                      <span className="text-brand-orange/90 font-bold tracking-widest uppercase text-xs">Internationale Oldtimer-Ausfahrt</span>
+                      <span className="text-brand-orange/90 font-bold tracking-widest uppercase text-xs">Schlager-Klassiker & Stimmung</span>
                     </div>
-                    <h3 className="font-serif text-4xl md:text-5xl mb-3 text-brand-light group-hover:text-brand-orange transition-colors">14. Kaiserzeitausfahrt®</h3>
+                    <h3 className="font-serif text-4xl md:text-5xl mb-3 text-brand-light group-hover:text-brand-orange transition-colors">Schlager-Abend im Biergarten</h3>
                     <p className="font-serif text-xl md:text-2xl text-brand-light/70 max-w-lg mb-4">
+                      Mit DJ MY T CHRIS — Feiern und Mitsingen unter Kastanien!
+                    </p>
+                    <div className="text-brand-orange text-sm font-semibold flex items-center gap-2 mt-2 pt-2 border-t border-white/10 max-w-sm group-hover:translate-x-1 transition-transform">
+                      <span>Details & Informationen anzeigen</span>
+                      <ArrowRight size={16} />
+                    </div>
+                  </div>
+                  <div className="text-left md:text-right flex flex-col items-start md:items-end gap-3 shrink-0">
+                    <div className="text-base font-medium text-brand-orange">
+                      Freitag
+                    </div>
+                    <div>
+                      <div className="font-serif text-5xl md:text-6xl text-brand-light leading-none">03.</div>
+                      <div className="text-xl font-medium tracking-widest uppercase text-brand-light/70 mt-1">Juli 2026</div>
+                      <div className="text-xs uppercase tracking-wider text-brand-orange font-bold mt-1.5">Eintritt frei</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Event 2 - Upcoming Event / 14. Kaiserzeitausfahrt® */}
+              <div 
+                onClick={() => setShowEventModal(true)}
+                className="group relative bg-[#1c2328] text-brand-light rounded-3xl p-8 md:p-12 overflow-hidden hover:shadow-2xl transition-all cursor-pointer border border-white/5 hover:border-brand-orange/30"
+              >
+                <div className="absolute top-0 right-0 w-full md:w-1/2 h-full opacity-20 group-hover:opacity-35 transition-opacity duration-700 pointer-events-none">
+                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1nNF57d5b6aKNjzENaFy0MIuzyd8jvP1KBiC5aQwG_-ysyBLHkimr0RU&s=10" alt="14. Kaiserzeitausfahrt Oldtimer Motorräder" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
+                  <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#1c2328] via-[#1c2328]/85 to-transparent"></div>
+                </div>
+                <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+                  <div>
+                    <div className="flex flex-wrap gap-2 items-center mb-4">
+                      <span className="bg-brand-light/10 text-brand-light/80 font-bold tracking-widest uppercase text-[10px] px-3 py-1 rounded-full">Kommendes Highlight</span>
+                      <span className="text-brand-orange/80 font-bold tracking-widest uppercase text-xs">Internationale Oldtimer-Ausfahrt</span>
+                    </div>
+                    <h3 className="font-serif text-4xl md:text-5xl mb-3 text-brand-light/90 group-hover:text-brand-orange transition-colors">14. Kaiserzeitausfahrt®</h3>
+                    <p className="font-serif text-xl md:text-2xl text-brand-light/60 max-w-lg mb-4">
                       Historische Motorräder aus 10 europäischen Ländern im Schlossallee Biergarten
                     </p>
                     <div className="text-brand-orange text-sm font-semibold flex items-center gap-2 mt-2 pt-2 border-t border-white/10 max-w-sm group-hover:translate-x-1 transition-transform">
@@ -1016,48 +1055,19 @@ END:VCALENDAR`;
                     </div>
                   </div>
                   <div className="text-left md:text-right flex flex-col items-start md:items-end gap-3 shrink-0">
-                    <div className="text-base font-medium text-brand-orange">
+                    <div className="text-base font-medium text-brand-light/50">
                       Samstag & Sonntag
                     </div>
                     <div>
-                      <div className="font-serif text-5xl md:text-6xl text-brand-light leading-none">01.-02.</div>
-                      <div className="text-xl font-medium tracking-widest uppercase text-brand-light/70 mt-1">August 2026</div>
+                      <div className="font-serif text-5xl md:text-6xl text-brand-light/90 leading-none">01.-02.</div>
+                      <div className="text-xl font-medium tracking-widest uppercase text-brand-light/40 mt-1">August 2026</div>
                       <div className="text-xs uppercase tracking-wider text-brand-orange font-bold mt-1.5">Eintritt frei</div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Event 2 - Vergangenes Event / Jack Rabbit */}
-              <div className="group relative bg-[#1c2328] text-brand-light rounded-3xl p-8 md:p-12 overflow-hidden hover:shadow-2xl transition-shadow opacity-80 hover:opacity-100 transition-opacity">
-                <div className="absolute top-0 right-0 w-1/2 h-full opacity-20 group-hover:opacity-40 transition-opacity duration-700 pointer-events-none">
-                  <img src="https://mein.toubiz.de/api/v1/media/b7febda2-1a5d-4dc4-ba38-5da2db65548c/view?fm=image/jpeg&w=1900" alt="Jack Rabbit Blues Rock" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#1c2328] via-[#1c2328]/80 to-transparent"></div>
-                </div>
-                <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-                  <div>
-                    <span className="text-brand-light/50 font-bold tracking-widest uppercase text-xs mb-4 block">Vergangenes Event</span>
-                    <h3 className="font-serif text-4xl md:text-5xl mb-3 text-brand-light/90">Jack Rabbit</h3>
-                    <p className="font-serif text-xl md:text-2xl text-brand-light/60 max-w-md mb-3">
-                      Blues Rock, New Country & Classic Rock
-                    </p>
-                    <p className="text-brand-light/60 text-sm">
-                      Biergarten öffnete um 11:00 Uhr.<br />
-                      Band spielte ab 14:00 Uhr.
-                    </p>
-                  </div>
-                  <div className="text-left md:text-right flex flex-col items-start md:items-end gap-3">
-                    <div className="text-lg font-medium text-brand-light/50">
-                      Rückblick
-                    </div>
-                    <div>
-                      <div className="font-serif text-5xl md:text-6xl text-brand-light/50">04.</div>
-                      <div className="text-xl font-medium tracking-widest uppercase text-brand-light/40">Juni 2026</div>
-                      <div className="text-xs uppercase tracking-wider text-brand-light/30 font-bold mt-1">Fronleichnam</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+
 
             </div>
           </motion.div>
@@ -1491,6 +1501,73 @@ END:VCALENDAR`;
                 <button 
                   onClick={() => {
                     downloadICS('14. Kaiserzeitausfahrt® - Schlossallee', 'Internationale Oldtimer-Ausfahrt der Extraklasse im Biergarten Schlossallee Haag. Veranstalter: MVMC.', '20260801T080000Z', '20260802T160000Z');
+                  }}
+                  className="flex items-center gap-2 bg-brand-orange hover:bg-brand-orange/90 text-brand-dark px-6 py-3 rounded-full transition-colors text-sm font-bold shadow-lg"
+                >
+                  <CalendarPlus size={16} />
+                  <span>In Kalender eintragen</span>
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Schlager Modal */}
+      <AnimatePresence>
+        {showSchlagerModal && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setShowSchlagerModal(false);
+            }}
+          >
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="bg-[#1c2328] border border-white/10 rounded-3xl p-6 sm:p-10 w-full max-w-lg relative shadow-2xl text-brand-light max-h-[90dvh] flex flex-col"
+            >
+              <button 
+                onClick={() => setShowSchlagerModal(false)}
+                className="absolute top-5 right-5 text-white/50 hover:text-brand-orange transition-colors p-2 rounded-full bg-white/5 hover:bg-white/10 shrink-0 z-10"
+              >
+                <X size={20} />
+              </button>
+
+              <div className="overflow-y-auto pr-2 hide-scrollbar space-y-6 flex-1">
+                <div>
+                  <h3 className="font-serif text-3xl sm:text-4xl text-brand-light mb-2">Schlager-Abend im Biergarten</h3>
+                  <p className="text-brand-light/60 font-medium">Mit DJ MY T CHRIS</p>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 text-sm bg-black/30 p-5 rounded-2xl border border-white/5">
+                  <div>
+                    <span className="text-brand-light/50 text-xs uppercase tracking-wider block mb-1">Datum</span>
+                    <strong className="text-brand-light block">Freitag, 03. Juli 2026</strong>
+                  </div>
+                  <div>
+                    <span className="text-brand-light/50 text-xs uppercase tracking-wider block mb-1">Beginn</span>
+                    <strong className="text-brand-light block">Ab 17:00 Uhr</strong>
+                  </div>
+                </div>
+
+                <div className="bg-white/5 p-4 rounded-xl border border-white/5">
+                  <span className="text-brand-orange font-bold text-xs uppercase tracking-widest block mb-2">Wichtiger Hinweis</span>
+                  <p className="text-sm text-brand-light/80 leading-relaxed">
+                    Das Event findet nur bei schönem Wetter statt!
+                  </p>
+                </div>
+              </div>
+
+              <div className="pt-6 mt-6 border-t border-white/10 flex justify-end shrink-0">
+                <button 
+                  onClick={() => {
+                    downloadICS('Schlager-Abend im Biergarten', 'Schlager-Abend im Biergarten mit DJ MY T CHRIS. Eintritt frei! Nur bei schönem Wetter.', '20260703T170000Z', '20260703T230000Z');
                   }}
                   className="flex items-center gap-2 bg-brand-orange hover:bg-brand-orange/90 text-brand-dark px-6 py-3 rounded-full transition-colors text-sm font-bold shadow-lg"
                 >
