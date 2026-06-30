@@ -695,6 +695,14 @@ END:VCALENDAR`;
               <div className="flex flex-row items-center gap-3 md:gap-4 mt-2 md:mt-4">
                 <motion.a 
                   whileTap={{ scale: 0.96 }}
+                  href="#events"
+                  className="flex-1 sm:flex-none text-center bg-brand-orange text-white rounded-full px-5 py-3.5 md:px-8 md:py-4 font-bold text-sm md:text-lg hover:bg-brand-orange/90 transition-all flex items-center justify-center gap-1.5 md:gap-2 shadow-[0_4px_20px_rgba(192,86,33,0.4)]"
+                >
+                  <CalendarPlus size={18} className="md:w-5 md:h-5 text-white" />
+                  Kommende Events
+                </motion.a>
+                <motion.a 
+                  whileTap={{ scale: 0.96 }}
                   href="https://maps.google.com/?q=Biergarten+Schlossallee+Haag+an+der+Amper"
                   target="_blank"
                   rel="noopener noreferrer"
