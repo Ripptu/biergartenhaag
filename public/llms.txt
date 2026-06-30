@@ -43,6 +43,15 @@ Traditional Bavarian self-service beer garden divided into dedicated food and dr
 - **Condition**: Weather dependent
 - **Description**: Schlager-Abend im Biergarten. Entrance is free!
 
+- **Name**: 100. Jubiläum der Schlossallee
+- **Date**: Saturday & Sunday, 18th – 19th of July 2026
+- **Description**: Big 100th anniversary celebration weekend with spit-roasted ox (Ochse am Spieß), traditional live Bavarian music, special festive draft beer, and a colourful family-friendly program. Entrance is free!
+
+- **Name**: Lampionfest im Biergarten
+- **Date**: Friday & Saturday, 21st – 22nd of August 2026
+- **Time**: Starting at dusk
+- **Description**: Magical lantern festival where hundreds of colourful paper lanterns illuminate the historic chestnut trees. Enjoy delicious cocktails, summer drinks, Bavarian bites, and live acoustic music. Entrance is free!
+
 ## Key Amenities & Accessibility
 - **Family Friendly**: Safe and spacious retro adventure playground for children.
 - **Bike Friendly**: Standard heavy-duty bike racks for cyclists touring near the Amper River.

@@ -5,6 +5,8 @@ import { Impressum, AGB, Datenschutz } from './components/LegalPages';
 import { AboutUs } from './components/AboutUs';
 import { supabase } from './supabase';
 import schlagerPartyBg from './assets/images/schlager_party_bg_1782754694324.jpg';
+import jubilaeumBg from './assets/images/jubilaeum_ox_spit_bg_1782823771083.jpg';
+import lampionfestBg from './assets/images/lampionfest_beer_garden_bg_1782823787618.jpg';
 
 /**
  * SECURITY COMPLIANCE LIST (39 MEASURES) 
@@ -149,6 +151,8 @@ function App() {
   const [showAdminModal, setShowAdminModal] = useState(false);
   const [showEventModal, setShowEventModal] = useState(false);
   const [showSchlagerModal, setShowSchlagerModal] = useState(false);
+  const [showJubilaeumModal, setShowJubilaeumModal] = useState(false);
+  const [showLampionfestModal, setShowLampionfestModal] = useState(false);
   const [passwordInput, setPasswordInput] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
@@ -1030,7 +1034,44 @@ END:VCALENDAR`;
                 </div>
               </div>
 
-              {/* Event 2 - Upcoming Event / 14. Kaiserzeitausfahrt® */}
+              {/* Event 2 - 100. Jubiläum */}
+              <div 
+                onClick={() => setShowJubilaeumModal(true)}
+                className="group relative bg-[#1c2328] text-brand-light rounded-3xl p-8 md:p-12 overflow-hidden hover:shadow-2xl transition-all cursor-pointer border border-white/5 hover:border-brand-orange/30"
+              >
+                <div className="absolute top-0 right-0 w-full md:w-1/2 h-full opacity-20 group-hover:opacity-35 transition-opacity duration-700 pointer-events-none">
+                  <img src={jubilaeumBg} alt="100. Jubiläum" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
+                  <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#1c2328] via-[#1c2328]/85 to-transparent"></div>
+                </div>
+                <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+                  <div>
+                    <div className="flex flex-wrap gap-2 items-center mb-4">
+                      <span className="bg-brand-light/10 text-brand-light/80 font-bold tracking-widest uppercase text-[10px] px-3 py-1 rounded-full">Kommendes Highlight</span>
+                      <span className="text-brand-orange/80 font-bold tracking-widest uppercase text-xs">Großes Jubiläumsfest</span>
+                    </div>
+                    <h3 className="font-serif text-4xl md:text-5xl mb-3 text-brand-light/90 group-hover:text-brand-orange transition-colors">100. Jubiläum der Schlossallee</h3>
+                    <p className="font-serif text-xl md:text-2xl text-brand-light/60 max-w-lg mb-4">
+                      Festwochenende mit saftigem Ochsen am Spieß und allem drum und dran!
+                    </p>
+                    <div className="text-brand-orange text-sm font-semibold flex items-center gap-2 mt-2 pt-2 border-t border-white/10 max-w-sm group-hover:translate-x-1 transition-transform">
+                      <span>Details & Festprogramm anzeigen</span>
+                      <ArrowRight size={16} />
+                    </div>
+                  </div>
+                  <div className="text-left md:text-right flex flex-col items-start md:items-end gap-3 shrink-0">
+                    <div className="text-base font-medium text-brand-light/50">
+                      Samstag & Sonntag
+                    </div>
+                    <div>
+                      <div className="font-serif text-5xl md:text-6xl text-brand-light/90 leading-none">18.-19.</div>
+                      <div className="text-xl font-medium tracking-widest uppercase text-brand-light/40 mt-1">Juli 2026</div>
+                      <div className="text-xs uppercase tracking-wider text-brand-orange font-bold mt-1.5">Eintritt frei</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Event 3 - 14. Kaiserzeitausfahrt® */}
               <div 
                 onClick={() => setShowEventModal(true)}
                 className="group relative bg-[#1c2328] text-brand-light rounded-3xl p-8 md:p-12 overflow-hidden hover:shadow-2xl transition-all cursor-pointer border border-white/5 hover:border-brand-orange/30"
@@ -1060,6 +1101,43 @@ END:VCALENDAR`;
                     </div>
                     <div>
                       <div className="font-serif text-5xl md:text-6xl text-brand-light/90 leading-none">01.-02.</div>
+                      <div className="text-xl font-medium tracking-widest uppercase text-brand-light/40 mt-1">August 2026</div>
+                      <div className="text-xs uppercase tracking-wider text-brand-orange font-bold mt-1.5">Eintritt frei</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Event 4 - Lampionfest */}
+              <div 
+                onClick={() => setShowLampionfestModal(true)}
+                className="group relative bg-[#1c2328] text-brand-light rounded-3xl p-8 md:p-12 overflow-hidden hover:shadow-2xl transition-all cursor-pointer border border-white/5 hover:border-brand-orange/30"
+              >
+                <div className="absolute top-0 right-0 w-full md:w-1/2 h-full opacity-20 group-hover:opacity-35 transition-opacity duration-700 pointer-events-none">
+                  <img src={lampionfestBg} alt="Lampionfest im Biergarten" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
+                  <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#1c2328] via-[#1c2328]/85 to-transparent"></div>
+                </div>
+                <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+                  <div>
+                    <div className="flex flex-wrap gap-2 items-center mb-4">
+                      <span className="bg-brand-light/10 text-brand-light/80 font-bold tracking-widest uppercase text-[10px] px-3 py-1 rounded-full">Romantischer Abend</span>
+                      <span className="text-brand-orange/80 font-bold tracking-widest uppercase text-xs">Licht & Magie</span>
+                    </div>
+                    <h3 className="font-serif text-4xl md:text-5xl mb-3 text-brand-light/90 group-hover:text-brand-orange transition-colors">Lampionfest im Biergarten</h3>
+                    <p className="font-serif text-xl md:text-2xl text-brand-light/60 max-w-lg mb-4">
+                      Hunderte bunte Lampions erleuchten die altehrwürdigen Kastanienbäume
+                    </p>
+                    <div className="text-brand-orange text-sm font-semibold flex items-center gap-2 mt-2 pt-2 border-t border-white/10 max-w-sm group-hover:translate-x-1 transition-transform">
+                      <span>Veranstaltungsdetails & Programm anzeigen</span>
+                      <ArrowRight size={16} />
+                    </div>
+                  </div>
+                  <div className="text-left md:text-right flex flex-col items-start md:items-end gap-3 shrink-0">
+                    <div className="text-base font-medium text-brand-light/50">
+                      Freitag & Samstag
+                    </div>
+                    <div>
+                      <div className="font-serif text-5xl md:text-6xl text-brand-light/90 leading-none">21.-22.</div>
                       <div className="text-xl font-medium tracking-widest uppercase text-brand-light/40 mt-1">August 2026</div>
                       <div className="text-xs uppercase tracking-wider text-brand-orange font-bold mt-1.5">Eintritt frei</div>
                     </div>
@@ -1568,6 +1646,146 @@ END:VCALENDAR`;
                 <button 
                   onClick={() => {
                     downloadICS('Schlager-Abend im Biergarten', 'Schlager-Abend im Biergarten mit DJ MY T CHRIS. Eintritt frei! Nur bei schönem Wetter.', '20260703T170000Z', '20260703T230000Z');
+                  }}
+                  className="flex items-center gap-2 bg-brand-orange hover:bg-brand-orange/90 text-brand-dark px-6 py-3 rounded-full transition-colors text-sm font-bold shadow-lg"
+                >
+                  <CalendarPlus size={16} />
+                  <span>In Kalender eintragen</span>
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 100. Jubiläum Modal */}
+      <AnimatePresence>
+        {showJubilaeumModal && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setShowJubilaeumModal(false);
+            }}
+          >
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="bg-[#1c2328] border border-white/10 rounded-3xl p-6 sm:p-10 w-full max-w-lg relative shadow-2xl text-brand-light max-h-[90dvh] flex flex-col"
+            >
+              <button 
+                onClick={() => setShowJubilaeumModal(false)}
+                className="absolute top-5 right-5 text-white/50 hover:text-brand-orange transition-colors p-2 rounded-full bg-white/5 hover:bg-white/10 shrink-0 z-10"
+              >
+                <X size={20} />
+              </button>
+
+              <div className="overflow-y-auto pr-2 hide-scrollbar space-y-6 flex-1">
+                <div>
+                  <h3 className="font-serif text-3xl sm:text-4xl text-brand-light mb-2">100. Jubiläum der Schlossallee</h3>
+                  <p className="text-brand-light/60 font-medium">Großes Festwochenende mit Ochse am Spieß!</p>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 text-sm bg-black/30 p-5 rounded-2xl border border-white/5">
+                  <div>
+                    <span className="text-brand-light/50 text-xs uppercase tracking-wider block mb-1">Datum</span>
+                    <strong className="text-brand-light block">Samstag & Sonntag, 18. – 19. Juli 2026</strong>
+                  </div>
+                  <div>
+                    <span className="text-brand-light/50 text-xs uppercase tracking-wider block mb-1">Ablauf</span>
+                    <strong className="text-brand-light block">Ganztägiges Festprogramm</strong>
+                  </div>
+                </div>
+
+                <div className="bg-white/5 p-4 rounded-xl border border-white/5 space-y-2">
+                  <span className="text-brand-orange font-bold text-xs uppercase tracking-widest block">Das erwartet euch</span>
+                  <p className="text-sm text-brand-light/80 leading-relaxed">
+                    Wir feiern ein ganzes Jahrhundert Biergarten-Geschichte! Zur Feier des Tages servieren wir euch einen köstlichen, frisch gebratenen Ochsen am Spieß. 
+                  </p>
+                  <p className="text-sm text-brand-light/80 leading-relaxed">
+                    Begleitet wird das Jubiläum von traditioneller bayerischer Musik, kühlem Festbier und einem bunten Rahmenprogramm für Jung und Alt. Kommt vorbei und feiert dieses historische Jubiläum mit uns!
+                  </p>
+                </div>
+              </div>
+
+              <div className="pt-6 mt-6 border-t border-white/10 flex justify-end shrink-0">
+                <button 
+                  onClick={() => {
+                    downloadICS('100. Jubiläum - Schlossallee', '100-jähriges Jubiläum im Biergarten Schlossallee mit saftigem Ochsen am Spieß, Festmusik und buntem Programm! Eintritt frei.', '20260718T100000Z', '20260719T220000Z');
+                  }}
+                  className="flex items-center gap-2 bg-brand-orange hover:bg-brand-orange/90 text-brand-dark px-6 py-3 rounded-full transition-colors text-sm font-bold shadow-lg"
+                >
+                  <CalendarPlus size={16} />
+                  <span>In Kalender eintragen</span>
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Lampionfest Modal */}
+      <AnimatePresence>
+        {showLampionfestModal && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setShowLampionfestModal(false);
+            }}
+          >
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="bg-[#1c2328] border border-white/10 rounded-3xl p-6 sm:p-10 w-full max-w-lg relative shadow-2xl text-brand-light max-h-[90dvh] flex flex-col"
+            >
+              <button 
+                onClick={() => setShowLampionfestModal(false)}
+                className="absolute top-5 right-5 text-white/50 hover:text-brand-orange transition-colors p-2 rounded-full bg-white/5 hover:bg-white/10 shrink-0 z-10"
+              >
+                <X size={20} />
+              </button>
+
+              <div className="overflow-y-auto pr-2 hide-scrollbar space-y-6 flex-1">
+                <div>
+                  <h3 className="font-serif text-3xl sm:text-4xl text-brand-light mb-2">Lampionfest im Biergarten</h3>
+                  <p className="text-brand-light/60 font-medium">Romantischer Lichterzauber unter den Kastanien</p>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 text-sm bg-black/30 p-5 rounded-2xl border border-white/5">
+                  <div>
+                    <span className="text-brand-light/50 text-xs uppercase tracking-wider block mb-1">Datum</span>
+                    <strong className="text-brand-light block">Freitag & Samstag, 21. – 22. August 2026</strong>
+                  </div>
+                  <div>
+                    <span className="text-brand-light/50 text-xs uppercase tracking-wider block mb-1">Beginn</span>
+                    <strong className="text-brand-light block">Jeweils ab Einbruch der Dämmerung</strong>
+                  </div>
+                </div>
+
+                <div className="bg-white/5 p-4 rounded-xl border border-white/5 space-y-2">
+                  <span className="text-brand-orange font-bold text-xs uppercase tracking-widest block">Ein magischer Sommerabend</span>
+                  <p className="text-sm text-brand-light/80 leading-relaxed">
+                    Wenn die Dämmerung hereinbricht, verwandelt sich unser Biergarten in ein traumhaftes Lichtermeer. Hunderte farbenfrohe Lampions erleuchten die Baumkronen und hüllen die Schlossallee in eine unvergleichlich romantische Atmosphäre.
+                  </p>
+                  <p className="text-sm text-brand-light/80 leading-relaxed">
+                    Genießt kühle Drinks, sommerliche Cocktails, bayerische Schmankerl und stimmungsvolle akustische Live-Hintergrundmusik. Ein unvergessliches Highlight für laue Sommernächte!
+                  </p>
+                </div>
+              </div>
+
+              <div className="pt-6 mt-6 border-t border-white/10 flex justify-end shrink-0">
+                <button 
+                  onClick={() => {
+                    downloadICS('Lampionfest im Biergarten', 'Romantisches Lampionfest im Biergarten Schlossallee mit Hunderten von bunten Lichtern, Cocktails und Akustik-Musik! Eintritt frei.', '20260821T180000Z', '20260822T233000Z');
                   }}
                   className="flex items-center gap-2 bg-brand-orange hover:bg-brand-orange/90 text-brand-dark px-6 py-3 rounded-full transition-colors text-sm font-bold shadow-lg"
                 >
