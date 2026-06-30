@@ -166,7 +166,7 @@ function App() {
 
   // Menu State
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isBottomNavExpanded, setIsBottomNavExpanded] = useState(true);
+  const [isPastHero, setIsPastHero] = useState(false);
 
   // Navbar Visibility State
   const [isNavVisible, setIsNavVisible] = useState(true);
@@ -175,6 +175,9 @@ function App() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      
+      // Check if user scrolled past hero
+      setIsPastHero(currentScrollY > 150);
       
       // If scrolling down and past 100px, hide navbar
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
@@ -666,7 +669,7 @@ END:VCALENDAR`;
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="md:hidden mb-2"
+              className="md:hidden mb-2 flex justify-center"
             >
               <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 shadow-2xl">
                 <div className="relative flex h-3 w-3">
@@ -680,26 +683,37 @@ END:VCALENDAR`;
             </motion.div>
 
             {/* Heading */}
-            <div className="flex flex-col gap-3 md:gap-4 items-start lg:items-end text-left lg:text-right">
+            <div className="flex flex-col gap-3 md:gap-4 items-center text-center mx-auto">
               <h2 className="font-serif text-[10.5vw] xs:text-[9.5vw] sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[0.95] tracking-tight uppercase text-white drop-shadow-2xl">
                 Wo jede Mass<br />eine Geschichte<br />erzählt.
               </h2>
             </div>
 
             {/* Subtext & Buttons */}
-            <div className="flex flex-col gap-5 md:gap-8 max-w-2xl">
+            <div className="flex flex-col gap-5 md:gap-8 max-w-2xl items-center text-center mx-auto">
               <p className={`text-sm sm:text-base md:text-xl leading-relaxed font-medium transition-colors duration-1000 drop-shadow-md max-w-[85%] md:max-w-full ${isDarkMode ? 'text-white/80 md:text-white/90' : 'text-white/90 md:text-white/95'}`}>
                 Bayerische Gemütlichkeit seit 1926. <span className="hidden md:inline">Erlebe einen der schönsten Biergärten der Region, idyllisch gelegen unter alten Kastanien im Herzen von Haag an der Amper.</span>
               </p>
               
-              <div className="flex flex-row items-center gap-3 md:gap-4 mt-2 md:mt-4">
+              <div className="flex flex-row items-center justify-center gap-3 md:gap-4 mt-2 md:mt-4 w-full sm:w-auto">
                 <motion.a 
-                  whileTap={{ scale: 0.96 }}
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
                   href="#events"
-                  className="flex-1 sm:flex-none text-center bg-brand-orange text-white rounded-full px-5 py-3.5 md:px-8 md:py-4 font-bold text-sm md:text-lg hover:bg-brand-orange/90 transition-all flex items-center justify-center gap-1.5 md:gap-2 shadow-[0_4px_20px_rgba(192,86,33,0.4)]"
+                  className="group relative flex-1 sm:flex-none text-center bg-brand-orange text-white rounded-full px-6 py-4 md:px-9 md:py-4.5 font-bold flex items-center justify-center gap-2.5 md:gap-3 overflow-hidden shadow-[0_10px_30px_-10px_rgba(192,86,33,0.5)] hover:shadow-[0_15px_35px_-8px_rgba(192,86,33,0.7)] transition-all duration-300 border border-white/20 hover:border-white/40"
                 >
-                  <CalendarPlus size={18} className="md:w-5 md:h-5 text-white" />
-                  Kommende Events
+                  {/* Refined sliding sheen effect */}
+                  <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none" />
+
+                  {/* Refined status pulse */}
+                  <span className="relative flex h-2 w-2 shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                  </span>
+
+                  <CalendarPlus size={18} className="md:w-5 md:h-5 text-white transition-transform duration-300 group-hover:scale-110" />
+                  <span className="relative z-10 tracking-[0.08em] uppercase text-xs md:text-sm font-extrabold font-sans">Kommende Events</span>
+                  <ArrowRight size={16} className="md:w-4 md:h-4 text-white transition-transform duration-300 group-hover:translate-x-1" />
                 </motion.a>
                 <motion.a 
                   whileTap={{ scale: 0.96 }}
@@ -2118,65 +2132,7 @@ END:VCALENDAR`;
         )}
       </AnimatePresence>
 
-      {/* Mobile Sticky Action Bar */}
-      <AnimatePresence>
-        {isBottomNavExpanded ? (
-          <motion.div 
-            initial={{ y: '100%' }}
-            animate={{ y: isNavVisible ? 0 : '85%' }}
-            exit={{ y: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="lg:hidden fixed bottom-0 left-0 w-full z-40 bg-[#0a0f12]/95 backdrop-blur-xl border-t border-white/10 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-3 px-4 flex justify-around items-center shadow-[0_-10px_40px_rgba(0,0,0,0.5)]"
-          >
-            {/* Collapse Handle */}
-            <div 
-              className="absolute -top-6 left-0 w-full h-6 flex justify-center items-end pb-2 cursor-pointer"
-              onClick={() => setIsBottomNavExpanded(false)}
-            >
-              <div className="w-12 h-1.5 bg-white/20 rounded-full"></div>
-            </div>
 
-            <a 
-              href="#kontakt"
-              onClick={() => trackEvent('routeClicks')}
-              className="flex flex-col items-center gap-1.5 text-brand-light/70 hover:text-brand-light transition-colors"
-              style={{ touchAction: 'manipulation' }}
-            >
-              <div className="p-2">
-                <MapPin size={22} />
-              </div>
-              <span className="text-[10px] font-bold uppercase tracking-widest">Route</span>
-            </a>
-            <a 
-              href="tel:+4917640216107"
-              className="flex flex-col items-center gap-1.5 text-brand-light/70 hover:text-brand-light transition-colors"
-              style={{ touchAction: 'manipulation' }}
-            >
-              <div className="p-2">
-                <Phone size={22} />
-              </div>
-              <span className="text-[10px] font-bold uppercase tracking-widest">Anrufen</span>
-            </a>
-          </motion.div>
-        ) : (
-          <motion.div
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: isNavVisible ? 0 : '75%', opacity: isNavVisible ? 1 : 0.8 }}
-            exit={{ y: 100, opacity: 0 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="lg:hidden fixed bottom-0 left-0 w-full z-40 flex justify-center pb-[max(0.5rem,env(safe-area-inset-bottom))]"
-          >
-            <button
-              onClick={() => setIsBottomNavExpanded(true)}
-              className="bg-[#0a0f12]/90 backdrop-blur-md border border-white/10 text-white/70 hover:text-white rounded-t-2xl rounded-b-lg px-8 py-3 shadow-2xl flex flex-col items-center gap-1"
-              style={{ touchAction: 'manipulation' }}
-            >
-              <div className="w-8 h-1 bg-white/30 rounded-full mb-1"></div>
-              <span className="text-[10px] font-bold uppercase tracking-widest">Menü</span>
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
