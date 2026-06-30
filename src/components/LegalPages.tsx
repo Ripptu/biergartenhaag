@@ -6,7 +6,7 @@ interface LegalPageProps {
 
 export const Impressum: React.FC<LegalPageProps> = ({ isDarkMode }) => (
   <div className={`flex flex-col gap-6 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>
-    <h1 className="font-serif text-4xl md:text-5xl uppercase mb-4">Impressum</h1>
+    <h1 className="font-sans font-bold text-3xl md:text-4xl tracking-tight mb-4">Impressum</h1>
     
     <div className="flex flex-col gap-2">
       <h2 className="font-bold text-xl">Angaben gemäß § 5 TMG</h2>
@@ -113,7 +113,7 @@ export const Impressum: React.FC<LegalPageProps> = ({ isDarkMode }) => (
 
 export const AGB: React.FC<LegalPageProps> = ({ isDarkMode }) => (
   <div className={`flex flex-col gap-6 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>
-    <h1 className="font-serif text-4xl md:text-5xl uppercase mb-4">Allgemeine Geschäftsbedingungen</h1>
+    <h1 className="font-sans font-bold text-3xl md:text-4xl tracking-tight mb-4">Allgemeine Geschäftsbedingungen</h1>
     
     <div className="flex flex-col gap-2">
       <h2 className="font-bold text-xl">1. Geltungsbereich</h2>
@@ -154,7 +154,7 @@ export const AGB: React.FC<LegalPageProps> = ({ isDarkMode }) => (
 
 export const Datenschutz: React.FC<LegalPageProps> = ({ isDarkMode }) => (
   <div className={`flex flex-col gap-6 ${isDarkMode ? 'text-brand-light' : 'text-brand-dark'}`}>
-    <h1 className="font-serif text-4xl md:text-5xl uppercase mb-4">Datenschutzerklärung</h1>
+    <h1 className="font-sans font-bold text-3xl md:text-4xl tracking-tight mb-4">Datenschutzerklärung</h1>
     
     <div className="flex flex-col gap-2">
       <h2 className="font-bold text-xl">1. Datenschutz auf einen Blick</h2>

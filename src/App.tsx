@@ -597,10 +597,10 @@ END:VCALENDAR`;
         
         {/* Navigation */}
       {/* Navigation Header */}
-        <nav className={`fixed top-0 left-0 w-full z-50 flex items-start justify-between px-4 pb-4 pt-[max(1rem,env(safe-area-inset-top))] md:px-12 md:py-8 transition-all duration-300 ${currentView === 'home' || isDarkMode ? 'text-brand-light' : 'text-brand-dark'} ${isMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'} ${!isNavVisible ? '-translate-y-full' : 'translate-y-0'}`}>
+        <nav className={`fixed top-0 left-0 w-full z-50 flex items-start justify-between px-4 pb-4 pt-[max(1rem,env(safe-area-inset-top))] md:px-12 md:py-6 transition-all duration-300 ${currentView === 'home' || isDarkMode ? 'text-brand-light' : 'text-brand-dark'} ${isMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'} ${!isNavVisible ? '-translate-y-full' : 'translate-y-0'}`}>
           {/* Left: Weather & Status Pill */}
           <div className="flex flex-col gap-1.5 md:gap-2">
-            <div className={`flex items-center gap-2 md:gap-3 backdrop-blur-md border rounded-full px-3 py-2 md:px-4 md:py-2 text-[10px] xs:text-xs md:text-sm font-bold shadow-xl transition-colors duration-500 ${isDarkMode ? 'bg-[#1a242b]/80 border-white/10 text-brand-light' : (currentView === 'home' ? 'bg-white/10 border-white/20 text-brand-light' : 'bg-black/5 border-black/10 text-brand-dark')}`}>
+            <div className={`flex items-center gap-2 md:gap-3 backdrop-blur-md border rounded-full px-3 py-2 md:px-4 md:py-1.5 text-[10px] xs:text-xs md:text-xs font-bold shadow-xl transition-colors duration-500 ${isDarkMode ? 'bg-[#1a242b]/80 border-white/10 text-brand-light' : (currentView === 'home' ? 'bg-white/10 border-white/20 text-brand-light' : 'bg-black/5 border-black/10 text-brand-dark')}`}>
               <span className="flex items-center gap-1">
                 {getWeatherIcon(weatherCode)} {weather !== null ? `${weather}°C` : '--°C'}
               </span>
@@ -612,18 +612,18 @@ END:VCALENDAR`;
 
             {/* Thunderstorm Warning */}
             {isThunderstorm && (
-              <div className="flex items-center gap-2 bg-red-500/20 backdrop-blur-md border border-red-500/50 rounded-full px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium shadow-xl text-red-500 animate-pulse">
+              <div className="flex items-center gap-2 bg-red-500/20 backdrop-blur-md border border-red-500/50 rounded-full px-3 py-1 md:px-4 md:py-1.5 text-xs md:text-xs font-medium shadow-xl text-red-500 animate-pulse">
                 <span>⚠️ Gewitterwarnung</span>
               </div>
             )}
           </div>
 
           {/* Center Logo */}
-          <div className="flex flex-col items-center justify-center absolute left-1/2 -translate-x-1/2 z-50" style={{ top: 'max(1rem, env(safe-area-inset-top))' }}>
+          <div className="flex flex-col items-center justify-center absolute left-1/2 -translate-x-1/2 z-50" style={{ top: 'max(0.75rem, env(safe-area-inset-top))' }}>
             <img 
               src="https://s1.directupload.eu/images/260327/8sahgnnn.webp" 
               alt="Schlossallee Logo" 
-              className="h-14 w-14 md:h-32 md:w-32 object-cover rounded-full shadow-2xl cursor-pointer select-none active:scale-90 transition-transform border-2 border-white/20" 
+              className="h-14 w-14 md:h-24 md:w-24 object-cover rounded-full shadow-2xl cursor-pointer select-none active:scale-90 transition-transform border-2 border-white/20" 
               referrerPolicy="no-referrer"
               onClick={handleLogoClick}
             />
@@ -643,7 +643,7 @@ END:VCALENDAR`;
         {currentView === 'home' ? (
           <>
             {/* SECTION A: Hero Area */}
-        <section className="relative min-h-[90svh] md:min-h-[85vh] flex flex-col justify-end px-4 sm:px-6 md:px-12 lg:px-20 pt-24 md:pt-64 pb-10 md:pb-20 z-20 overflow-hidden">
+        <section className="relative min-h-[85svh] md:min-h-[75vh] flex flex-col justify-end px-4 sm:px-6 md:px-12 lg:px-20 pt-24 md:pt-48 pb-10 md:pb-16 z-20 overflow-hidden">
           
           {/* Hero Background Image */}
           <div className={`absolute inset-0 z-0 transition-colors duration-1000 ${isDarkMode ? 'bg-[#12181c]' : 'bg-brand-light'}`}>
@@ -662,45 +662,45 @@ END:VCALENDAR`;
             <div className={`absolute inset-0 bg-gradient-to-b transition-colors duration-1000 ${isDarkMode ? 'from-black/60 via-[#12181c]/40 via-70% to-[#12181c]' : 'from-black/40 via-brand-light/40 via-70% to-brand-light'}`}></div>
           </div>
 
-          <div className="flex flex-col gap-4 md:gap-8 w-full relative z-10 mt-auto">
+          <div className="flex flex-col gap-4 md:gap-6 w-full relative z-10 mt-auto">
             
             {/* Mobile Status Indicator (Hero) */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="md:hidden mb-1 flex justify-center"
+              className="md:hidden mb-1 flex justify-start"
             >
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 shadow-2xl">
                 <div className="relative flex h-2 w-2">
                   <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${effectiveIsOpen ? 'bg-emerald-400' : 'bg-red-400'}`}></span>
                   <span className={`relative inline-flex rounded-full h-2 w-2 ${effectiveIsOpen ? 'bg-emerald-500' : 'bg-red-500'}`}></span>
                 </div>
-                <span className="font-serif text-sm tracking-wide text-white">
+                <span className="font-sans text-xs font-semibold tracking-wider text-white uppercase">
                   {effectiveIsOpen ? "Geöffnet" : "Geschlossen"}
                 </span>
               </div>
             </motion.div>
 
             {/* Heading */}
-            <div className="flex flex-col gap-2 md:gap-4 items-center text-center mx-auto">
-              <h2 className="font-serif text-[9vw] xs:text-[8vw] sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[0.95] tracking-tight uppercase text-white drop-shadow-2xl">
+            <div className="flex flex-col gap-2 md:gap-3 items-start text-left mr-auto ml-0">
+              <h1 className="font-sans font-extrabold text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[1.05] tracking-tighter text-white drop-shadow-xl">
                 Wo jede Mass<br />eine Geschichte<br />erzählt.
-              </h2>
+              </h1>
             </div>
 
             {/* Subtext & Buttons */}
-            <div className="flex flex-col gap-4 md:gap-8 max-w-2xl items-center text-center mx-auto">
-              <p className={`text-xs xs:text-sm sm:text-base md:text-xl leading-relaxed font-medium transition-colors duration-1000 drop-shadow-md max-w-[90%] md:max-w-full ${isDarkMode ? 'text-white/80 md:text-white/90' : 'text-white/90 md:text-white/95'}`}>
+            <div className="flex flex-col gap-4 md:gap-6 max-w-2xl items-start text-left mr-auto ml-0">
+              <p className={`text-xs xs:text-sm sm:text-base md:text-lg leading-relaxed font-normal transition-colors duration-1000 drop-shadow-sm max-w-[95%] md:max-w-xl ${isDarkMode ? 'text-white/80 md:text-white/90' : 'text-white/95 md:text-white/100'}`}>
                 Bayerische Gemütlichkeit seit 1926. <span className="hidden md:inline">Erlebe einen der schönsten Biergärten der Region, idyllisch gelegen unter alten Kastanien im Herzen von Haag an der Amper.</span>
               </p>
               
-              <div className="flex flex-row items-center justify-center gap-2 md:gap-4 mt-1 md:mt-4 w-full sm:w-auto">
+              <div className="flex flex-row items-center justify-start gap-2 md:gap-3 mt-1 md:mt-2 w-full sm:w-auto">
                 <motion.a 
                   whileHover={{ scale: 1.03, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                   href="#events"
-                  className="group relative flex-1 sm:flex-none text-center bg-brand-orange text-white rounded-full px-4 py-3 md:px-9 md:py-4.5 font-bold flex items-center justify-center gap-1.5 md:gap-3 overflow-hidden shadow-[0_10px_30px_-10px_rgba(192,86,33,0.5)] hover:shadow-[0_15px_35px_-8px_rgba(192,86,33,0.7)] transition-all duration-300 border border-white/20 hover:border-white/40"
+                  className="group relative flex-1 sm:flex-none text-center bg-brand-orange text-white rounded-full px-4 py-3 md:px-7 md:py-3.5 font-bold flex items-center justify-center gap-1.5 md:gap-2.5 overflow-hidden shadow-[0_10px_30px_-10px_rgba(192,86,33,0.5)] hover:shadow-[0_15px_35px_-8px_rgba(192,86,33,0.7)] transition-all duration-300 border border-white/20 hover:border-white/40"
                 >
                   {/* Refined sliding sheen effect */}
                   <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none" />
@@ -712,7 +712,7 @@ END:VCALENDAR`;
                   </span>
 
                   <CalendarPlus size={16} className="md:w-5 md:h-5 text-white transition-transform duration-300 group-hover:scale-110" />
-                  <span className="relative z-10 tracking-[0.08em] uppercase text-[10px] md:text-sm font-extrabold font-sans">Kommende Events</span>
+                  <span className="relative z-10 tracking-[0.08em] uppercase text-[10px] md:text-xs font-extrabold font-sans">Kommende Events</span>
                   <ArrowRight size={14} className="md:w-4 md:h-4 text-white transition-transform duration-300 group-hover:translate-x-1" />
                 </motion.a>
                 <motion.a 
@@ -721,7 +721,7 @@ END:VCALENDAR`;
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => trackEvent('routeClicks')}
-                  className="flex-1 sm:flex-none text-center border border-white/30 md:border-2 md:border-white/40 backdrop-blur-sm text-white rounded-full px-4 py-3 md:px-8 md:py-4 font-semibold text-[10px] xs:text-xs md:text-lg hover:bg-white/10 active:bg-white/20 transition-colors flex items-center justify-center gap-1.5 md:gap-2"
+                  className="flex-1 sm:flex-none text-center border border-white/30 md:border-2 md:border-white/40 backdrop-blur-sm text-white rounded-full px-4 py-3 md:px-7 md:py-3.5 font-semibold text-[10px] xs:text-xs md:text-sm hover:bg-white/10 active:bg-white/20 transition-colors flex items-center justify-center gap-1.5 md:gap-2"
                 >
                   <MapPin size={14} className="md:w-5 md:h-5" />
                   Anfahrt
@@ -734,7 +734,7 @@ END:VCALENDAR`;
         </section>
 
         {/* SECTION B: Unsere Schmankerl & Hütt'n */}
-        <section id="schmankerl" className={`py-12 md:py-40 px-4 sm:px-6 md:px-12 lg:px-20 relative z-20 transition-colors duration-1000 ${isDarkMode ? 'bg-[#12181c] text-brand-light' : 'bg-brand-light text-brand-dark'}`}>
+        <section id="schmankerl" className={`pt-24 pb-20 md:py-24 px-4 sm:px-6 md:px-12 lg:px-20 relative z-20 transition-colors duration-1000 ${isDarkMode ? 'bg-[#12181c] text-brand-light' : 'bg-brand-light text-brand-dark'}`}>
           <motion.div 
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -742,9 +742,9 @@ END:VCALENDAR`;
             transition={{ duration: 0.8 }}
             className="max-w-7xl mx-auto"
           >
-            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 md:mb-16 gap-4 md:gap-8">
-              <h2 className="font-serif text-3xl sm:text-5xl md:text-7xl leading-none uppercase">
-                Unsere<br />Schmankerl<br />& Hütt'n
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 md:mb-12 gap-4 md:gap-8">
+              <h2 className="font-sans font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
+                Unsere Schmankerl<br />& Hütt'n
               </h2>
               <p className={`max-w-md text-sm md:text-lg font-medium transition-colors duration-1000 ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
                 Handwerklich perfekt und premium. Entdecke unsere kulinarische Vielfalt. <br/><br/>
@@ -762,10 +762,10 @@ END:VCALENDAR`;
 
                 <div className="absolute inset-0 p-6 xs:p-8 md:p-10 flex flex-col justify-end z-20">
                   <div className="translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-500">
-                    <span className="text-white text-xs font-bold uppercase tracking-[0.2em] mb-2 md:mb-3 block drop-shadow-md">Frisch Gezapft</span>
-                    <h3 className="font-serif text-3xl xs:text-4xl md:text-5xl text-white mb-2 md:mb-4 drop-shadow-lg">Die Schänke</h3>
+                    <span className="text-white/80 text-xs font-semibold uppercase tracking-wider mb-2 md:mb-3 block">Frisch Gezapft</span>
+                    <h3 className="font-sans font-bold text-2xl xs:text-3xl md:text-4xl text-white mb-2 md:mb-4 tracking-tight">Die Schänke</h3>
                     <div className="w-16 md:w-0 h-[2px] bg-brand-orange mb-3 md:mb-5 md:group-hover:w-16 transition-all duration-500 delay-100"></div>
-                    <p className="text-white/95 text-xs xs:text-sm md:text-base leading-relaxed opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 delay-200 drop-shadow-md">
+                    <p className="text-white/95 text-xs xs:text-sm md:text-base leading-relaxed opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 delay-200">
                       Kühles Jaga Bier vom Fass, traditionelle Radler und erfrischende alkoholfreie Getränke. Der gesellige Mittelpunkt unseres Biergartens.
                     </p>
                   </div>
@@ -781,10 +781,10 @@ END:VCALENDAR`;
 
                 <div className="absolute inset-0 p-6 xs:p-8 md:p-10 flex flex-col justify-end z-20">
                   <div className="translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-500">
-                    <span className="text-white text-xs font-bold uppercase tracking-[0.2em] mb-2 md:mb-3 block drop-shadow-md">Heiß & Deftig</span>
-                    <h3 className="font-serif text-3xl xs:text-4xl md:text-5xl text-white mb-2 md:mb-4 drop-shadow-lg">Grillhaus</h3>
+                    <span className="text-white/80 text-xs font-semibold uppercase tracking-wider mb-2 md:mb-3 block">Heiß & Deftig</span>
+                    <h3 className="font-sans font-bold text-2xl xs:text-3xl md:text-4xl text-white mb-2 md:mb-4 tracking-tight">Grillhaus</h3>
                     <div className="w-16 md:w-0 h-[2px] bg-brand-orange mb-3 md:mb-5 md:group-hover:w-16 transition-all duration-500 delay-100"></div>
-                    <p className="text-white/95 text-xs xs:text-sm md:text-base leading-relaxed opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 delay-200 drop-shadow-md">
+                    <p className="text-white/95 text-xs xs:text-sm md:text-base leading-relaxed opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 delay-200">
                       Herzhafte bayrische Spezialitäten, knuspriger Schweinsbraten und feine Schmankerl frisch vom Grill. Ein echter Genuss.
                     </p>
                   </div>
@@ -800,10 +800,10 @@ END:VCALENDAR`;
 
                 <div className="absolute inset-0 p-6 xs:p-8 md:p-10 flex flex-col justify-end z-20">
                   <div className="translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-500">
-                    <span className="text-white text-xs font-bold uppercase tracking-[0.2em] mb-2 md:mb-3 block drop-shadow-md">Kühl & Spritzig</span>
-                    <h3 className="font-serif text-3xl xs:text-4xl md:text-5xl text-white mb-2 md:mb-4 drop-shadow-lg">Die Bar</h3>
+                    <span className="text-white/80 text-xs font-semibold uppercase tracking-wider mb-2 md:mb-3 block">Kühl & Spritzig</span>
+                    <h3 className="font-sans font-bold text-2xl xs:text-3xl md:text-4xl text-white mb-2 md:mb-4 tracking-tight">Die Bar</h3>
                     <div className="w-16 md:w-0 h-[2px] bg-brand-orange mb-3 md:mb-5 md:group-hover:w-16 transition-all duration-500 delay-100"></div>
-                    <p className="text-white/95 text-xs xs:text-sm md:text-base leading-relaxed opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 delay-200 drop-shadow-md">
+                    <p className="text-white/95 text-xs xs:text-sm md:text-base leading-relaxed opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 delay-200">
                       Erlesene Weine, spritzige Aperitifs und kreative Cocktails für die lauen Sommerabende unter unseren Kastanien.
                     </p>
                   </div>
@@ -812,9 +812,9 @@ END:VCALENDAR`;
             </div>
 
             {/* Weitere Standl (Menu List) */}
-            <div className="mt-12 md:mt-32 pt-10 md:pt-24 border-t border-white/10">
-              <div className="text-center mb-10 md:mb-24">
-                <h3 className="font-serif text-2xl xs:text-3xl md:text-6xl mb-3">Alle Standl</h3>
+            <div className="mt-12 md:mt-20 pt-10 md:pt-16 border-t border-white/10">
+              <div className="text-center mb-8 md:mb-12">
+                <h3 className="font-sans font-bold text-2xl xs:text-3xl md:text-4xl lg:text-5xl mb-3 tracking-tight">Alle Standl</h3>
                 <div className="w-16 h-[2px] bg-brand-orange mx-auto"></div>
               </div>
 
@@ -823,37 +823,37 @@ END:VCALENDAR`;
                 {/* Category 1: Bayerisch & Deftig */}
                 <div className="flex flex-col gap-5 md:gap-8">
                   <div className="border-b border-brand-orange/30 pb-2 md:pb-4">
-                    <h4 className="font-serif text-2xl md:text-4xl text-brand-orange">Bayerisch & Deftig</h4>
+                    <h4 className="font-sans font-bold text-xl md:text-2xl tracking-tight text-brand-orange">Bayerisch & Deftig</h4>
                     <span className={`uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold ${isDarkMode ? 'text-white/50' : 'text-black/50'}`}>Die Klassiker</span>
                   </div>
                   
                   <div className="flex flex-col gap-6 md:gap-10">
                     <div className="group">
-                      <h5 className="font-bold text-lg md:text-2xl mb-1 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
+                      <h5 className="font-bold text-lg md:text-xl mb-1 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
                         Die Grill-Hütt'n
                         <span className="font-sans text-xs uppercase tracking-widest text-brand-orange/80">Steak & Würstl</span>
                       </h5>
-                      <p className={`text-sm sm:text-base leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
+                      <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
                         Hier gibt's das Herzhafte vom Holzkohlegrill. Vom saftigen Halsgrat bis zur knackigen Bratwurst – die perfekte Anlaufstelle für den klassischen Biergarten-Hunger.
                       </p>
                     </div>
 
                     <div className="group">
-                      <h5 className="font-bold text-lg md:text-2xl mb-1 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
+                      <h5 className="font-bold text-lg md:text-xl mb-1 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
                         Die Fischbraterei
                         <span className="font-sans text-xs uppercase tracking-widest text-brand-orange/80">Steckerlfisch</span>
                       </h5>
-                      <p className={`text-sm sm:text-base leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
+                      <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
                         Ein absolutes Muss unter den Kastanien. Hier wird der traditionelle Steckerlfisch knusprig und frisch direkt über der heißen Glut gegrillt.
                       </p>
                     </div>
 
                     <div className="group">
-                      <h5 className="font-bold text-lg md:text-2xl mb-1 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
+                      <h5 className="font-bold text-lg md:text-xl mb-1 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
                         Die Bäckerei-Hütte
                         <span className="font-sans text-xs uppercase tracking-widest text-brand-orange/80">Brezn & Co.</span>
                       </h5>
-                      <p className={`text-sm sm:text-base leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
+                      <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
                         Die Basis für jede gscheite Brotzeit. Resche Brezn, frisches Brot und alles, was man für den kleinen Hunger oder zum Teilen am Biertisch braucht.
                       </p>
                     </div>
@@ -864,17 +864,17 @@ END:VCALENDAR`;
                   {/* Category 2: La Dolce Vita */}
                   <div className="flex flex-col gap-5 md:gap-8">
                     <div className="border-b border-brand-orange/30 pb-2 md:pb-4">
-                      <h4 className="font-serif text-2xl md:text-4xl text-brand-orange">La Dolce Vita</h4>
+                      <h4 className="font-sans font-bold text-xl md:text-2xl tracking-tight text-brand-orange">La Dolce Vita</h4>
                       <span className={`uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold ${isDarkMode ? 'text-white/50' : 'text-black/50'}`}>Für die Abwechslung</span>
                     </div>
                     
                     <div className="flex flex-col gap-6 md:gap-10">
                       <div className="group">
-                        <h5 className="font-bold text-lg md:text-2xl mb-1 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
+                        <h5 className="font-bold text-lg md:text-xl mb-1 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
                           Casa Della Pizza
                           <span className="font-sans text-xs uppercase tracking-widest text-brand-orange/80">"Alma"</span>
                         </h5>
-                        <p className={`text-sm sm:text-base leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
+                        <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
                           Das absolute Upgrade für die Schlossallee! Frischer Pizzateig, der Duft zieht durch den Biergarten. Wer mal Abwechslung vom Grillfleisch sucht, bekommt hier original italienisches Flair.
                         </p>
                       </div>
@@ -884,27 +884,27 @@ END:VCALENDAR`;
                   {/* Category 3: Zum Anstoßen */}
                   <div className="flex flex-col gap-5 md:gap-8">
                     <div className="border-b border-brand-orange/30 pb-2 md:pb-4">
-                      <h4 className="font-serif text-2xl md:text-4xl text-brand-orange">Zum Anstoßen</h4>
+                      <h4 className="font-sans font-bold text-xl md:text-2xl tracking-tight text-brand-orange">Zum Anstoßen</h4>
                       <span className={`uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold ${isDarkMode ? 'text-white/50' : 'text-black/50'}`}>Bier & Genuss</span>
                     </div>
                     
                     <div className="flex flex-col gap-6 md:gap-10">
                       <div className="group">
-                        <h5 className="font-bold text-lg md:text-2xl mb-1 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
+                        <h5 className="font-bold text-lg md:text-xl mb-1 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
                           Die Getränke-Schänke
                           <span className="font-sans text-xs uppercase tracking-widest text-brand-orange/80">Bier & Limo</span>
                         </h5>
-                        <p className={`text-sm sm:text-base leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
+                        <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
                           Das flüssige Herzstück. Hier holst du dir dein kühles, naturtrübes "Jaga Bier" im Keferloher oder ein frisches Weißbier von Huber Weisse. 
                         </p>
                       </div>
 
                       <div className="group">
-                        <h5 className="font-bold text-lg md:text-2xl mb-1 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
+                        <h5 className="font-bold text-lg md:text-xl mb-1 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
                           Die Outdoor-Bar
                           <span className="font-sans text-xs uppercase tracking-widest text-brand-orange/80">Cocktails & Wein</span>
                         </h5>
-                        <p className={`text-sm sm:text-base leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
+                        <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
                           Aus dem alten "Glückshafen" wurde eine moderne Bar! Perfekt, um den lauen Sommerabend bei einem kühlen Spritz oder Cocktail unter den Lampions ausklingen zu lassen.
                         </p>
                       </div>
@@ -918,13 +918,13 @@ END:VCALENDAR`;
         </section>
 
         {/* SECTION TV: Mein Lokal, Dein Lokal */}
-        <section id="tv-feature" className={`py-12 md:py-40 px-4 sm:px-6 md:px-12 lg:px-20 relative z-20 transition-colors duration-1000 ${isDarkMode ? 'bg-[#161f26] text-brand-light' : 'bg-brand-dark/5 text-brand-dark'}`}>
+        <section id="tv-feature" className={`py-20 md:py-24 px-4 sm:px-6 md:px-12 lg:px-20 relative z-20 transition-colors duration-1000 ${isDarkMode ? 'bg-[#161f26] text-brand-light' : 'bg-brand-dark/5 text-brand-dark'}`}>
           <motion.div 
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
-            className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-16 items-center"
+            className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-center"
           >
             <div className="order-2 lg:order-2">
               <div className="aspect-square md:aspect-[4/3] rounded-[32px] md:rounded-[40px] overflow-hidden relative shadow-2xl border border-white/10 group">
@@ -949,7 +949,7 @@ END:VCALENDAR`;
                 <div className="w-8 h-[2px] bg-brand-orange"></div>
                 <span className="text-brand-orange font-bold uppercase tracking-widest text-[10px] md:text-sm">Bekannt aus dem TV</span>
               </div>
-              <h2 className="font-serif text-3xl sm:text-4xl md:text-6xl leading-[1.1] uppercase">
+              <h2 className="font-sans font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight tracking-tight">
                 Mein Lokal,<br />Dein Lokal.
               </h2>
               <p className={`text-sm sm:text-base md:text-lg leading-relaxed transition-colors duration-1000 ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
@@ -975,13 +975,13 @@ END:VCALENDAR`;
         </section>
 
         {/* SECTION C: Ein Paradies für Familien */}
-        <section id="familien" className={`py-12 md:py-40 px-4 sm:px-6 md:px-12 lg:px-20 relative z-20 transition-colors duration-1000 ${isDarkMode ? 'bg-[#1a242b] text-brand-light' : 'bg-brand-dark/5 text-brand-dark'}`}>
+        <section id="familien" className={`py-20 md:py-24 px-4 sm:px-6 md:px-12 lg:px-20 relative z-20 transition-colors duration-1000 ${isDarkMode ? 'bg-[#1a242b] text-brand-light' : 'bg-brand-dark/5 text-brand-dark'}`}>
           <motion.div 
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
-            className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-16 items-center"
+            className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-center"
           >
             <div className="order-2 lg:order-1">
               <div className="aspect-square md:aspect-[4/3] rounded-[32px] md:rounded-[40px] overflow-hidden relative shadow-2xl">
@@ -989,7 +989,7 @@ END:VCALENDAR`;
               </div>
             </div>
             <div className="order-1 lg:order-2 flex flex-col gap-4 md:gap-6">
-              <h2 className="font-serif text-3xl sm:text-4xl md:text-6xl leading-[1.1] uppercase">
+              <h2 className="font-sans font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight tracking-tight">
                 Ein Paradies<br />für Familien.
               </h2>
               <p className={`text-sm sm:text-base md:text-lg leading-relaxed transition-colors duration-1000 ${isDarkMode ? 'text-brand-light/70' : 'text-brand-dark/70'}`}>
@@ -1003,7 +1003,7 @@ END:VCALENDAR`;
         </section>
 
         {/* SECTION D: Join the Club (Events) */}
-        <section id="events" className={`py-12 md:py-40 px-4 sm:px-6 md:px-12 lg:px-20 relative z-20 transition-colors duration-1000 ${isDarkMode ? 'bg-[#12181c] text-brand-light' : 'bg-brand-light text-brand-dark'}`}>
+        <section id="events" className={`py-20 md:py-24 px-4 sm:px-6 md:px-12 lg:px-20 relative z-20 transition-colors duration-1000 ${isDarkMode ? 'bg-[#12181c] text-brand-light' : 'bg-brand-light text-brand-dark'}`}>
           <motion.div 
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1011,8 +1011,8 @@ END:VCALENDAR`;
             transition={{ duration: 0.8 }}
             className="max-w-7xl mx-auto"
           >
-            <div className="text-center mb-8 md:mb-20">
-              <h2 className="font-serif text-3xl sm:text-5xl md:text-8xl leading-none uppercase mb-2 md:mb-6">
+            <div className="text-center mb-8 md:mb-12">
+              <h2 className="font-sans font-bold text-3xl sm:text-5xl md:text-5xl lg:text-6xl leading-none mb-2 md:mb-4 tracking-tight">
                 Kultur &<br />Events
               </h2>
               <p className={`text-sm md:text-xl font-medium transition-colors duration-1000 ${isDarkMode ? 'text-brand-light/60' : 'text-brand-dark/60'}`}>Limitierte Erlebnisse unter Kastanien.</p>
@@ -1034,8 +1034,8 @@ END:VCALENDAR`;
                       <span className="bg-brand-orange text-brand-dark font-bold tracking-widest uppercase text-[9px] px-2.5 py-0.5 rounded-full">Nächstes Event</span>
                       <span className="text-brand-orange/90 font-bold tracking-widest uppercase text-[10px] xs:text-xs">Schlager-Klassiker & Stimmung</span>
                     </div>
-                    <h3 className="font-serif text-xl xs:text-2xl sm:text-4xl md:text-5xl mb-2 text-brand-light group-hover:text-brand-orange transition-colors">Schlager-Abend im Biergarten</h3>
-                    <p className="font-serif text-sm sm:text-xl md:text-2xl text-brand-light/70 max-w-lg mb-3 md:mb-4">
+                    <h3 className="font-sans font-bold text-lg xs:text-xl sm:text-3xl md:text-4xl mb-2 text-brand-light group-hover:text-brand-orange transition-colors tracking-tight">Schlager-Abend im Biergarten</h3>
+                    <p className="font-sans text-xs sm:text-base md:text-lg text-brand-light/80 max-w-lg mb-3 md:mb-4">
                       Mit DJ MY T CHRIS — Feiern und Mitsingen unter Kastanien!
                     </p>
                     <div className="text-brand-orange text-xs xs:text-sm font-semibold flex items-center gap-1.5 mt-2 pt-2 border-t border-white/10 max-w-sm group-hover:translate-x-1 transition-transform">
@@ -1048,8 +1048,8 @@ END:VCALENDAR`;
                       Freitag
                     </div>
                     <div>
-                      <div className="font-serif text-5xl md:text-6xl text-brand-light leading-none">03.</div>
-                      <div className="text-xl font-medium tracking-widest uppercase text-brand-light/70 mt-1">Juli 2026</div>
+                      <div className="font-sans font-extrabold text-3xl md:text-5xl text-brand-light tracking-tighter leading-none">03.</div>
+                      <div className="text-sm xs:text-base sm:text-lg font-medium tracking-widest uppercase text-brand-light/70 mt-1">Juli 2026</div>
                       <div className="text-xs uppercase tracking-wider text-brand-orange font-bold mt-1.5">Eintritt frei</div>
                     </div>
                   </div>
@@ -1071,8 +1071,8 @@ END:VCALENDAR`;
                       <span className="bg-brand-light/10 text-brand-light/80 font-bold tracking-widest uppercase text-[9px] px-2.5 py-0.5 rounded-full">Kommendes Highlight</span>
                       <span className="text-brand-orange/80 font-bold tracking-widest uppercase text-[10px] xs:text-xs">Großes Jubiläumsfest</span>
                     </div>
-                    <h3 className="font-serif text-xl xs:text-2xl sm:text-4xl md:text-5xl mb-2 text-brand-light/90 group-hover:text-brand-orange transition-colors">100. Jubiläum der Schlossallee</h3>
-                    <p className="font-serif text-sm sm:text-xl md:text-2xl text-brand-light/60 max-w-lg mb-3 md:mb-4">
+                    <h3 className="font-sans font-bold text-lg xs:text-xl sm:text-3xl md:text-4xl mb-2 text-brand-light/90 group-hover:text-brand-orange transition-colors tracking-tight">100. Jubiläum der Schlossallee</h3>
+                    <p className="font-sans text-xs sm:text-base md:text-lg text-brand-light/70 max-w-lg mb-3 md:mb-4">
                       Festwochenende mit saftigem Ochsen am Spieß und allem drum und dran!
                     </p>
                     <div className="text-brand-orange text-xs xs:text-sm font-semibold flex items-center gap-1.5 mt-2 pt-2 border-t border-white/10 max-w-sm group-hover:translate-x-1 transition-transform">
@@ -1085,8 +1085,8 @@ END:VCALENDAR`;
                       Samstag & Sonntag
                     </div>
                     <div>
-                      <div className="font-serif text-3xl xs:text-4xl sm:text-5xl md:text-6xl text-brand-light/90 leading-none">18.-19.</div>
-                      <div className="text-base xs:text-lg sm:text-xl font-medium tracking-widest uppercase text-brand-light/40 mt-1">Juli 2026</div>
+                      <div className="font-sans font-extrabold text-2xl xs:text-3xl sm:text-4xl md:text-5xl text-brand-light/90 tracking-tighter leading-none">18.-19.</div>
+                      <div className="text-sm xs:text-base sm:text-lg font-medium tracking-widest uppercase text-brand-light/40 mt-1">Juli 2026</div>
                       <div className="text-[10px] xs:text-xs uppercase tracking-wider text-brand-orange font-bold mt-1">Eintritt frei</div>
                     </div>
                   </div>
@@ -1108,8 +1108,8 @@ END:VCALENDAR`;
                       <span className="bg-brand-light/10 text-brand-light/80 font-bold tracking-widest uppercase text-[9px] px-2.5 py-0.5 rounded-full">Kommendes Highlight</span>
                       <span className="text-brand-orange/80 font-bold tracking-widest uppercase text-[10px] xs:text-xs">Internationale Oldtimer-Ausfahrt</span>
                     </div>
-                    <h3 className="font-serif text-xl xs:text-2xl sm:text-4xl md:text-5xl mb-2 text-brand-light/90 group-hover:text-brand-orange transition-colors">14. Kaiserzeitausfahrt®</h3>
-                    <p className="font-serif text-sm sm:text-xl md:text-2xl text-brand-light/60 max-w-lg mb-3 md:mb-4">
+                    <h3 className="font-sans font-bold text-lg xs:text-xl sm:text-3xl md:text-4xl mb-2 text-brand-light/90 group-hover:text-brand-orange transition-colors tracking-tight">14. Kaiserzeitausfahrt®</h3>
+                    <p className="font-sans text-xs sm:text-base md:text-lg text-brand-light/70 max-w-lg mb-3 md:mb-4">
                       Historische Motorräder aus 10 europäischen Ländern im Schlossallee Biergarten
                     </p>
                     <div className="text-brand-orange text-xs xs:text-sm font-semibold flex items-center gap-1.5 mt-2 pt-2 border-t border-white/10 max-w-sm group-hover:translate-x-1 transition-transform">
@@ -1122,8 +1122,8 @@ END:VCALENDAR`;
                       Samstag & Sonntag
                     </div>
                     <div>
-                      <div className="font-serif text-3xl xs:text-4xl sm:text-5xl md:text-6xl text-brand-light/90 leading-none">01.-02.</div>
-                      <div className="text-base xs:text-lg sm:text-xl font-medium tracking-widest uppercase text-brand-light/40 mt-1">August 2026</div>
+                      <div className="font-sans font-extrabold text-2xl xs:text-3xl sm:text-4xl md:text-5xl text-brand-light/90 tracking-tighter leading-none">01.-02.</div>
+                      <div className="text-sm xs:text-base sm:text-lg font-medium tracking-widest uppercase text-brand-light/40 mt-1">August 2026</div>
                       <div className="text-[10px] xs:text-xs uppercase tracking-wider text-brand-orange font-bold mt-1">Eintritt frei</div>
                     </div>
                   </div>
@@ -1145,8 +1145,8 @@ END:VCALENDAR`;
                       <span className="bg-brand-light/10 text-brand-light/80 font-bold tracking-widest uppercase text-[9px] px-2.5 py-0.5 rounded-full">Romantischer Abend</span>
                       <span className="text-brand-orange/80 font-bold tracking-widest uppercase text-[10px] xs:text-xs">Licht & Magie</span>
                     </div>
-                    <h3 className="font-serif text-xl xs:text-2xl sm:text-4xl md:text-5xl mb-2 text-brand-light/90 group-hover:text-brand-orange transition-colors">Lampionfest im Biergarten</h3>
-                    <p className="font-serif text-sm sm:text-xl md:text-2xl text-brand-light/60 max-w-lg mb-3 md:mb-4">
+                    <h3 className="font-sans font-bold text-lg xs:text-xl sm:text-3xl md:text-4xl mb-2 text-brand-light/90 group-hover:text-brand-orange transition-colors tracking-tight">Lampionfest im Biergarten</h3>
+                    <p className="font-sans text-xs sm:text-base md:text-lg text-brand-light/70 max-w-lg mb-3 md:mb-4">
                       Hunderte bunte Lampions erleuchten die altehrwürdigen Kastanienbäume
                     </p>
                     <div className="text-brand-orange text-xs xs:text-sm font-semibold flex items-center gap-1.5 mt-2 pt-2 border-t border-white/10 max-w-sm group-hover:translate-x-1 transition-transform">
@@ -1159,8 +1159,8 @@ END:VCALENDAR`;
                       Freitag & Samstag
                     </div>
                     <div>
-                      <div className="font-serif text-3xl xs:text-4xl sm:text-5xl md:text-6xl text-brand-light/90 leading-none">21.-22.</div>
-                      <div className="text-base xs:text-lg sm:text-xl font-medium tracking-widest uppercase text-brand-light/40 mt-1">August 2026</div>
+                      <div className="font-sans font-extrabold text-2xl xs:text-3xl sm:text-4xl md:text-5xl text-brand-light/90 tracking-tighter leading-none">21.-22.</div>
+                      <div className="text-sm xs:text-base sm:text-lg font-medium tracking-widest uppercase text-brand-light/40 mt-1">August 2026</div>
                       <div className="text-[10px] xs:text-xs uppercase tracking-wider text-brand-orange font-bold mt-1">Eintritt frei</div>
                     </div>
                   </div>
@@ -1172,7 +1172,7 @@ END:VCALENDAR`;
         </section>
 
         {/* SECTION F: Hunde Willkommen */}
-        <section id="hunde" className={`py-12 md:py-40 px-4 sm:px-6 md:px-12 lg:px-20 relative z-20 transition-colors duration-1000 ${isDarkMode ? 'bg-[#12181c] text-brand-light' : 'bg-brand-light text-brand-dark'}`}>
+        <section id="hunde" className={`py-20 md:py-24 px-4 sm:px-6 md:px-12 lg:px-20 relative z-20 transition-colors duration-1000 ${isDarkMode ? 'bg-[#12181c] text-brand-light' : 'bg-brand-light text-brand-dark'}`}>
           <motion.div 
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1180,8 +1180,8 @@ END:VCALENDAR`;
             transition={{ duration: 0.8 }}
             className="max-w-7xl mx-auto"
           >
-            <div className="text-center mb-8 md:mb-20">
-              <h2 className="font-serif text-3xl sm:text-5xl md:text-8xl leading-none uppercase mb-2 md:mb-6">
+            <div className="text-center mb-8 md:mb-12">
+              <h2 className="font-sans font-bold text-3xl sm:text-5xl md:text-5xl lg:text-6xl leading-tight mb-2 md:mb-4 tracking-tight">
                 Ein Platz für<br />Vierbeiner
               </h2>
               <p className={`text-sm md:text-xl font-medium transition-colors duration-1000 ${isDarkMode ? 'text-brand-light/60' : 'text-brand-dark/60'}`}>Auch eure Hunde sollen sich rundum wohlfühlen.</p>
@@ -1196,17 +1196,17 @@ END:VCALENDAR`;
               <div className="relative z-10 flex flex-col gap-6 md:gap-12">
                 <div className="max-w-2xl">
                   <span className="text-brand-orange font-bold tracking-widest uppercase text-xs md:text-sm mb-2 md:mb-4 block">Immer Willkommen</span>
-                  <h3 className="font-serif text-2xl xs:text-3xl md:text-6xl mb-4 md:mb-6">Für die treuesten Begleiter.</h3>
+                  <h3 className="font-sans font-bold text-2xl xs:text-3xl md:text-5xl mb-4 md:mb-6 tracking-tight">Für die treuesten Begleiter.</h3>
                   <p className="text-brand-light/80 text-sm md:text-xl leading-relaxed mb-6 md:mb-10">
                     Gut erzogene Hunde sind bei uns im Biergarten Schlossallee herzlich willkommen! 
                     Damit sich auch unsere vierbeinigen Gäste rundum wohlfühlen, haben wir natürlich an eine hundegerechte Umgebung gedacht.
                   </p>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                     <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 xs:p-6 border border-white/10 hover:border-brand-orange/30 transition-colors">
                       <div className="flex items-center gap-2.5 mb-3 md:mb-4">
                         <Droplets className="text-brand-orange w-5 h-5 md:w-6 md:h-6" />
-                        <h4 className="font-serif text-xl md:text-2xl text-white">Trinkwasser</h4>
+                        <h4 className="font-sans font-bold text-lg md:text-xl text-white tracking-tight">Trinkwasser</h4>
                       </div>
                       <p className="text-brand-light/70 text-xs xs:text-sm md:text-base leading-relaxed">
                         Wassernäpfe stehen jederzeit frisch befüllt direkt an der Schänke und am Haupteingang für euch bereit.
@@ -1216,7 +1216,7 @@ END:VCALENDAR`;
                     <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 xs:p-6 border border-white/10 hover:border-brand-orange/30 transition-colors">
                       <div className="flex items-center gap-2.5 mb-3 md:mb-4">
                         <TreePine className="text-brand-orange w-5 h-5 md:w-6 md:h-6" />
-                        <h4 className="font-serif text-xl md:text-2xl text-white">Schattenplätze</h4>
+                        <h4 className="font-sans font-bold text-lg md:text-xl text-white tracking-tight">Schattenplätze</h4>
                       </div>
                       <p className="text-brand-light/70 text-xs xs:text-sm md:text-base leading-relaxed">
                         Besonders die Tische im hinteren Bereich unter den alten Kastanien bieten an heißen Tagen perfekten Schatten.
@@ -1230,7 +1230,7 @@ END:VCALENDAR`;
         </section>
 
         {/* SECTION F: Lost & Found */}
-        <section id="fundbuero" className={`py-12 md:py-40 px-4 sm:px-6 md:px-12 lg:px-20 relative z-20 transition-colors duration-1000 ${isDarkMode ? 'bg-[#12181c] text-brand-light' : 'bg-brand-light text-brand-dark'}`}>
+        <section id="fundbuero" className={`py-20 md:py-24 px-4 sm:px-6 md:px-12 lg:px-20 relative z-20 transition-colors duration-1000 ${isDarkMode ? 'bg-[#12181c] text-brand-light' : 'bg-brand-light text-brand-dark'}`}>
           <motion.div 
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1238,9 +1238,9 @@ END:VCALENDAR`;
             transition={{ duration: 0.8 }}
             className="max-w-7xl mx-auto"
           >
-            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-8 md:mb-16 gap-4 md:gap-8">
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-8 md:mb-12 gap-4 md:gap-8">
               <div>
-                <h2 className="font-serif text-3xl sm:text-5xl md:text-7xl leading-none uppercase">
+                <h2 className="font-sans font-bold text-3xl sm:text-5xl md:text-5xl lg:text-6xl leading-tight tracking-tight">
                   Digitales<br />Fundbüro
                 </h2>
               </div>
@@ -1276,7 +1276,7 @@ END:VCALENDAR`;
                     </div>
                     
                     <div className="relative z-10 mt-8">
-                      <h3 className="font-serif text-2xl md:text-3xl text-white mb-4 drop-shadow-lg">{foundItem.item}</h3>
+                      <h3 className="font-sans font-bold text-xl md:text-2xl text-white mb-3 tracking-tight">{foundItem.item}</h3>
                       <div className="w-8 h-[2px] bg-brand-orange mb-4 group-hover:w-16 transition-all duration-500"></div>
                       <div className="flex items-center gap-2 text-white/70 text-sm">
                         <MapPin size={16} className="text-brand-orange" />
@@ -1300,7 +1300,7 @@ END:VCALENDAR`;
                       <div className="w-20 h-20 rounded-full bg-brand-orange/10 text-brand-orange flex items-center justify-center mb-6 border border-brand-orange/20 shadow-[0_0_30px_rgba(217,119,6,0.15)]">
                         <Heart size={36} strokeWidth={1.5} />
                       </div>
-                      <h3 className="font-serif text-3xl md:text-4xl text-white mb-4">Nix verlorn, ois beinand!</h3>
+                      <h3 className="font-sans font-bold text-2xl md:text-3xl text-white mb-3 tracking-tight">Nix verlorn, ois beinand!</h3>
                       <div className="w-12 h-[2px] bg-brand-orange mb-6"></div>
                       <p className="text-white/60 text-base md:text-lg max-w-md leading-relaxed">Aktuell gibt es keine verlorenen Gegenstände. Wir passen gut auf eure Sachen auf!</p>
                     </div>
@@ -1320,11 +1320,11 @@ END:VCALENDAR`;
         ) : currentView === 'about' ? (
           <AboutUs isDarkMode={isDarkMode} onBack={() => setCurrentView('home')} />
         ) : (
-          <div className="pt-40 pb-24 px-4 sm:px-6 md:px-12 lg:px-20 min-h-[80vh]">
+          <div className="pt-24 md:pt-28 pb-16 px-4 sm:px-6 md:px-12 lg:px-20 min-h-[80vh]">
             <div className="max-w-4xl mx-auto">
               <button 
                 onClick={() => setCurrentView('home')} 
-                className={`flex items-center gap-2 mb-12 font-medium transition-colors ${isDarkMode ? 'text-brand-orange hover:text-brand-orange/80' : 'text-brand-orange hover:text-brand-orange/80'}`}
+                className={`flex items-center gap-2 mb-10 font-medium transition-colors ${isDarkMode ? 'text-brand-orange hover:text-brand-orange/80' : 'text-brand-orange hover:text-brand-orange/80'}`}
               >
                 <ArrowLeft size={20} /> Zurück zur Startseite
               </button>
@@ -1338,7 +1338,7 @@ END:VCALENDAR`;
       </main>
 
       {/* SECTION G: Visit Us / Footer */}
-      <footer id="kontakt" className={`pt-16 md:pt-48 pb-12 md:pb-12 px-4 sm:px-6 md:px-12 lg:px-20 relative -mt-10 md:-mt-20 z-0 transition-colors duration-1000 ${isDarkMode ? 'bg-[#0a0f13] text-brand-light' : 'bg-brand-dark text-brand-light'}`}>
+      <footer id="kontakt" className={`pt-20 md:pt-32 pb-16 md:pb-16 px-4 sm:px-6 md:px-12 lg:px-20 relative -mt-6 md:-mt-20 z-0 transition-colors duration-1000 ${isDarkMode ? 'bg-[#0a0f13] text-brand-light' : 'bg-brand-dark text-brand-light'}`}>
         <motion.div 
           initial={{ opacity: 0, y: 80 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -1349,7 +1349,7 @@ END:VCALENDAR`;
           
           {/* Info */}
           <div className="lg:col-span-12 flex flex-col gap-6 md:gap-8">
-            <h2 className="font-serif text-3xl sm:text-5xl md:text-7xl leading-none uppercase">Besuch uns.</h2>
+            <h2 className="font-sans font-bold text-3xl sm:text-5xl md:text-5xl lg:text-6xl leading-tight tracking-tight">Besuch uns.</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mt-2 md:mt-4">
               <div className="flex items-start gap-3 md:gap-4">
@@ -1425,7 +1425,7 @@ END:VCALENDAR`;
           <div className="flex flex-col items-center md:items-start gap-2">
             <p onClick={handleFooterClick} className="cursor-pointer select-none text-center md:text-left leading-relaxed">© 2026 Schlossallee-Biergarten Haag an der Amper.<br className="md:hidden" /> Alle Rechte vorbehalten.</p>
             <p className="text-center md:text-left text-brand-light/50">
-              Webdesign & Entwicklung durch <a href="http://vamela.info" target="_blank" rel="noopener noreferrer" className="font-serif text-brand-light hover:text-brand-orange transition-colors">Vamela</a>
+              Webdesign & Entwicklung durch <a href="http://vamela.info" target="_blank" rel="noopener noreferrer" className="font-sans font-medium text-brand-light hover:text-brand-orange transition-colors">Vamela</a>
             </p>
           </div>
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-4">
@@ -1455,11 +1455,11 @@ END:VCALENDAR`;
               <X size={32} strokeWidth={1.5} />
             </button>
             <nav className="flex flex-col items-center gap-4 md:gap-8 text-center px-4">
-              <a href="#schmankerl" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Schmankerl</a>
-              <a href="#events" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Events</a>
-              <a href="#fundbuero" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Fundbüro</a>
-              <button onClick={() => { setIsMenuOpen(false); setCurrentView('about'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Über uns</button>
-              <a href="#kontakt" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-serif text-4xl md:text-6xl text-brand-light active:text-brand-orange transition-colors uppercase py-3">Kontakt</a>
+              <a href="#schmankerl" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-sans font-bold text-3xl md:text-5xl text-brand-light active:text-brand-orange transition-colors tracking-tight py-3">Schmankerl</a>
+              <a href="#events" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-sans font-bold text-3xl md:text-5xl text-brand-light active:text-brand-orange transition-colors tracking-tight py-3">Events</a>
+              <a href="#fundbuero" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-sans font-bold text-3xl md:text-5xl text-brand-light active:text-brand-orange transition-colors tracking-tight py-3">Fundbüro</a>
+              <button onClick={() => { setIsMenuOpen(false); setCurrentView('about'); }} className="font-sans font-bold text-3xl md:text-5xl text-brand-light active:text-brand-orange transition-colors tracking-tight py-3">Über uns</button>
+              <a href="#kontakt" onClick={() => { setIsMenuOpen(false); setCurrentView('home'); }} className="font-sans font-bold text-3xl md:text-5xl text-brand-light active:text-brand-orange transition-colors tracking-tight py-3">Kontakt</a>
               
               <div className="mt-8 flex gap-6">
                 <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Folge unserem Biergarten auf Instagram" title="Biergarten Schlossallee Haag auf Instagram" className="w-14 h-14 rounded-full bg-white/5 flex items-center justify-center text-white active:bg-brand-orange transition-colors">
@@ -1518,8 +1518,8 @@ END:VCALENDAR`;
                     <span className="bg-brand-orange text-brand-dark font-bold tracking-widest uppercase text-xs px-3 py-1 rounded-full">Event Details</span>
                     <span className="text-brand-orange font-medium text-xs sm:text-sm">01. – 02. August 2026</span>
                   </div>
-                  <h3 className="font-serif text-3xl sm:text-5xl md:text-6xl text-brand-light mb-2">14. Kaiserzeitausfahrt®</h3>
-                  <p className="font-serif text-lg sm:text-2xl text-brand-orange font-medium">
+                  <h3 className="font-sans font-bold text-2xl sm:text-4xl md:text-5xl text-brand-light mb-2 tracking-tight">14. Kaiserzeitausfahrt®</h3>
+                  <p className="font-sans text-base sm:text-xl text-brand-orange font-medium">
                     Internationale Oldtimer-Ausfahrt der Extraklasse im Biergarten Schlossallee
                   </p>
                 </div>
@@ -1639,7 +1639,7 @@ END:VCALENDAR`;
 
               <div className="overflow-y-auto pr-2 hide-scrollbar space-y-6 flex-1">
                 <div>
-                  <h3 className="font-serif text-3xl sm:text-4xl text-brand-light mb-2">Schlager-Abend im Biergarten</h3>
+                  <h3 className="font-sans font-bold text-2xl sm:text-3xl text-brand-light mb-2 tracking-tight">Schlager-Abend im Biergarten</h3>
                   <p className="text-brand-light/60 font-medium">Mit DJ MY T CHRIS</p>
                 </div>
 
@@ -1706,7 +1706,7 @@ END:VCALENDAR`;
 
               <div className="overflow-y-auto pr-2 hide-scrollbar space-y-6 flex-1">
                 <div>
-                  <h3 className="font-serif text-3xl sm:text-4xl text-brand-light mb-2">100. Jubiläum der Schlossallee</h3>
+                  <h3 className="font-sans font-bold text-2xl sm:text-3xl text-brand-light mb-2 tracking-tight">100. Jubiläum der Schlossallee</h3>
                   <p className="text-brand-light/60 font-medium">Großes Festwochenende mit Ochse am Spieß!</p>
                 </div>
 
@@ -1776,7 +1776,7 @@ END:VCALENDAR`;
 
               <div className="overflow-y-auto pr-2 hide-scrollbar space-y-6 flex-1">
                 <div>
-                  <h3 className="font-serif text-3xl sm:text-4xl text-brand-light mb-2">Lampionfest im Biergarten</h3>
+                  <h3 className="font-sans font-bold text-2xl sm:text-3xl text-brand-light mb-2 tracking-tight">Lampionfest im Biergarten</h3>
                   <p className="text-brand-light/60 font-medium">Romantischer Lichterzauber unter den Kastanien</p>
                 </div>
 
@@ -1848,7 +1848,7 @@ END:VCALENDAR`;
               >
                 <X size={20} />
               </button>
-              <h3 className="text-2xl font-serif text-brand-light mb-6 shrink-0">Admin Login</h3>
+              <h3 className="text-xl font-sans font-bold text-brand-light mb-6 shrink-0 tracking-tight">Admin Login</h3>
               <form onSubmit={handlePasswordSubmit} className="flex flex-col gap-4 overflow-y-auto pr-2 pb-4 hide-scrollbar overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
                 <p className="text-brand-light/70 text-sm">Bitte gib dein Admin-Passwort ein, um fortzufahren.</p>
                 <input 
@@ -1904,7 +1904,7 @@ END:VCALENDAR`;
                 <X size={20} />
               </button>
               <div className="flex items-center justify-between mb-6 shrink-0">
-                <h3 className="text-2xl font-serif text-brand-light">Status & Auslastung</h3>
+                <h3 className="text-xl font-sans font-bold text-brand-light tracking-tight">Status & Auslastung</h3>
                 <button 
                   onClick={() => {
                     setIsAdmin(false);
@@ -1956,7 +1956,7 @@ END:VCALENDAR`;
                 </div>
 
                 <div className="pt-6 border-t border-white/10">
-                  <h4 className="text-lg font-serif text-brand-light mb-4">Fundbüro verwalten</h4>
+                  <h4 className="text-base font-sans font-bold text-brand-light mb-4 tracking-tight">Fundbüro verwalten</h4>
                   
                   <form onSubmit={handleAddFoundItem} className="flex flex-col gap-3 mb-6 bg-white/5 p-4 rounded-2xl border border-white/10">
                     <input 
@@ -2052,16 +2052,16 @@ END:VCALENDAR`;
               </button>
               <div className="flex items-center gap-3 mb-6 shrink-0">
                 <Activity className="text-brand-orange" size={28} />
-                <h3 className="text-2xl font-serif text-brand-light">Performance Dashboard</h3>
+                <h3 className="text-xl font-sans font-bold text-brand-light tracking-tight">Performance Dashboard</h3>
               </div>
               
               <div className="grid grid-cols-2 gap-4 overflow-y-auto pr-2 pb-4 hide-scrollbar overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center">
-                  <div className="text-4xl font-serif text-brand-orange mb-2">{trackingStats.menuClicks}</div>
+                  <div className="text-4xl font-sans font-extrabold text-brand-orange mb-2 tracking-tighter">{trackingStats.menuClicks}</div>
                   <div className="text-sm text-brand-light/70 uppercase tracking-wider text-center">Menü<br/>geöffnet</div>
                 </div>
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center">
-                  <div className="text-4xl font-serif text-brand-orange mb-2">{trackingStats.routeClicks}</div>
+                  <div className="text-4xl font-sans font-extrabold text-brand-orange mb-2 tracking-tighter">{trackingStats.routeClicks}</div>
                   <div className="text-sm text-brand-light/70 uppercase tracking-wider text-center">Route<br/>geplant</div>
                 </div>
               </div>
@@ -2122,7 +2122,7 @@ END:VCALENDAR`;
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="mt-8 font-serif text-2xl text-brand-light"
+              className="mt-8 font-sans font-semibold text-2xl text-brand-light tracking-tight"
             >
               Herzlich Willkommen...
             </motion.p>
