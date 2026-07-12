@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
-import { MapPin, Clock, Phone, ArrowRight, ArrowLeft, X, Heart, Activity, Dog, Droplets, TreePine, Search, Info, Instagram, Facebook, CalendarPlus, Utensils, Tv, Play, Beer, Flame, Fish, Wheat, Pizza, Wine, Coffee } from 'lucide-react';
+import { MapPin, Clock, Phone, ArrowRight, ArrowLeft, X, Heart, Activity, Dog, Droplets, TreePine, Search, Info, Instagram, Facebook, CalendarPlus, Utensils, Tv, Play, Beer, Flame, Fish, Wheat, Pizza, Wine, Coffee, CloudLightning, CloudRain, CloudDrizzle, Cloud, CloudSun, Sun, AlertTriangle, RefreshCw, Castle } from 'lucide-react';
 import { Impressum, AGB, Datenschutz } from './components/LegalPages';
 import { AboutUs } from './components/AboutUs';
 import { supabase } from './supabase';
@@ -150,7 +150,6 @@ function App() {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showAdminModal, setShowAdminModal] = useState(false);
   const [showEventModal, setShowEventModal] = useState(false);
-  const [showSchlagerModal, setShowSchlagerModal] = useState(false);
   const [showJubilaeumModal, setShowJubilaeumModal] = useState(false);
   const [showLampionfestModal, setShowLampionfestModal] = useState(false);
   const [passwordInput, setPasswordInput] = useState("");
@@ -563,18 +562,19 @@ END:VCALENDAR`;
   // Helper for weather icons based on WMO code
   const getWeatherIcon = (code: number | null) => {
     if (code === null) return null;
+    const className = "w-4 h-4 text-brand-orange inline-block align-middle";
     // Thunderstorm codes
-    if ([95, 96, 99].includes(code)) return "⛈️";
+    if ([95, 96, 99].includes(code)) return <CloudLightning className={className} />;
     // Rain codes
-    if ([61, 63, 65, 80, 81, 82].includes(code)) return "🌧️";
+    if ([61, 63, 65, 80, 81, 82].includes(code)) return <CloudRain className={className} />;
     // Drizzle
-    if ([51, 53, 55].includes(code)) return "🌦️";
+    if ([51, 53, 55].includes(code)) return <CloudDrizzle className={className} />;
     // Cloudy
-    if ([3, 45, 48].includes(code)) return "☁️";
+    if ([3, 45, 48].includes(code)) return <Cloud className={className} />;
     // Partly cloudy
-    if ([1, 2].includes(code)) return "⛅";
+    if ([1, 2].includes(code)) return <CloudSun className={className} />;
     // Clear
-    return "☀️";
+    return <Sun className={className} />;
   };
 
   const isThunderstorm = weatherCode !== null && [95, 96, 99].includes(weatherCode);
@@ -613,7 +613,8 @@ END:VCALENDAR`;
             {/* Thunderstorm Warning */}
             {isThunderstorm && (
               <div className="flex items-center gap-2 bg-red-500/20 backdrop-blur-md border border-red-500/50 rounded-full px-3 py-1 md:px-4 md:py-1.5 text-xs md:text-xs font-medium shadow-xl text-red-500 animate-pulse">
-                <span>⚠️ Gewitterwarnung</span>
+                <AlertTriangle size={12} className="text-red-500" />
+                <span>Gewitterwarnung</span>
               </div>
             )}
           </div>
@@ -1019,44 +1020,7 @@ END:VCALENDAR`;
             </div>
 
             <div className="flex flex-col gap-6 md:gap-8">
-              {/* Event 1 - Next Event / Schlager-Abend */}
-              <div 
-                onClick={() => setShowSchlagerModal(true)}
-                className="group relative bg-brand-dark text-brand-light rounded-3xl p-4 xs:p-6 md:p-12 overflow-hidden hover:shadow-2xl transition-all cursor-pointer border border-brand-orange/20 hover:border-brand-orange/50"
-              >
-                <div className="absolute top-0 right-0 w-full md:w-1/2 h-full opacity-20 group-hover:opacity-35 transition-opacity duration-700 pointer-events-none">
-                  <img src={schlagerPartyBg} alt="Schlager-Abend im Biergarten" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
-                  <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-brand-dark via-brand-dark/85 to-transparent"></div>
-                </div>
-                <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 md:gap-8">
-                  <div>
-                    <div className="flex flex-wrap gap-1.5 items-center mb-3 md:mb-4">
-                      <span className="bg-brand-orange text-brand-dark font-bold tracking-widest uppercase text-[9px] px-2.5 py-0.5 rounded-full">Nächstes Event</span>
-                      <span className="text-brand-orange/90 font-bold tracking-widest uppercase text-[10px] xs:text-xs">Schlager-Klassiker & Stimmung</span>
-                    </div>
-                    <h3 className="font-sans font-bold text-lg xs:text-xl sm:text-3xl md:text-4xl mb-2 text-brand-light group-hover:text-brand-orange transition-colors tracking-tight">Schlager-Abend im Biergarten</h3>
-                    <p className="font-sans text-xs sm:text-base md:text-lg text-brand-light/80 max-w-lg mb-3 md:mb-4">
-                      Mit DJ MY T CHRIS — Feiern und Mitsingen unter Kastanien!
-                    </p>
-                    <div className="text-brand-orange text-xs xs:text-sm font-semibold flex items-center gap-1.5 mt-2 pt-2 border-t border-white/10 max-w-sm group-hover:translate-x-1 transition-transform">
-                      <span>Details & Informationen anzeigen</span>
-                      <ArrowRight size={14} />
-                    </div>
-                  </div>
-                  <div className="text-left md:text-right flex flex-col items-start md:items-end gap-3 shrink-0">
-                    <div className="text-base font-medium text-brand-orange">
-                      Freitag
-                    </div>
-                    <div>
-                      <div className="font-sans font-extrabold text-3xl md:text-5xl text-brand-light tracking-tighter leading-none">03.</div>
-                      <div className="text-sm xs:text-base sm:text-lg font-medium tracking-widest uppercase text-brand-light/70 mt-1">Juli 2026</div>
-                      <div className="text-xs uppercase tracking-wider text-brand-orange font-bold mt-1.5">Eintritt frei</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Event 2 - 100. Jubiläum */}
+              {/* Event 1 - 100. Jubiläum */}
               <div 
                 onClick={() => setShowJubilaeumModal(true)}
                 className="group relative bg-[#1c2328] text-brand-light rounded-3xl p-4 xs:p-6 md:p-12 overflow-hidden hover:shadow-2xl transition-all cursor-pointer border border-white/5 hover:border-brand-orange/30"
@@ -1611,73 +1575,6 @@ END:VCALENDAR`;
         )}
       </AnimatePresence>
 
-      {/* Schlager Modal */}
-      <AnimatePresence>
-        {showSchlagerModal && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6"
-            onClick={(e) => {
-              if (e.target === e.currentTarget) setShowSchlagerModal(false);
-            }}
-          >
-            <motion.div 
-              initial={{ scale: 0.95, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 20 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="bg-[#1c2328] border border-white/10 rounded-3xl p-6 sm:p-10 w-full max-w-lg relative shadow-2xl text-brand-light max-h-[90dvh] flex flex-col"
-            >
-              <button 
-                onClick={() => setShowSchlagerModal(false)}
-                className="absolute top-5 right-5 text-white/50 hover:text-brand-orange transition-colors p-2 rounded-full bg-white/5 hover:bg-white/10 shrink-0 z-10"
-              >
-                <X size={20} />
-              </button>
-
-              <div className="overflow-y-auto pr-2 hide-scrollbar space-y-6 flex-1">
-                <div>
-                  <h3 className="font-sans font-bold text-2xl sm:text-3xl text-brand-light mb-2 tracking-tight">Schlager-Abend im Biergarten</h3>
-                  <p className="text-brand-light/60 font-medium">Mit DJ MY T CHRIS</p>
-                </div>
-
-                <div className="grid grid-cols-1 gap-4 text-sm bg-black/30 p-5 rounded-2xl border border-white/5">
-                  <div>
-                    <span className="text-brand-light/50 text-xs uppercase tracking-wider block mb-1">Datum</span>
-                    <strong className="text-brand-light block">Freitag, 03. Juli 2026</strong>
-                  </div>
-                  <div>
-                    <span className="text-brand-light/50 text-xs uppercase tracking-wider block mb-1">Beginn</span>
-                    <strong className="text-brand-light block">Ab 17:00 Uhr</strong>
-                  </div>
-                </div>
-
-                <div className="bg-white/5 p-4 rounded-xl border border-white/5">
-                  <span className="text-brand-orange font-bold text-xs uppercase tracking-widest block mb-2">Wichtiger Hinweis</span>
-                  <p className="text-sm text-brand-light/80 leading-relaxed">
-                    Das Event findet nur bei schönem Wetter statt!
-                  </p>
-                </div>
-              </div>
-
-              <div className="pt-6 mt-6 border-t border-white/10 flex justify-end shrink-0">
-                <button 
-                  onClick={() => {
-                    downloadICS('Schlager-Abend im Biergarten', 'Schlager-Abend im Biergarten mit DJ MY T CHRIS. Eintritt frei! Nur bei schönem Wetter.', '20260703T170000Z', '20260703T230000Z');
-                  }}
-                  className="flex items-center gap-2 bg-brand-orange hover:bg-brand-orange/90 text-brand-dark px-6 py-3 rounded-full transition-colors text-sm font-bold shadow-lg"
-                >
-                  <CalendarPlus size={16} />
-                  <span>In Kalender eintragen</span>
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* 100. Jubiläum Modal */}
       <AnimatePresence>
         {showJubilaeumModal && (
@@ -1695,7 +1592,7 @@ END:VCALENDAR`;
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="bg-[#1c2328] border border-white/10 rounded-3xl p-6 sm:p-10 w-full max-w-lg relative shadow-2xl text-brand-light max-h-[90dvh] flex flex-col"
+              className="bg-[#1c2328] border border-white/10 rounded-3xl p-6 sm:p-10 w-full max-w-xl relative shadow-2xl text-brand-light max-h-[90dvh] flex flex-col"
             >
               <button 
                 onClick={() => setShowJubilaeumModal(false)}
@@ -1706,36 +1603,144 @@ END:VCALENDAR`;
 
               <div className="overflow-y-auto pr-2 hide-scrollbar space-y-6 flex-1">
                 <div>
-                  <h3 className="font-sans font-bold text-2xl sm:text-3xl text-brand-light mb-2 tracking-tight">100. Jubiläum der Schlossallee</h3>
-                  <p className="text-brand-light/60 font-medium">Großes Festwochenende mit Ochse am Spieß!</p>
+                  <div className="flex flex-wrap gap-2 items-center mb-1">
+                    <span className="bg-brand-orange/20 text-brand-orange border border-brand-orange/30 font-bold tracking-widest uppercase text-[10px] px-2.5 py-1 rounded-full">
+                      100-jähriges Jubiläum (1926–2026)
+                    </span>
+                    <span className="bg-white/5 text-white/70 text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full border border-white/10">
+                      Eintritt frei
+                    </span>
+                  </div>
+                  <h3 className="font-sans font-bold text-2xl sm:text-3xl text-brand-light mb-1 tracking-tight">100 Jahre – Feiern Sie mit uns!</h3>
+                  <p className="text-brand-orange/90 font-semibold text-sm sm:text-base">
+                    Biergarten Schlossallee in Haag an der Amper
+                  </p>
+                  <p className="text-white/40 text-[11px] sm:text-xs">In Kooperation mit dem Hofbrauhaus Freising</p>
                 </div>
 
-                <div className="grid grid-cols-1 gap-4 text-sm bg-black/30 p-5 rounded-2xl border border-white/5">
-                  <div>
-                    <span className="text-brand-light/50 text-xs uppercase tracking-wider block mb-1">Datum</span>
-                    <strong className="text-brand-light block">Samstag & Sonntag, 18. – 19. Juli 2026</strong>
-                  </div>
-                  <div>
-                    <span className="text-brand-light/50 text-xs uppercase tracking-wider block mb-1">Ablauf</span>
-                    <strong className="text-brand-light block">Ganztägiges Festprogramm</strong>
-                  </div>
-                </div>
+                <div className="space-y-5">
+                  {/* SAMSTAG, 18.07.2026 */}
+                  <div className="border border-white/10 rounded-2xl bg-black/20 overflow-hidden">
+                    <div className="bg-white/5 px-4 py-3 border-b border-white/10 flex justify-between items-center">
+                      <span className="font-bold text-sm tracking-wide text-brand-light">Samstag, 18.07.2026</span>
+                      <span className="text-[10px] sm:text-[11px] bg-brand-orange/15 text-brand-orange px-2.5 py-0.5 rounded-md font-semibold">Festauftakt</span>
+                    </div>
+                    <div className="p-4 space-y-4">
+                      {/* Musikverein Zolling */}
+                      <div className="flex gap-3">
+                        <div className="text-right w-24 shrink-0 font-mono text-brand-orange text-xs sm:text-sm font-semibold pt-0.5">
+                          13:00 – 17:00
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-sm text-brand-light">Musikverein Zolling</h4>
+                          <p className="text-xs text-brand-light/60 mt-0.5">Zünftige Blasmusik für die ganze Familie.</p>
+                        </div>
+                      </div>
 
-                <div className="bg-white/5 p-4 rounded-xl border border-white/5 space-y-2">
-                  <span className="text-brand-orange font-bold text-xs uppercase tracking-widest block">Das erwartet euch</span>
-                  <p className="text-sm text-brand-light/80 leading-relaxed">
-                    Wir feiern ein ganzes Jahrhundert Biergarten-Geschichte! Zur Feier des Tages servieren wir euch einen köstlichen, frisch gebratenen Ochsen am Spieß. 
-                  </p>
-                  <p className="text-sm text-brand-light/80 leading-relaxed">
-                    Begleitet wird das Jubiläum von traditioneller bayerischer Musik, kühlem Festbier und einem bunten Rahmenprogramm für Jung und Alt. Kommt vorbei und feiert dieses historische Jubiläum mit uns!
-                  </p>
+                      {/* Ganzer Ochse */}
+                      <div className="flex gap-3 pt-3 border-t border-white/5">
+                        <div className="text-right w-24 shrink-0 font-mono text-brand-orange text-xs sm:text-sm font-semibold pt-0.5">
+                          Ab ca. 13:00
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-sm text-brand-light flex flex-wrap items-center gap-1.5">
+                            <span>Ganzer Ochse am Grill</span>
+                            <span className="text-[9px] bg-red-500/20 text-red-400 border border-red-500/30 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">Highlight</span>
+                          </h4>
+                          <p className="text-xs text-brand-light/60 mt-0.5">Saftig, herzhaft und traditionell bayerisch direkt vor Ort zubereitet.</p>
+                        </div>
+                      </div>
+
+                      {/* Drunter & Drüber */}
+                      <div className="flex gap-3 pt-3 border-t border-white/5">
+                        <div className="text-right w-24 shrink-0 font-mono text-brand-orange text-xs sm:text-sm font-semibold pt-0.5">
+                          18:00 – 22:00
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-sm text-brand-light">Live-Band „Drunter & Drüber“</h4>
+                          <p className="text-xs text-brand-light/60 mt-0.5">Stimmungs-Highlights, große Hits und beste Unterhaltung für den Abend.</p>
+                        </div>
+                      </div>
+
+                      {/* Böllerschützen */}
+                      <div className="flex gap-3 pt-3 border-t border-white/5">
+                        <div className="text-right w-24 shrink-0 font-mono text-brand-orange text-xs sm:text-sm font-semibold pt-0.5">
+                          Specials
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-sm text-brand-light">Auftritt der Böllerschützen</h4>
+                          <p className="text-xs text-brand-light/60 mt-0.5">Traditionelles, lautstarkes bayerisches Brauchtum.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* SONNTAG, 19.07.2026 */}
+                  <div className="border border-white/10 rounded-2xl bg-black/20 overflow-hidden">
+                    <div className="bg-white/5 px-4 py-3 border-b border-white/10 flex justify-between items-center">
+                      <span className="font-bold text-sm tracking-wide text-brand-light">Sonntag, 19.07.2026</span>
+                      <span className="text-[10px] sm:text-[11px] bg-brand-orange/15 text-brand-orange px-2.5 py-0.5 rounded-md font-semibold">Festsonntag</span>
+                    </div>
+                    <div className="p-4 space-y-4">
+                      {/* Festgottesdienst */}
+                      <div className="flex gap-3">
+                        <div className="text-right w-24 shrink-0 font-mono text-brand-orange text-xs sm:text-sm font-semibold pt-0.5">
+                          10:00 – 11:30
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-sm text-brand-light">Festgottesdienst im Biergarten</h4>
+                          <p className="text-xs text-brand-light/60 mt-0.5">Feierlicher Gottesdienst unter freiem Himmel direkt unter den Kastanien.</p>
+                        </div>
+                      </div>
+
+                      {/* Musikverein Zolling */}
+                      <div className="flex gap-3 pt-3 border-t border-white/5">
+                        <div className="text-right w-24 shrink-0 font-mono text-brand-orange text-xs sm:text-sm font-semibold pt-0.5">
+                          13:00 – 17:00
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-sm text-brand-light">Musikverein Zolling</h4>
+                          <p className="text-xs text-brand-light/60 mt-0.5">Zünftige Blasmusik am Nachmittag für die perfekte Festzelt-Atmosphäre.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* ATTRAKTIONEN & KULINARIK GRID */}
+                  <div className="bg-white/5 p-4 sm:p-5 rounded-2xl border border-white/5 space-y-3">
+                    <span className="text-brand-orange font-bold text-xs uppercase tracking-widest block">Weitere Attraktionen & Kulinarik</span>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-brand-light/90">
+                      <div className="flex items-start gap-3 bg-black/20 p-3 rounded-xl border border-white/5">
+                        <Castle className="text-brand-orange w-5 h-5 shrink-0 mt-0.5" />
+                        <div>
+                          <strong className="block text-brand-light font-semibold mb-0.5">Für die kleinen Gäste</strong>
+                          <span className="text-brand-light/70 text-[11px]">Eine große Kinderhüpfburg zum ausgelassenen Toben und Spielen.</span>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3 bg-black/20 p-3 rounded-xl border border-white/5">
+                        <Fish className="text-brand-orange w-5 h-5 shrink-0 mt-0.5" />
+                        <div>
+                          <strong className="block text-brand-light font-semibold mb-0.5">Flammlachs Spezialität</strong>
+                          <span className="text-brand-light/70 text-[11px]">Frisch zubereiteter Flammlachs, zart gegart am offenen Holzfeuer.</span>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3 bg-black/20 p-3 rounded-xl border border-white/5 sm:col-span-2">
+                        <Beer className="text-brand-orange w-5 h-5 shrink-0 mt-0.5" />
+                        <div>
+                          <strong className="block text-brand-light font-semibold mb-0.5">Bayerische Genüsse</strong>
+                          <span className="text-brand-light/70 text-[11px]">Zischfrische, kühle Getränke, bestes Festbier und eine reichhaltige Auswahl typisch bayerischer Schmankerl.</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
               <div className="pt-6 mt-6 border-t border-white/10 flex justify-end shrink-0">
                 <button 
                   onClick={() => {
-                    downloadICS('100. Jubiläum - Schlossallee', '100-jähriges Jubiläum im Biergarten Schlossallee mit saftigem Ochsen am Spieß, Festmusik und buntem Programm! Eintritt frei.', '20260718T100000Z', '20260719T220000Z');
+                    downloadICS('100. Jubiläum - Schlossallee', '100-jähriges Jubiläum im Biergarten Schlossallee mit saftigem Ochsen am Spieß, Festmusik und buntem Programm! Eintritt frei.', '20260718T110000Z', '20260719T200000Z');
                   }}
                   className="flex items-center gap-2 bg-brand-orange hover:bg-brand-orange/90 text-brand-dark px-6 py-3 rounded-full transition-colors text-sm font-bold shadow-lg"
                 >
@@ -1932,7 +1937,10 @@ END:VCALENDAR`;
                         className={`flex-1 rounded-xl px-4 py-4 font-medium transition-all active:scale-95 border ${overrideDate === new Date().toDateString() && dbIsOpen ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400' : 'bg-white/5 border-white/10 text-brand-light hover:bg-white/10'}`}
                         style={{ touchAction: 'manipulation' }}
                       >
-                        🍺 Geöffnet
+                        <div className="flex items-center justify-center gap-2">
+                          <Beer className="w-5 h-5 shrink-0" />
+                          <span>Geöffnet</span>
+                        </div>
                       </button>
                       <button 
                         type="button"
@@ -1940,16 +1948,20 @@ END:VCALENDAR`;
                         className={`flex-1 rounded-xl px-4 py-4 font-medium transition-all active:scale-95 border ${overrideDate === new Date().toDateString() && !dbIsOpen ? 'bg-red-500/20 border-red-500/50 text-red-400' : 'bg-white/5 border-white/10 text-brand-light hover:bg-white/10'}`}
                         style={{ touchAction: 'manipulation' }}
                       >
-                        🌧️ Geschlossen
+                        <div className="flex items-center justify-center gap-2">
+                          <CloudRain className="w-5 h-5 shrink-0" />
+                          <span>Geschlossen</span>
+                        </div>
                       </button>
                     </div>
                     {overrideDate === new Date().toDateString() && (
                       <button 
                         type="button"
                         onClick={() => handleStatusChange(null)}
-                        className="w-full rounded-xl px-4 py-3 text-sm font-medium transition-all active:scale-95 border bg-white/5 border-white/10 text-brand-light hover:bg-white/10"
+                        className="w-full rounded-xl px-4 py-3 text-sm font-medium transition-all active:scale-95 border bg-white/5 border-white/10 text-brand-light hover:bg-white/10 flex items-center justify-center gap-2"
                       >
-                        🔄 Zurück auf Automatik (Öffnungszeiten)
+                        <RefreshCw className="w-4 h-4 shrink-0" />
+                        <span>Zurück auf Automatik (Öffnungszeiten)</span>
                       </button>
                     )}
                   </div>
