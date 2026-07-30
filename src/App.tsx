@@ -4,8 +4,6 @@ import { MapPin, Clock, Phone, ArrowRight, ArrowLeft, X, Heart, Activity, Dog, D
 import { Impressum, AGB, Datenschutz } from './components/LegalPages';
 import { AboutUs } from './components/AboutUs';
 import { supabase } from './supabase';
-import schlagerPartyBg from './assets/images/schlager_party_bg_1782754694324.jpg';
-import jubilaeumBg from './assets/images/jubilaeum_ox_spit_bg_1782823771083.jpg';
 import lampionfestBg from './assets/images/lampionfest_beer_garden_bg_1782823787618.jpg';
 
 /**
@@ -1020,44 +1018,7 @@ END:VCALENDAR`;
             </div>
 
             <div className="flex flex-col gap-6 md:gap-8">
-              {/* Event 1 - 100. Jubiläum */}
-              <div 
-                onClick={() => setShowJubilaeumModal(true)}
-                className="group relative bg-[#1c2328] text-brand-light rounded-3xl p-4 xs:p-6 md:p-12 overflow-hidden hover:shadow-2xl transition-all cursor-pointer border border-white/5 hover:border-brand-orange/30"
-              >
-                <div className="absolute top-0 right-0 w-full md:w-1/2 h-full opacity-20 group-hover:opacity-35 transition-opacity duration-700 pointer-events-none">
-                  <img src={jubilaeumBg} alt="100. Jubiläum" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
-                  <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#1c2328] via-[#1c2328]/85 to-transparent"></div>
-                </div>
-                <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 md:gap-8">
-                  <div>
-                    <div className="flex flex-wrap gap-1.5 items-center mb-3 md:mb-4">
-                      <span className="bg-brand-light/10 text-brand-light/80 font-bold tracking-widest uppercase text-[9px] px-2.5 py-0.5 rounded-full">Kommendes Highlight</span>
-                      <span className="text-brand-orange/80 font-bold tracking-widest uppercase text-[10px] xs:text-xs">Großes Jubiläumsfest</span>
-                    </div>
-                    <h3 className="font-sans font-bold text-lg xs:text-xl sm:text-3xl md:text-4xl mb-2 text-brand-light/90 group-hover:text-brand-orange transition-colors tracking-tight">100. Jubiläum der Schlossallee</h3>
-                    <p className="font-sans text-xs sm:text-base md:text-lg text-brand-light/70 max-w-lg mb-3 md:mb-4">
-                      Festwochenende mit saftigem Ochsen am Spieß und allem drum und dran!
-                    </p>
-                    <div className="text-brand-orange text-xs xs:text-sm font-semibold flex items-center gap-1.5 mt-2 pt-2 border-t border-white/10 max-w-sm group-hover:translate-x-1 transition-transform">
-                      <span>Details & Festprogramm anzeigen</span>
-                      <ArrowRight size={14} />
-                    </div>
-                  </div>
-                  <div className="text-left md:text-right flex flex-col items-start md:items-end gap-1.5 md:gap-3 shrink-0">
-                    <div className="text-xs xs:text-sm md:text-base font-medium text-brand-light/50">
-                      Samstag & Sonntag
-                    </div>
-                    <div>
-                      <div className="font-sans font-extrabold text-2xl xs:text-3xl sm:text-4xl md:text-5xl text-brand-light/90 tracking-tighter leading-none">18.-19.</div>
-                      <div className="text-sm xs:text-base sm:text-lg font-medium tracking-widest uppercase text-brand-light/40 mt-1">Juli 2026</div>
-                      <div className="text-[10px] xs:text-xs uppercase tracking-wider text-brand-orange font-bold mt-1">Eintritt frei</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Event 3 - 14. Kaiserzeitausfahrt® */}
+              {/* Event 1 - 14. Kaiserzeitausfahrt® */}
               <div 
                 onClick={() => setShowEventModal(true)}
                 className="group relative bg-[#1c2328] text-brand-light rounded-3xl p-4 xs:p-6 md:p-12 overflow-hidden hover:shadow-2xl transition-all cursor-pointer border border-white/5 hover:border-brand-orange/30"
@@ -1094,37 +1055,37 @@ END:VCALENDAR`;
                 </div>
               </div>
 
-              {/* Event 4 - Lampionfest */}
+              {/* Event 2 - Lampionfest */}
               <div 
                 onClick={() => setShowLampionfestModal(true)}
-                className="group relative bg-[#1c2328] text-brand-light rounded-3xl p-4 xs:p-6 md:p-12 overflow-hidden hover:shadow-2xl transition-all cursor-pointer border border-white/5 hover:border-brand-orange/30"
+                className="group relative bg-[#1c2328] text-brand-light rounded-3xl p-4 xs:p-6 md:p-12 overflow-hidden hover:shadow-2xl transition-all cursor-pointer border border-brand-orange/30 hover:border-brand-orange/60"
               >
-                <div className="absolute top-0 right-0 w-full md:w-1/2 h-full opacity-20 group-hover:opacity-35 transition-opacity duration-700 pointer-events-none">
+                <div className="absolute top-0 right-0 w-full md:w-1/2 h-full opacity-25 group-hover:opacity-40 transition-opacity duration-700 pointer-events-none">
                   <img src={lampionfestBg} alt="Lampionfest im Biergarten" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
                   <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#1c2328] via-[#1c2328]/85 to-transparent"></div>
                 </div>
                 <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 md:gap-8">
                   <div>
                     <div className="flex flex-wrap gap-1.5 items-center mb-3 md:mb-4">
-                      <span className="bg-brand-light/10 text-brand-light/80 font-bold tracking-widest uppercase text-[9px] px-2.5 py-0.5 rounded-full">Romantischer Abend</span>
-                      <span className="text-brand-orange/80 font-bold tracking-widest uppercase text-[10px] xs:text-xs">Licht & Magie</span>
+                      <span className="bg-brand-orange text-brand-dark font-bold tracking-widest uppercase text-[9px] px-2.5 py-0.5 rounded-full">Highlight • 3 Tage lang</span>
+                      <span className="text-brand-orange/90 font-bold tracking-widest uppercase text-[10px] xs:text-xs">Bei schönem Wetter • Eintritt frei</span>
                     </div>
-                    <h3 className="font-sans font-bold text-lg xs:text-xl sm:text-3xl md:text-4xl mb-2 text-brand-light/90 group-hover:text-brand-orange transition-colors tracking-tight">Lampionfest im Biergarten</h3>
-                    <p className="font-sans text-xs sm:text-base md:text-lg text-brand-light/70 max-w-lg mb-3 md:mb-4">
-                      Hunderte bunte Lampions erleuchten die altehrwürdigen Kastanienbäume
+                    <h3 className="font-sans font-bold text-lg xs:text-xl sm:text-3xl md:text-4xl mb-2 text-brand-light group-hover:text-brand-orange transition-colors tracking-tight">Lampionfest im Biergarten</h3>
+                    <p className="font-sans text-xs sm:text-base md:text-lg text-brand-light/80 max-w-lg mb-3 md:mb-4">
+                      3 Tage Live-Bands, 80s & 90s Party, Kinderprogramm & Lichterzauber unter Kastanien.
                     </p>
                     <div className="text-brand-orange text-xs xs:text-sm font-semibold flex items-center gap-1.5 mt-2 pt-2 border-t border-white/10 max-w-sm group-hover:translate-x-1 transition-transform">
-                      <span>Veranstaltungsdetails & Programm anzeigen</span>
+                      <span>Programm & Line-Up anzeigen</span>
                       <ArrowRight size={14} />
                     </div>
                   </div>
                   <div className="text-left md:text-right flex flex-col items-start md:items-end gap-1.5 md:gap-3 shrink-0">
-                    <div className="text-xs xs:text-sm md:text-base font-medium text-brand-light/50">
-                      Freitag & Samstag
+                    <div className="text-xs xs:text-sm md:text-base font-medium text-brand-orange">
+                      Fr. – So. (3 Tage)
                     </div>
                     <div>
-                      <div className="font-sans font-extrabold text-2xl xs:text-3xl sm:text-4xl md:text-5xl text-brand-light/90 tracking-tighter leading-none">21.-22.</div>
-                      <div className="text-sm xs:text-base sm:text-lg font-medium tracking-widest uppercase text-brand-light/40 mt-1">August 2026</div>
+                      <div className="font-sans font-extrabold text-2xl xs:text-3xl sm:text-4xl md:text-5xl text-brand-light tracking-tighter leading-none">15.-17.</div>
+                      <div className="text-sm xs:text-base sm:text-lg font-medium tracking-widest uppercase text-brand-light/70 mt-1">August 2026</div>
                       <div className="text-[10px] xs:text-xs uppercase tracking-wider text-brand-orange font-bold mt-1">Eintritt frei</div>
                     </div>
                   </div>
@@ -1575,184 +1536,6 @@ END:VCALENDAR`;
         )}
       </AnimatePresence>
 
-      {/* 100. Jubiläum Modal */}
-      <AnimatePresence>
-        {showJubilaeumModal && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6"
-            onClick={(e) => {
-              if (e.target === e.currentTarget) setShowJubilaeumModal(false);
-            }}
-          >
-            <motion.div 
-              initial={{ scale: 0.95, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 20 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="bg-[#1c2328] border border-white/10 rounded-3xl p-6 sm:p-10 w-full max-w-xl relative shadow-2xl text-brand-light max-h-[90dvh] flex flex-col"
-            >
-              <button 
-                onClick={() => setShowJubilaeumModal(false)}
-                className="absolute top-5 right-5 text-white/50 hover:text-brand-orange transition-colors p-2 rounded-full bg-white/5 hover:bg-white/10 shrink-0 z-10"
-              >
-                <X size={20} />
-              </button>
-
-              <div className="overflow-y-auto pr-2 hide-scrollbar space-y-6 flex-1">
-                <div>
-                  <div className="flex flex-wrap gap-2 items-center mb-1">
-                    <span className="bg-brand-orange/20 text-brand-orange border border-brand-orange/30 font-bold tracking-widest uppercase text-[10px] px-2.5 py-1 rounded-full">
-                      100-jähriges Jubiläum (1926–2026)
-                    </span>
-                    <span className="bg-white/5 text-white/70 text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full border border-white/10">
-                      Eintritt frei
-                    </span>
-                  </div>
-                  <h3 className="font-sans font-bold text-2xl sm:text-3xl text-brand-light mb-1 tracking-tight">100 Jahre – Feiern Sie mit uns!</h3>
-                  <p className="text-brand-orange/90 font-semibold text-sm sm:text-base">
-                    Biergarten Schlossallee in Haag an der Amper
-                  </p>
-                  <p className="text-white/40 text-[11px] sm:text-xs">In Kooperation mit dem Hofbrauhaus Freising</p>
-                </div>
-
-                <div className="space-y-5">
-                  {/* SAMSTAG, 18.07.2026 */}
-                  <div className="border border-white/10 rounded-2xl bg-black/20 overflow-hidden">
-                    <div className="bg-white/5 px-4 py-3 border-b border-white/10 flex justify-between items-center">
-                      <span className="font-bold text-sm tracking-wide text-brand-light">Samstag, 18.07.2026</span>
-                      <span className="text-[10px] sm:text-[11px] bg-brand-orange/15 text-brand-orange px-2.5 py-0.5 rounded-md font-semibold">Festauftakt</span>
-                    </div>
-                    <div className="p-4 space-y-4">
-                      {/* Musikverein Zolling */}
-                      <div className="flex gap-3">
-                        <div className="text-right w-24 shrink-0 font-mono text-brand-orange text-xs sm:text-sm font-semibold pt-0.5">
-                          13:00 – 17:00
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-sm text-brand-light">Musikverein Zolling</h4>
-                          <p className="text-xs text-brand-light/60 mt-0.5">Zünftige Blasmusik für die ganze Familie.</p>
-                        </div>
-                      </div>
-
-                      {/* Ganzer Ochse */}
-                      <div className="flex gap-3 pt-3 border-t border-white/5">
-                        <div className="text-right w-24 shrink-0 font-mono text-brand-orange text-xs sm:text-sm font-semibold pt-0.5">
-                          Ab ca. 13:00
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-sm text-brand-light flex flex-wrap items-center gap-1.5">
-                            <span>Ganzer Ochse am Grill</span>
-                            <span className="text-[9px] bg-red-500/20 text-red-400 border border-red-500/30 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">Highlight</span>
-                          </h4>
-                          <p className="text-xs text-brand-light/60 mt-0.5">Saftig, herzhaft und traditionell bayerisch direkt vor Ort zubereitet.</p>
-                        </div>
-                      </div>
-
-                      {/* Drunter & Drüber */}
-                      <div className="flex gap-3 pt-3 border-t border-white/5">
-                        <div className="text-right w-24 shrink-0 font-mono text-brand-orange text-xs sm:text-sm font-semibold pt-0.5">
-                          18:00 – 22:00
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-sm text-brand-light">Live-Band „Drunter & Drüber“</h4>
-                          <p className="text-xs text-brand-light/60 mt-0.5">Stimmungs-Highlights, große Hits und beste Unterhaltung für den Abend.</p>
-                        </div>
-                      </div>
-
-                      {/* Böllerschützen */}
-                      <div className="flex gap-3 pt-3 border-t border-white/5">
-                        <div className="text-right w-24 shrink-0 font-mono text-brand-orange text-xs sm:text-sm font-semibold pt-0.5">
-                          Specials
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-sm text-brand-light">Auftritt der Böllerschützen</h4>
-                          <p className="text-xs text-brand-light/60 mt-0.5">Traditionelles, lautstarkes bayerisches Brauchtum.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* SONNTAG, 19.07.2026 */}
-                  <div className="border border-white/10 rounded-2xl bg-black/20 overflow-hidden">
-                    <div className="bg-white/5 px-4 py-3 border-b border-white/10 flex justify-between items-center">
-                      <span className="font-bold text-sm tracking-wide text-brand-light">Sonntag, 19.07.2026</span>
-                      <span className="text-[10px] sm:text-[11px] bg-brand-orange/15 text-brand-orange px-2.5 py-0.5 rounded-md font-semibold">Festsonntag</span>
-                    </div>
-                    <div className="p-4 space-y-4">
-                      {/* Festgottesdienst */}
-                      <div className="flex gap-3">
-                        <div className="text-right w-24 shrink-0 font-mono text-brand-orange text-xs sm:text-sm font-semibold pt-0.5">
-                          10:00 – 11:30
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-sm text-brand-light">Festgottesdienst im Biergarten</h4>
-                          <p className="text-xs text-brand-light/60 mt-0.5">Feierlicher Gottesdienst unter freiem Himmel direkt unter den Kastanien.</p>
-                        </div>
-                      </div>
-
-                      {/* Musikverein Zolling */}
-                      <div className="flex gap-3 pt-3 border-t border-white/5">
-                        <div className="text-right w-24 shrink-0 font-mono text-brand-orange text-xs sm:text-sm font-semibold pt-0.5">
-                          13:00 – 17:00
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-sm text-brand-light">Musikverein Zolling</h4>
-                          <p className="text-xs text-brand-light/60 mt-0.5">Zünftige Blasmusik am Nachmittag für die perfekte Festzelt-Atmosphäre.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* ATTRAKTIONEN & KULINARIK GRID */}
-                  <div className="bg-white/5 p-4 sm:p-5 rounded-2xl border border-white/5 space-y-3">
-                    <span className="text-brand-orange font-bold text-xs uppercase tracking-widest block">Weitere Attraktionen & Kulinarik</span>
-                    
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-brand-light/90">
-                      <div className="flex items-start gap-3 bg-black/20 p-3 rounded-xl border border-white/5">
-                        <Castle className="text-brand-orange w-5 h-5 shrink-0 mt-0.5" />
-                        <div>
-                          <strong className="block text-brand-light font-semibold mb-0.5">Für die kleinen Gäste</strong>
-                          <span className="text-brand-light/70 text-[11px]">Eine große Kinderhüpfburg zum ausgelassenen Toben und Spielen.</span>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-3 bg-black/20 p-3 rounded-xl border border-white/5">
-                        <Fish className="text-brand-orange w-5 h-5 shrink-0 mt-0.5" />
-                        <div>
-                          <strong className="block text-brand-light font-semibold mb-0.5">Flammlachs Spezialität</strong>
-                          <span className="text-brand-light/70 text-[11px]">Frisch zubereiteter Flammlachs, zart gegart am offenen Holzfeuer.</span>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-3 bg-black/20 p-3 rounded-xl border border-white/5 sm:col-span-2">
-                        <Beer className="text-brand-orange w-5 h-5 shrink-0 mt-0.5" />
-                        <div>
-                          <strong className="block text-brand-light font-semibold mb-0.5">Bayerische Genüsse</strong>
-                          <span className="text-brand-light/70 text-[11px]">Zischfrische, kühle Getränke, bestes Festbier und eine reichhaltige Auswahl typisch bayerischer Schmankerl.</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-6 mt-6 border-t border-white/10 flex justify-end shrink-0">
-                <button 
-                  onClick={() => {
-                    downloadICS('100. Jubiläum - Schlossallee', '100-jähriges Jubiläum im Biergarten Schlossallee mit saftigem Ochsen am Spieß, Festmusik und buntem Programm! Eintritt frei.', '20260718T110000Z', '20260719T200000Z');
-                  }}
-                  className="flex items-center gap-2 bg-brand-orange hover:bg-brand-orange/90 text-brand-dark px-6 py-3 rounded-full transition-colors text-sm font-bold shadow-lg"
-                >
-                  <CalendarPlus size={16} />
-                  <span>In Kalender eintragen</span>
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* Lampionfest Modal */}
       <AnimatePresence>
         {showLampionfestModal && (
@@ -1770,7 +1553,7 @@ END:VCALENDAR`;
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="bg-[#1c2328] border border-white/10 rounded-3xl p-6 sm:p-10 w-full max-w-lg relative shadow-2xl text-brand-light max-h-[90dvh] flex flex-col"
+              className="bg-[#1c2328] border border-white/10 rounded-3xl p-5 sm:p-8 w-full max-w-xl relative shadow-2xl text-brand-light max-h-[90dvh] flex flex-col"
             >
               <button 
                 onClick={() => setShowLampionfestModal(false)}
@@ -1779,38 +1562,89 @@ END:VCALENDAR`;
                 <X size={20} />
               </button>
 
-              <div className="overflow-y-auto pr-2 hide-scrollbar space-y-6 flex-1">
+              <div className="overflow-y-auto pr-2 hide-scrollbar space-y-5 flex-1">
                 <div>
-                  <h3 className="font-sans font-bold text-2xl sm:text-3xl text-brand-light mb-2 tracking-tight">Lampionfest im Biergarten</h3>
-                  <p className="text-brand-light/60 font-medium">Romantischer Lichterzauber unter den Kastanien</p>
+                  <div className="flex flex-wrap gap-1.5 items-center mb-2">
+                    <span className="bg-brand-orange text-brand-dark font-bold uppercase tracking-wider text-[10px] px-2.5 py-0.5 rounded-full">
+                      3 Tage lang!
+                    </span>
+                    <span className="bg-white/10 text-brand-light font-semibold uppercase tracking-wider text-[10px] px-2.5 py-0.5 rounded-full">
+                      Eintritt frei
+                    </span>
+                    <span className="bg-white/10 text-brand-light/80 text-[10px] uppercase tracking-wider px-2.5 py-0.5 rounded-full">
+                      Bei schönem Wetter
+                    </span>
+                  </div>
+                  <h3 className="font-sans font-bold text-2xl sm:text-4xl text-brand-light mb-1 tracking-tight">Lampionfest</h3>
+                  <p className="text-brand-orange font-semibold text-xs sm:text-sm">Biergarten Schlossallee • Haag an der Amper</p>
                 </div>
 
-                <div className="grid grid-cols-1 gap-4 text-sm bg-black/30 p-5 rounded-2xl border border-white/5">
-                  <div>
-                    <span className="text-brand-light/50 text-xs uppercase tracking-wider block mb-1">Datum</span>
-                    <strong className="text-brand-light block">Freitag & Samstag, 21. – 22. August 2026</strong>
+                {/* PROGRAMM FREITAG BIS SONNTAG */}
+                <div className="space-y-3 text-xs sm:text-sm">
+                  {/* FREITAG */}
+                  <div className="bg-black/30 border border-white/10 rounded-2xl p-3.5 space-y-2">
+                    <div className="flex justify-between items-center border-b border-white/10 pb-1.5">
+                      <span className="font-bold text-brand-orange uppercase tracking-wider">Freitag, 15.08.</span>
+                      <span className="text-[10px] text-white/50">Ab 18:00 Uhr</span>
+                    </div>
+                    <div className="space-y-1.5 pt-0.5">
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-white">THUNDERBIRDS (Liveband)</span>
+                        <span className="text-brand-orange text-[11px] font-mono">ab 18:00</span>
+                      </div>
+                      <div className="flex justify-between items-center pt-1 border-t border-white/5">
+                        <span className="font-semibold text-brand-light/90">We ❤️ 80s & 90s Party (DJ MY T CHRIS)</span>
+                        <span className="text-brand-orange text-[11px] font-mono">ab 22:30</span>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <span className="text-brand-light/50 text-xs uppercase tracking-wider block mb-1">Beginn</span>
-                    <strong className="text-brand-light block">Jeweils ab Einbruch der Dämmerung</strong>
-                  </div>
-                </div>
 
-                <div className="bg-white/5 p-4 rounded-xl border border-white/5 space-y-2">
-                  <span className="text-brand-orange font-bold text-xs uppercase tracking-widest block">Ein magischer Sommerabend</span>
-                  <p className="text-sm text-brand-light/80 leading-relaxed">
-                    Wenn die Dämmerung hereinbricht, verwandelt sich unser Biergarten in ein traumhaftes Lichtermeer. Hunderte farbenfrohe Lampions erleuchten die Baumkronen und hüllen die Schlossallee in eine unvergleichlich romantische Atmosphäre.
-                  </p>
-                  <p className="text-sm text-brand-light/80 leading-relaxed">
-                    Genießt kühle Drinks, sommerliche Cocktails, bayerische Schmankerl und stimmungsvolle akustische Live-Hintergrundmusik. Ein unvergessliches Highlight für laue Sommernächte!
-                  </p>
+                  {/* SAMSTAG */}
+                  <div className="bg-black/30 border border-white/10 rounded-2xl p-3.5 space-y-2">
+                    <div className="flex justify-between items-center border-b border-white/10 pb-1.5">
+                      <span className="font-bold text-brand-orange uppercase tracking-wider">Samstag, 16.08.</span>
+                      <span className="text-[10px] text-white/50">Ab 18:00 Uhr</span>
+                    </div>
+                    <div className="space-y-1.5 pt-0.5">
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-white">PARTYBAND RENATE (Liveband)</span>
+                        <span className="text-brand-orange text-[11px] font-mono">ab 18:00</span>
+                      </div>
+                      <div className="flex justify-between items-center pt-1 border-t border-white/5">
+                        <span className="font-semibold text-brand-light/90">We ❤️ 80s & 90s Party (DJ MY T CHRIS)</span>
+                        <span className="text-brand-orange text-[11px] font-mono">ab 22:30</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* SONNTAG */}
+                  <div className="bg-black/30 border border-white/10 rounded-2xl p-3.5 space-y-2">
+                    <div className="flex justify-between items-center border-b border-white/10 pb-1.5">
+                      <span className="font-bold text-brand-orange uppercase tracking-wider">Sonntag, 17.08.</span>
+                      <span className="text-[10px] text-white/50">Ab 16:00 Uhr</span>
+                    </div>
+                    <div className="flex justify-between items-center pt-0.5">
+                      <span className="font-bold text-white">THE CAGEY STRINGS (Partyrocknroller)</span>
+                      <span className="text-brand-orange text-[11px] font-mono">ab 16:00</span>
+                    </div>
+                  </div>
+
+                  {/* KINDERPROGRAMM */}
+                  <div className="bg-brand-orange/10 border border-brand-orange/30 rounded-2xl p-3.5 space-y-1.5">
+                    <span className="text-brand-orange font-bold text-xs uppercase tracking-wider block">Kinderprogramm (Sa & So)</span>
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      <span className="bg-black/40 text-brand-light px-2.5 py-1 rounded-lg text-[11px] border border-white/10 font-medium">🏰 Riesen Hüpfburg</span>
+                      <span className="bg-black/40 text-brand-light px-2.5 py-1 rounded-lg text-[11px] border border-white/10 font-medium">🎨 Kinderschminken</span>
+                      <span className="bg-black/40 text-brand-light px-2.5 py-1 rounded-lg text-[11px] border border-white/10 font-medium">🪩 Kinderdisco</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div className="pt-6 mt-6 border-t border-white/10 flex justify-end shrink-0">
+              <div className="pt-4 mt-4 border-t border-white/10 flex justify-end shrink-0">
                 <button 
                   onClick={() => {
-                    downloadICS('Lampionfest im Biergarten', 'Romantisches Lampionfest im Biergarten Schlossallee mit Hunderten von bunten Lichtern, Cocktails und Akustik-Musik! Eintritt frei.', '20260821T180000Z', '20260822T233000Z');
+                    downloadICS('Lampionfest - Schlossallee', '3 Tage Lampionfest im Biergarten Schlossallee! Fr: Thunderbirds & 80s/90s Party, Sa: Partyband Renate & 80s/90s Party, So: The Cagey Strings. Kinderprogramm Sa & So. Eintritt frei!', '20260815T160000Z', '20260817T230000Z');
                   }}
                   className="flex items-center gap-2 bg-brand-orange hover:bg-brand-orange/90 text-brand-dark px-6 py-3 rounded-full transition-colors text-sm font-bold shadow-lg"
                 >
