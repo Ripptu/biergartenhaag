@@ -1067,24 +1067,24 @@ END:VCALENDAR`;
                 <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 md:gap-8">
                   <div>
                     <div className="flex flex-wrap gap-1.5 items-center mb-3 md:mb-4">
-                      <span className="bg-brand-orange text-brand-dark font-bold tracking-widest uppercase text-[9px] px-2.5 py-0.5 rounded-full">Highlight • 3 Tage lang</span>
+                      <span className="bg-brand-orange text-brand-dark font-bold tracking-widest uppercase text-[9px] px-2.5 py-0.5 rounded-full">Highlight</span>
                       <span className="text-brand-orange/90 font-bold tracking-widest uppercase text-[10px] xs:text-xs">Bei schönem Wetter • Eintritt frei</span>
                     </div>
                     <h3 className="font-sans font-bold text-lg xs:text-xl sm:text-3xl md:text-4xl mb-2 text-brand-light group-hover:text-brand-orange transition-colors tracking-tight">Lampionfest im Biergarten</h3>
                     <p className="font-sans text-xs sm:text-base md:text-lg text-brand-light/80 max-w-lg mb-3 md:mb-4">
-                      3 Tage Live-Bands, 80s & 90s Party, Kinderprogramm & Lichterzauber unter Kastanien.
+                      Stimmungsvoller Lichterzauber unter den Kastanien. Weitere Infos folgen in Kürze!
                     </p>
                     <div className="text-brand-orange text-xs xs:text-sm font-semibold flex items-center gap-1.5 mt-2 pt-2 border-t border-white/10 max-w-sm group-hover:translate-x-1 transition-transform">
-                      <span>Programm & Line-Up anzeigen</span>
+                      <span>Details & Informationen anzeigen</span>
                       <ArrowRight size={14} />
                     </div>
                   </div>
                   <div className="text-left md:text-right flex flex-col items-start md:items-end gap-1.5 md:gap-3 shrink-0">
                     <div className="text-xs xs:text-sm md:text-base font-medium text-brand-orange">
-                      Fr. – So. (3 Tage)
+                      Freitag & Samstag
                     </div>
                     <div>
-                      <div className="font-sans font-extrabold text-2xl xs:text-3xl sm:text-4xl md:text-5xl text-brand-light tracking-tighter leading-none">15.-17.</div>
+                      <div className="font-sans font-extrabold text-2xl xs:text-3xl sm:text-4xl md:text-5xl text-brand-light tracking-tighter leading-none">21.-22.</div>
                       <div className="text-sm xs:text-base sm:text-lg font-medium tracking-widest uppercase text-brand-light/70 mt-1">August 2026</div>
                       <div className="text-[10px] xs:text-xs uppercase tracking-wider text-brand-orange font-bold mt-1">Eintritt frei</div>
                     </div>
@@ -1566,7 +1566,7 @@ END:VCALENDAR`;
                 <div>
                   <div className="flex flex-wrap gap-1.5 items-center mb-2">
                     <span className="bg-brand-orange text-brand-dark font-bold uppercase tracking-wider text-[10px] px-2.5 py-0.5 rounded-full">
-                      3 Tage lang!
+                      21. & 22. August 2026
                     </span>
                     <span className="bg-white/10 text-brand-light font-semibold uppercase tracking-wider text-[10px] px-2.5 py-0.5 rounded-full">
                       Eintritt frei
@@ -1579,64 +1579,23 @@ END:VCALENDAR`;
                   <p className="text-brand-orange font-semibold text-xs sm:text-sm">Biergarten Schlossallee • Haag an der Amper</p>
                 </div>
 
-                {/* PROGRAMM FREITAG BIS SONNTAG */}
-                <div className="space-y-3 text-xs sm:text-sm">
-                  {/* FREITAG */}
-                  <div className="bg-black/30 border border-white/10 rounded-2xl p-3.5 space-y-2">
-                    <div className="flex justify-between items-center border-b border-white/10 pb-1.5">
-                      <span className="font-bold text-brand-orange uppercase tracking-wider">Freitag, 15.08.</span>
-                      <span className="text-[10px] text-white/50">Ab 18:00 Uhr</span>
+                <div className="space-y-4 text-xs sm:text-sm">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-black/30 p-4 rounded-2xl border border-white/5">
+                    <div>
+                      <span className="text-brand-light/50 text-xs uppercase tracking-wider block mb-1">Termin</span>
+                      <strong className="text-brand-light block text-sm">Freitag, 21.08. & Samstag, 22.08.2026</strong>
                     </div>
-                    <div className="space-y-1.5 pt-0.5">
-                      <div className="flex justify-between items-center">
-                        <span className="font-bold text-white">THUNDERBIRDS (Liveband)</span>
-                        <span className="text-brand-orange text-[11px] font-mono">ab 18:00</span>
-                      </div>
-                      <div className="flex justify-between items-center pt-1 border-t border-white/5">
-                        <span className="font-semibold text-brand-light/90">We ❤️ 80s & 90s Party (DJ MY T CHRIS)</span>
-                        <span className="text-brand-orange text-[11px] font-mono">ab 22:30</span>
-                      </div>
+                    <div>
+                      <span className="text-brand-light/50 text-xs uppercase tracking-wider block mb-1">Hinweis</span>
+                      <strong className="text-brand-orange block text-sm">Findet nur bei schönem Wetter statt</strong>
                     </div>
                   </div>
 
-                  {/* SAMSTAG */}
-                  <div className="bg-black/30 border border-white/10 rounded-2xl p-3.5 space-y-2">
-                    <div className="flex justify-between items-center border-b border-white/10 pb-1.5">
-                      <span className="font-bold text-brand-orange uppercase tracking-wider">Samstag, 16.08.</span>
-                      <span className="text-[10px] text-white/50">Ab 18:00 Uhr</span>
-                    </div>
-                    <div className="space-y-1.5 pt-0.5">
-                      <div className="flex justify-between items-center">
-                        <span className="font-bold text-white">PARTYBAND RENATE (Liveband)</span>
-                        <span className="text-brand-orange text-[11px] font-mono">ab 18:00</span>
-                      </div>
-                      <div className="flex justify-between items-center pt-1 border-t border-white/5">
-                        <span className="font-semibold text-brand-light/90">We ❤️ 80s & 90s Party (DJ MY T CHRIS)</span>
-                        <span className="text-brand-orange text-[11px] font-mono">ab 22:30</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* SONNTAG */}
-                  <div className="bg-black/30 border border-white/10 rounded-2xl p-3.5 space-y-2">
-                    <div className="flex justify-between items-center border-b border-white/10 pb-1.5">
-                      <span className="font-bold text-brand-orange uppercase tracking-wider">Sonntag, 17.08.</span>
-                      <span className="text-[10px] text-white/50">Ab 16:00 Uhr</span>
-                    </div>
-                    <div className="flex justify-between items-center pt-0.5">
-                      <span className="font-bold text-white">THE CAGEY STRINGS (Partyrocknroller)</span>
-                      <span className="text-brand-orange text-[11px] font-mono">ab 16:00</span>
-                    </div>
-                  </div>
-
-                  {/* KINDERPROGRAMM */}
-                  <div className="bg-brand-orange/10 border border-brand-orange/30 rounded-2xl p-3.5 space-y-1.5">
-                    <span className="text-brand-orange font-bold text-xs uppercase tracking-wider block">Kinderprogramm (Sa & So)</span>
-                    <div className="flex flex-wrap gap-2 pt-1">
-                      <span className="bg-black/40 text-brand-light px-2.5 py-1 rounded-lg text-[11px] border border-white/10 font-medium">🏰 Riesen Hüpfburg</span>
-                      <span className="bg-black/40 text-brand-light px-2.5 py-1 rounded-lg text-[11px] border border-white/10 font-medium">🎨 Kinderschminken</span>
-                      <span className="bg-black/40 text-brand-light px-2.5 py-1 rounded-lg text-[11px] border border-white/10 font-medium">🪩 Kinderdisco</span>
-                    </div>
+                  <div className="bg-white/5 p-4 rounded-2xl border border-white/5 text-center py-6">
+                    <span className="text-brand-orange font-bold text-xs uppercase tracking-widest block mb-2">Programm & Details</span>
+                    <p className="text-brand-light/80 text-sm font-medium">
+                      Infos folgen noch!
+                    </p>
                   </div>
                 </div>
               </div>
@@ -1644,7 +1603,7 @@ END:VCALENDAR`;
               <div className="pt-4 mt-4 border-t border-white/10 flex justify-end shrink-0">
                 <button 
                   onClick={() => {
-                    downloadICS('Lampionfest - Schlossallee', '3 Tage Lampionfest im Biergarten Schlossallee! Fr: Thunderbirds & 80s/90s Party, Sa: Partyband Renate & 80s/90s Party, So: The Cagey Strings. Kinderprogramm Sa & So. Eintritt frei!', '20260815T160000Z', '20260817T230000Z');
+                    downloadICS('Lampionfest - Schlossallee', 'Lampionfest im Biergarten Schlossallee am 21. & 22. August 2026. Infos folgen in Kürze! Eintritt frei. Nur bei schönem Wetter.', '20260821T170000Z', '20260822T230000Z');
                   }}
                   className="flex items-center gap-2 bg-brand-orange hover:bg-brand-orange/90 text-brand-dark px-6 py-3 rounded-full transition-colors text-sm font-bold shadow-lg"
                 >
